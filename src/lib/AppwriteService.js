@@ -2,11 +2,13 @@ import { Account, Avatars, Client, Teams, Storage, Databases, Functions, Query }
 import { page } from '$app/stores';
 import { get } from 'svelte/store';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT } from '$env/static/public';
+import { handleAppwriteError, parseString, splitCookiesString } from './helpers';
+import { goto } from '$app/navigation';
 
 export const AppwriteEndpoint = PUBLIC_APPWRITE_ENDPOINT;
 export const AppwriteProject = PUBLIC_APPWRITE_PROJECT;
 
-let client = new Client().setEndpoint(AppwriteEndpoint).setProject(AppwriteProject);
+export const client = new Client().setEndpoint(AppwriteEndpoint).setProject(AppwriteProject);
 const account = new Account(client);
 const avatars = new Avatars(client);
 const teams = new Teams(client);
@@ -20,9 +22,16 @@ export const AppwriteService = {
 	},
 	signIn: async (email, password) => {
 		try {
-			await account.createEmailSession(email, password);
+			return await account.createEmailSession(email, password);
 		} catch (e) {
 			console.log(e);
+		}
+	},
+	getAccount: async () => {
+		try {
+			return await account.get();
+		} catch (e) {
+			handleAppwriteError(e);
 		}
 	},
 	replyToTicket: async (ticketId, reply) => {
@@ -39,7 +48,7 @@ export const AppwriteService = {
 				body: reply,
 				createdBy: get(page).data.user.$id
 			});
-			console.log(ticketReplyIds);
+
 			ticketReplyIds.push(newReply.$id);
 
 			const updatedTicket = await databases.updateDocument('ticketing', 'tickets', ticket.$id, {
@@ -47,13 +56,24 @@ export const AppwriteService = {
 			});
 			return { error: false, message: 'success', ticket: updatedTicket };
 		} catch (e) {
-			console.log(e);
 			return { error: true, message: 'you dont have permissions to view this document' };
 		}
 	},
-	setSession: (hash) => {
+	setSession: () => {
 		const authCookies = {};
-		authCookies['a_session_' + AppwriteProject] = hash;
-		client.headers['X-Fallback-Cookies'] = JSON.stringify(authCookies);
+		const cookiesArray = splitCookiesString(document.cookie, ';');
+		const cookiesParsed = cookiesArray.map((cookie) => parseString(cookie));
+
+		cookiesParsed.map((cookie) => {
+			if (cookie.name === 'a_session_' + AppwriteProject) {
+				authCookies[cookie.name] = cookie.value;
+			}
+		});
+		if (authCookies[`a_session_${AppwriteProject}`]) {
+			client.headers['X-Fallback-Cookies'] = JSON.stringify(authCookies);
+			localStorage.setItem('cookieFallback', JSON.stringify(authCookies));
+		} else {
+			goto('/auth/logout');
+		}
 	}
 };

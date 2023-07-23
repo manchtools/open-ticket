@@ -22,6 +22,9 @@ export const AppwriteNodeService = {
 	getAccount: async () => {
 		return await account.get();
 	},
+	getSessions: async () => {
+		return await account.listSessions();
+	},
 	getMemberships: async (query = [], search) => {
 		return await teams.list(query, search);
 	},

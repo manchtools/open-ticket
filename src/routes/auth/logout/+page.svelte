@@ -1,11 +1,10 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { AppwriteService } from '$lib/AppwriteService';
-
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
-		await AppwriteService.getAccount();
+		localStorage.removeItem('cookieFallback');
+		goto('/auth/login');
 	});
 </script>
-
-<h1>A</h1>

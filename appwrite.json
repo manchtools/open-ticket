@@ -1,4 +1,193 @@
 {
-    "projectId": "",
-    "projectName": ""
+	"projectId": "open-ticket",
+	"projectName": "open-ticket",
+	"databases": [
+		{
+			"$id": "ticketing",
+			"name": "ticketing"
+		}
+	],
+	"collections": [
+		{
+			"$id": "users",
+			"name": "users",
+			"databaseId": "ticketing",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["read(\"team:agents\")", "update(\"team:agents\")"],
+			"attributes": [
+				{
+					"key": "name",
+					"type": "string",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"size": 1000
+				},
+				{
+					"key": "email",
+					"type": "string",
+					"status": "available",
+					"required": true,
+					"array": false,
+					"format": "email"
+				}
+			],
+			"indexes": []
+		},
+		{
+			"$id": "agents",
+			"name": "agents",
+			"databaseId": "ticketing",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["read(\"users\")"],
+			"attributes": [
+				{
+					"key": "name",
+					"type": "string",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"size": 1000
+				},
+				{
+					"key": "email",
+					"type": "string",
+					"status": "available",
+					"required": true,
+					"array": false,
+					"format": "email"
+				}
+			],
+			"indexes": []
+		},
+		{
+			"$id": "replies",
+			"name": "replies",
+			"databaseId": "ticketing",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["create(\"users\")", "read(\"team:agents\")", "update(\"team:agents\")"],
+			"attributes": [
+				{
+					"key": "body",
+					"type": "string",
+					"status": "available",
+					"required": true,
+					"array": false,
+					"size": 1073741824
+				},
+				{
+					"key": "createdBy",
+					"type": "relationship",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"relatedCollection": "users",
+					"relationType": "manyToOne",
+					"twoWay": true,
+					"twoWayKey": "replies",
+					"onDelete": "cascade",
+					"side": "parent"
+				}
+			],
+			"indexes": []
+		},
+		{
+			"$id": "tickets",
+			"name": "tickets",
+			"databaseId": "ticketing",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": [
+				"create(\"users\")",
+				"read(\"team:agents\")",
+				"delete(\"team:agents\")",
+				"update(\"team:agents\")"
+			],
+			"attributes": [
+				{
+					"key": "subject",
+					"type": "string",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"size": 265
+				},
+				{
+					"key": "body",
+					"type": "string",
+					"status": "available",
+					"required": true,
+					"array": false,
+					"size": 1073741824
+				},
+				{
+					"key": "status",
+					"type": "string",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"format": "enum",
+					"elements": ["open", "closed", "pending", "resolved", "new", "in_progress"],
+					"default": "new"
+				},
+				{
+					"key": "createdBy",
+					"type": "relationship",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"relatedCollection": "users",
+					"relationType": "manyToOne",
+					"twoWay": true,
+					"twoWayKey": "tickets",
+					"onDelete": "cascade",
+					"side": "parent"
+				},
+				{
+					"key": "agent",
+					"type": "relationship",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"relatedCollection": "agents",
+					"relationType": "manyToOne",
+					"twoWay": true,
+					"twoWayKey": "tickets",
+					"onDelete": "cascade",
+					"side": "parent"
+				},
+				{
+					"key": "replies",
+					"type": "relationship",
+					"status": "processing",
+					"required": false,
+					"array": false,
+					"relatedCollection": "replies",
+					"relationType": "oneToMany",
+					"twoWay": true,
+					"twoWayKey": "ticket",
+					"onDelete": "cascade",
+					"side": "parent"
+				},
+				{
+					"key": "deleted",
+					"type": "boolean",
+					"status": "available",
+					"array": false,
+					"default": false,
+					"required": false
+				}
+			],
+			"indexes": []
+		}
+	],
+	"teams": [
+		{
+			"$id": "agents",
+			"name": "agents"
+		}
+	]
 }
