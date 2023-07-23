@@ -149,7 +149,6 @@ export function splitCookiesString(cookiesString, delimiter = ',') {
 }
 
 export function handleAppwriteError({ code }) {
-	console.log(code);
 	switch (code) {
 		case 401:
 			goto('/auth/logout');
