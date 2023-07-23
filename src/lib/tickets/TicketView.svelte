@@ -30,6 +30,7 @@
 		<tbody>
 			{#each tickets.documents as ticket}
 				<tr
+					class="hover:cursor-pointer"
 					on:click={() => {
 						let settings = drawerBaseSettings;
 						settings['ticket'] = ticket;
@@ -38,8 +39,8 @@
 				>
 					<td>{ticket.subject || ''}</td>
 					<td>{ticket.body}</td>
-					<td>{ticket.createdBy}</td>
-					<td>{ticket.agent}</td>
+					<td>{ticket.createdBy?.email}</td>
+					<td>{ticket.agent?.email || 'not assigned'}</td>
 					<td>{format(parseISO(ticket.$createdAt), 'dd.MM.yyyy HH:mm:ss')}</td>
 					<td>{format(parseISO(ticket.$updatedAt), 'dd.MM.yyyy HH:mm:ss')}</td>
 				</tr>
