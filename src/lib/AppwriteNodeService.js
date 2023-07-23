@@ -1,9 +1,9 @@
-import { Account, Avatars, Client, Teams, Storage, Databases, Query } from 'node-appwrite';
+import { Account, Avatars, Client, Teams, Storage, Databases, Query, Health } from 'node-appwrite';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT } from '$env/static/public';
 export const AppwriteEndpoint = PUBLIC_APPWRITE_ENDPOINT;
 export const AppwriteProject = PUBLIC_APPWRITE_PROJECT;
 
-const client = new Client()
+export const client = new Client()
 	.setEndpoint(AppwriteEndpoint)
 	.setProject(AppwriteProject)
 	.setSelfSigned();
@@ -15,9 +15,6 @@ const databases = new Databases(client);
 export const AppwriteNodeService = {
 	signOut: async () => {
 		await account.deleteSession('current');
-	},
-	signIn: async (email, password) => {
-		await account.createEmailSession(email, password);
 	},
 	getAccount: async () => {
 		return await account.get();
@@ -34,6 +31,9 @@ export const AppwriteNodeService = {
 			Query.equal('createdBy', account.$id),
 			Query.orderDesc('$createdAt')
 		]);
+	},
+	getAgents: async () => {
+		return await databases.listDocuments('ticketing', 'agents');
 	},
 	createTicket: async (subject, body) => {
 		const account = await AppwriteNodeService.getAccount();
