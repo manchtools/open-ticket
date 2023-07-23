@@ -28,6 +28,8 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<slot />
+	<div class="h-full">
+		<slot />
+	</div>
 	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
 </AppShell>
