@@ -7,7 +7,8 @@
 	import { enhance } from '$app/forms';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
-	import { handleAppwriteError } from '$lib/helpers';
+	import { format, parseISO } from 'date-fns';
+	let privateMessage = false;
 	let sending = false;
 	let currentMessage = '';
 	let element;
@@ -40,7 +41,9 @@
 							Me
 						{/if}
 					</small>
-					<small class="opacity-50">{reply.$createdAt}</small>
+					<small class="opacity-50"
+						>{format(parseISO(reply.$createdAt), 'dd.MM.yyyy HH:mm:ss')}</small
+					>
 				</header>
 				<p class=" whitespace-pre-wrap">{reply.body}</p>
 			</div>
@@ -67,6 +70,7 @@
 				toastStore.trigger({ message: result.error.message, background: 'variant-filled-error' });
 			}
 			sending = false;
+			privateMessage = false;
 		};
 	}}
 >
@@ -100,7 +104,7 @@
 	</span>
 	<span class="flex justify-end">
 		{#if $page.route.id?.startsWith('/admin')}
-			<SlideToggle name="visability" active="bg-primary-500" size="sm"
+			<SlideToggle name="visability" active="bg-primary-500" size="sm" bind:checked={privateMessage}
 				>Add as private note</SlideToggle
 			>
 		{/if}
