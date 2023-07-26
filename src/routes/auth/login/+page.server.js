@@ -12,8 +12,8 @@ export const actions = {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					email: 'paul@gmail.com',
-					password: '12345678'
+					email: data.email,
+					password: data.password
 				})
 			});
 			const json = await response.json();

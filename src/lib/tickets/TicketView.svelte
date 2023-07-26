@@ -3,9 +3,10 @@
 	import { format, parse, parseISO } from 'date-fns';
 
 	export let tickets = [];
+
 	let drawerBaseSettings = {
 		width: 'w-full',
-		height: 'h-[90%]',
+		height: 'h-fit',
 		padding: 'p-6',
 		rounded: 'rounded-xl',
 		bgDrawer: 'bg-purple-900 text-white',
@@ -28,7 +29,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each tickets.documents as ticket}
+			{#each tickets as ticket}
 				<tr
 					class="hover:cursor-pointer"
 					on:click={() => {

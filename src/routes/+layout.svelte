@@ -28,7 +28,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<div class="h-full">
+	<div class="h-full w-full">
 		<slot />
 	</div>
 	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>

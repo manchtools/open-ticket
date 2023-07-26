@@ -76,7 +76,7 @@
 					"status": "available",
 					"required": true,
 					"array": false,
-					"size": 1073741824
+					"size": 20000
 				},
 				{
 					"key": "createdBy",
@@ -188,6 +188,80 @@
 		{
 			"$id": "agents",
 			"name": "agents"
+		}
+	],
+	"functions": [
+		{
+			"$id": "64c0079c0d5623f1cd15",
+			"name": "delete_tickets",
+			"runtime": "node-16.0",
+			"path": "functions/delete_tickets",
+			"entrypoint": "src/index.js",
+			"ignore": ["node_modules", ".npm"],
+			"execute": [],
+			"events": [],
+			"schedule": "",
+			"timeout": 15
+		},
+		{
+			"$id": "64c139478f070edbf3b1",
+			"name": "create_new_user_on_signup",
+			"runtime": "node-16.0",
+			"path": "functions/create_new_user_on_signup",
+			"entrypoint": "src/index.js",
+			"ignore": ["node_modules", ".npm"],
+			"execute": [],
+			"events": ["users.*.create"],
+			"schedule": "",
+			"timeout": 15
+		},
+		{
+			"$id": "64c13c8a9e3036269a1d",
+			"name": "promote_user_to_agent",
+			"runtime": "node-16.0",
+			"path": "functions/promote_user_to_agent",
+			"entrypoint": "src/index.js",
+			"ignore": ["node_modules", ".npm"],
+			"execute": [],
+			"events": ["teams.agents.memberships.*.create"],
+			"schedule": "",
+			"timeout": 15
+		},
+		{
+			"$id": "64c140df2111ee330940",
+			"name": "demote_user_from_agent",
+			"runtime": "node-16.0",
+			"path": "functions/demote_user_from_agent",
+			"entrypoint": "src/index.js",
+			"ignore": ["node_modules", ".npm"],
+			"execute": [],
+			"events": ["teams.agents.memberships.*.delete"],
+			"schedule": "",
+			"timeout": 15
+		},
+		{
+			"$id": "64c142514677a38b3136",
+			"name": "remove_user_on_deletion",
+			"runtime": "node-16.0",
+			"path": "functions/remove_user_on_deletion",
+			"entrypoint": "src/index.js",
+			"ignore": ["node_modules", ".npm"],
+			"execute": [],
+			"events": ["users.*.delete"],
+			"schedule": "",
+			"timeout": 15
+		},
+		{
+			"$id": "64c15dd03f039310cb56",
+			"name": "add_ticket_user_to_reply",
+			"runtime": "node-16.0",
+			"path": "functions/add_ticket_user_to_reply",
+			"entrypoint": "src/index.js",
+			"ignore": ["node_modules", ".npm"],
+			"execute": [],
+			"events": ["databases.ticketing.collections.replies.documents.*.create"],
+			"schedule": "",
+			"timeout": 15
 		}
 	]
 }

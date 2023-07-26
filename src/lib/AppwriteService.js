@@ -34,6 +34,7 @@ export const AppwriteService = {
 			handleAppwriteError(e);
 		}
 	},
+
 	replyToTicket: async (ticketId, reply) => {
 		if (reply.length === 0) {
 			return { error: true, message: 'Cant send empty message' };
