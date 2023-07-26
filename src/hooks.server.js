@@ -34,7 +34,7 @@ export async function handle({ event, resolve }) {
 		} catch (e) {
 			event.cookies.delete('a_session_' + AppwriteProject, { path: '/' });
 			event.cookies.delete('a_session_' + AppwriteProject + '_legacy', { path: '/' });
-			throw redirect(307, '/auth/login');
+			throw redirect(307, '/auth/logout');
 		}
 	}
 	const response = await resolve(event);
