@@ -6,7 +6,7 @@
 
 	let drawerBaseSettings = {
 		width: 'w-full',
-		height: 'h-fit',
+		height: 'max-h-[90%]',
 		padding: 'p-6',
 		rounded: 'rounded-xl',
 		bgDrawer: 'bg-purple-900 text-white',

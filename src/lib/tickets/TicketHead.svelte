@@ -5,14 +5,16 @@
 	let agentId = data.agent?.$id || '';
 </script>
 
-<div class="flex flex-col lg:flex-row justify-between w-full lg:items-center">
-	<div>Subject: {data.subject || 'not provided'}</div>
-	<div class="flex items-center gap-4">
-		<label class="flex items-center gap-2 md:flex-row flex-col">
+<div class="flex flex-col lg:flex-row justify-between w-full lg:items-center gap-2">
+	<h1>
+		Subject: {data.subject || 'not provided'}
+	</h1>
+	<div class="flex flex-col lg:flex-row lg:items-center gap-4">
+		<label class="flex flex-row items-center gap-2">
 			<p>Status:</p>
 
 			<select
-				class="select w-fit"
+				class="select w-fit py-1 lg:p-2"
 				name="status"
 				bind:value={data.status}
 				disabled={!$page.route.id.startsWith('/admin')}
@@ -29,7 +31,7 @@
 			<p>Agent:</p>
 
 			<select
-				class="select w-fit"
+				class="select w-fit py-1 lg:p-2"
 				name="status"
 				bind:value={agentId}
 				disabled={!$page.route.id.startsWith('/admin')}
