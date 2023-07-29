@@ -3,11 +3,13 @@
 	import { toastStore } from '@skeletonlabs/skeleton';
 	export let replies;
 	export let ticketId;
+	export let ticketCreator;
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { format, parseISO } from 'date-fns';
+	import es from 'date-fns/locale/es';
 	let privateMessage = false;
 	let sending = false;
 	let currentMessage = '';
@@ -21,35 +23,52 @@
 	const scrollToBottom = async (node) => {
 		node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
 	};
+	console.log(replies.length);
 </script>
 
-<div class="h-[600px] card flex flex-col gap-3 p-4 overflow-y-auto mb-2" bind:this={element}>
-	{#each replies as reply}
-		<div
-			class="grid grid-cols-[auto_1fr] gap-2 rounded-lg max-w-[70%]"
-			class:self-end={$page.data.user.$id === reply.createdBy?.$id}
-		>
+{#if replies.length > 0}
+	<p class="">Conversation</p>
+	<div
+		class="max-h-[400px] lg:max-h-[600px] h-fit card flex flex-col gap-3 p-4 overflow-y-auto mb-2"
+		bind:this={element}
+	>
+		{#each replies as reply}
 			<div
-				class="card p-4 space-y-2"
-				class:variant-ghost-success={$page.data.user.$id === reply.createdBy?.$id}
+				class="grid grid-cols-[auto_1fr] gap-2 rounded-lg max-w-[95%] lg:max-w-[70%]"
+				class:self-end={$page.data.user.$id === reply.createdBy?.$id}
 			>
-				<header class="flex justify-between items-center gap-2">
-					<small class="text-surface-300">
-						{#if $page.data.user.$id !== reply.createdBy?.$id}
-							{reply.createdBy.name || reply.createdBy.email}
-						{:else}
-							Me
-						{/if}
-					</small>
-					<small class="opacity-50"
-						>{format(parseISO(reply.$createdAt), 'dd.MM.yyyy HH:mm:ss')}</small
-					>
-				</header>
-				<p class=" whitespace-pre-wrap">{reply.body}</p>
+				<div
+					class="card p-4 space-y-2"
+					class:variant-ghost-warning={reply.public === false}
+					class:variant-ghost-surface={ticketCreator !== reply.createdBy?.$id &&
+						reply.public === true}
+					class:variant-ghost-success={ticketCreator === reply.createdBy?.$id}
+				>
+					<header class="flex gap-2 items-center">
+						<small>
+							{#if $page.data.user.$id !== reply.createdBy?.$id}
+								{reply.createdBy.name || reply.createdBy.email}
+							{:else}
+								Me
+							{/if}
+						</small>
+						<small class="opacity-50"
+							>{format(parseISO(reply.$createdAt), 'dd.MM.yyyy HH:mm:ss')}
+						</small>
+						<small class="opacity-50 ml-auto">
+							{#if !reply.public}
+								<i class="fa-solid fa-lock fa-xs" />
+							{/if}
+						</small>
+					</header>
+					<p class=" whitespace-pre-wrap">{reply.body}</p>
+				</div>
 			</div>
-		</div>
-	{/each}
-</div>
+		{/each}
+	</div>
+{:else}
+	<h3>Start a new conversation!</h3>
+{/if}
 
 <form
 	action={`/ticket/${ticketId}?/addReply`}
