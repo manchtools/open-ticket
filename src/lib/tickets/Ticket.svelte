@@ -7,5 +7,6 @@
 
 <div class="m-4">
 	<TicketHead {data} />
+	<hr class="my-2" />
 	<TicketBody {data} />
 </div>
