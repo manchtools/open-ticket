@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { AppwriteService } from '$lib/AppwriteService';
+	import { handleAppwriteError } from '$lib/helpers';
 	let email;
 	let password;
 </script>
@@ -14,6 +15,9 @@
 			if (result.type === 'success') {
 				AppwriteService.setSession();
 				goto('/', { invalidateAll: true });
+			} else {
+				console.log(result);
+				handleAppwriteError({ code: result.status });
 			}
 		};
 	}}
