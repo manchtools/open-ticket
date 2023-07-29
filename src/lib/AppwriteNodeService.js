@@ -81,9 +81,6 @@ export const AppwriteNodeService = {
 				},
 				[Permission.read(Role.user(user))]
 			);
-			databases.updateDocument('ticketing', 'tickets', ticket, {
-				status: singleTicket.status
-			});
 			return reply;
 		} catch (e) {
 			console.log(e);
