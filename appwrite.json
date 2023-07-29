@@ -79,6 +79,14 @@
 					"size": 20000
 				},
 				{
+					"key": "public",
+					"type": "boolean",
+					"status": "available",
+					"required": false,
+					"array": false,
+					"default": true
+				},
+				{
 					"key": "createdBy",
 					"type": "relationship",
 					"status": "available",
@@ -201,7 +209,11 @@
 			"execute": [],
 			"events": [],
 			"schedule": "",
-			"timeout": 15
+			"timeout": 15,
+			"variables": {
+				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
+				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
+			}
 		},
 		{
 			"$id": "64c139478f070edbf3b1",
@@ -213,7 +225,11 @@
 			"execute": [],
 			"events": ["users.*.create"],
 			"schedule": "",
-			"timeout": 15
+			"timeout": 15,
+			"variables": {
+				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
+				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
+			}
 		},
 		{
 			"$id": "64c13c8a9e3036269a1d",
@@ -225,7 +241,11 @@
 			"execute": [],
 			"events": ["teams.agents.memberships.*.create"],
 			"schedule": "",
-			"timeout": 15
+			"timeout": 15,
+			"variables": {
+				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
+				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
+			}
 		},
 		{
 			"$id": "64c140df2111ee330940",
@@ -237,7 +257,11 @@
 			"execute": [],
 			"events": ["teams.agents.memberships.*.delete"],
 			"schedule": "",
-			"timeout": 15
+			"timeout": 15,
+			"variables": {
+				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
+				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
+			}
 		},
 		{
 			"$id": "64c142514677a38b3136",
@@ -249,7 +273,11 @@
 			"execute": [],
 			"events": ["users.*.delete"],
 			"schedule": "",
-			"timeout": 15
+			"timeout": 15,
+			"variables": {
+				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
+				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
+			}
 		},
 		{
 			"$id": "64c15dd03f039310cb56",
@@ -261,7 +289,11 @@
 			"execute": [],
 			"events": ["databases.ticketing.collections.replies.documents.*.create"],
 			"schedule": "",
-			"timeout": 15
+			"timeout": 15,
+			"variables": {
+				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
+				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
+			}
 		}
 	]
 }
