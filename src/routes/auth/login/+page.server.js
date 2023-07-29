@@ -1,5 +1,5 @@
 import { AppwriteService, AppwriteEndpoint, AppwriteProject } from '$lib/AppwriteService';
-import { splitCookiesString, parseString, handleAppwriteError } from '$lib/helpers';
+import { splitCookiesString, parseString } from '$lib/helpers';
 import { error } from '@sveltejs/kit';
 export const actions = {
 	login: async ({ request, cookies }) => {
@@ -24,8 +24,7 @@ export const actions = {
 			const cookiesParsed = cookiesArray.map((cookie) => parseString(cookie));
 			for (const cookie of cookiesParsed) {
 				cookies.set(cookie.name, cookie.value, {
-					domain: cookie.domain,
-					secure: cookie.secure,
+					secure: false,
 					sameSite: 'Strict',
 					path: '/',
 					maxAge: cookie.maxAge,
@@ -34,7 +33,7 @@ export const actions = {
 				});
 			}
 		} catch (e) {
-			console.log(e);
+			throw e;
 		}
 	}
 };
