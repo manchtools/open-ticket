@@ -56,5 +56,22 @@ module.exports = async function (req, res) {
 		console.error(e);
 		res.send('error', 500);
 	}
+	try {
+		const new_user = await database.createDocument(
+			'ticketing',
+			'users',
+			user.$id,
+			{
+				email: user.email,
+				name: user.name || ''
+			},
+			[sdk.Permission.read(sdk.Role.user(user.$id))]
+		);
+
+		res.send('success');
+	} catch (e) {
+		console.error(e);
+		res.send('error', 500);
+	}
 	res.send();
 };
