@@ -5,10 +5,9 @@
 </script>
 
 <div>
-	<h1>
+	<h4 class=" whitespace-pre-wrap">
 		{data.body}
-	</h1>
-	<h3>Conversation</h3>
-
-	<TicketReplies replies={data.replies} ticketId={data.$id} />
+	</h4>
+	<hr class="my-2" />
+	<TicketReplies replies={data.replies} ticketId={data.$id} ticketCreator={data.createdBy.$id} />
 </div>
