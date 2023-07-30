@@ -9,13 +9,19 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import Ticket from '$lib/tickets/Ticket.svelte';
+	import CreateUser from '$lib/user/CreateUser.svelte';
 	export let data;
 </script>
 
 <Drawer position="bottom">
-	{#if $drawerStore.ticket}
-		<Ticket data={$drawerStore.ticket} />
-	{/if}
+	<div class="p-4">
+		{#if $drawerStore.type === 'ticket'}
+			<Ticket data={$drawerStore.data} />
+		{/if}
+		{#if $drawerStore.type === 'new_user'}
+			<CreateUser />
+		{/if}
+	</div>
 </Drawer>
 <Toast position="br" />
 <AppShell>

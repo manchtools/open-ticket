@@ -1,17 +1,9 @@
 <script>
+	import { drawerBaseSettings } from '$lib/helpers';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import { format, parse, parseISO } from 'date-fns';
 
 	export let tickets = [];
-
-	let drawerBaseSettings = {
-		width: 'w-full',
-		height: 'max-h-[90%]',
-		padding: 'p-6',
-		rounded: 'rounded-xl',
-		bgDrawer: 'bg-purple-900 text-white',
-		bgBackdrop: 'bg-gradient-to-tr from-indigo-500/50 via-purple-500/50 to-pink-500/50'
-	};
 </script>
 
 <!-- Responsive Container (recommended) -->
@@ -34,7 +26,8 @@
 					class="hover:cursor-pointer"
 					on:click={() => {
 						let settings = drawerBaseSettings;
-						settings['ticket'] = ticket;
+						settings['type'] = 'ticket';
+						settings['data'] = ticket;
 						drawerStore.open(settings);
 					}}
 				>
