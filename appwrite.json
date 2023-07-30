@@ -294,6 +294,22 @@
 				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
 				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
 			}
+		},
+		{
+			"$id": "add_new_user",
+			"name": "add_new_user",
+			"runtime": "node-16.0",
+			"path": "functions/add_new_user",
+			"entrypoint": "src/index.js",
+			"ignore": ["node_modules", ".npm"],
+			"execute": ["team:agents"],
+			"events": [],
+			"schedule": "",
+			"timeout": 15,
+			"variables": {
+				"APPWRITE_FUNCTION_ENDPOINT": "http://10.20.100.10/v1",
+				"APPWRITE_FUNCTION_API_KEY": "5a108107af4b2fdf44afcdb49880f97c22846692d8874f2263d74044a00250aee779608240754f75f0f62a0097673fb87c24082e8d491ae8c554075a95302d3e224da705c2bea4355f2fd302735b293252a70c80446d19045600801b1e59131d8c354d505ee89a4389dd6fcabf7bffd2961dd1800979a694693d6ebde0631f42"
+			}
 		}
 	]
 }
