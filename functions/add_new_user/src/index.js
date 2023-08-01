@@ -41,11 +41,11 @@ module.exports = async function (req, res) {
 	if (payload.email) {
 		try {
 			const newUser = await users.create('unique()', payload.email, null, null, payload.name);
-			await users.updatePrefs(newUser.$id, { email_notificatoin: false });
+			await users.updatePrefs(newUser.$id, { email_notification: false });
 			res.json({ error: false, data: newUser });
 		} catch (e) {
 			console.error(e);
-			res.json({ error: true, message: e.message });
+			res.json({ error: true, message: e.message }, 400);
 		}
 	} else {
 		res.json({ error: true, message: 'Email required' });
