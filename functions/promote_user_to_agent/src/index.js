@@ -38,7 +38,6 @@ module.exports = async function (req, res) {
 	}
 	const req_data = JSON.parse(req.variables['APPWRITE_FUNCTION_EVENT_DATA']);
 	const user = await users.get(req_data.userId);
-
 	try {
 		const new_user = await database.createDocument(
 			'ticketing',
@@ -50,12 +49,12 @@ module.exports = async function (req, res) {
 			},
 			[sdk.Permission.read(sdk.Role.user(user.$id))]
 		);
-
 		res.send('success');
 	} catch (e) {
 		console.error(e);
 		res.send('error', 500);
 	}
+
 	try {
 		const new_user = await database.createDocument(
 			'ticketing',
@@ -65,13 +64,24 @@ module.exports = async function (req, res) {
 				email: user.email,
 				name: user.name || ''
 			},
-			[sdk.Permission.read(sdk.Role.user(user.$id))]
+			[sdk.Permission.read(sdk.Role.user(user.$id)), sdk.Permission.read(sdk.Role.users())]
 		);
 
 		res.send('success');
 	} catch (e) {
+		try {
+			const userDocument = await database.getDocument('ticketing', 'users', user.$id);
+			await database.updateDocument('ticketing', 'users', user.$id, {}, [
+				...userDocument.$permissions,
+				sdk.Permission.read(sdk.Role.users())
+			]);
+		} catch (e) {
+			console.error(e);
+			res.send('error', 500);
+		}
 		console.error(e);
 		res.send('error', 500);
 	}
+
 	res.send();
 };
