@@ -41,7 +41,7 @@ module.exports = async function (req, res) {
 	if (payload.email) {
 		try {
 			const newUser = await users.create('unique()', payload.email, null, null, payload.name);
-			await users.updatePrefs(newUser.$id, { email_notification: false });
+			// await users.updatePrefs(newUser.$id, { email_notification: false });
 			res.json({ error: false, data: newUser });
 		} catch (e) {
 			console.error(e);
