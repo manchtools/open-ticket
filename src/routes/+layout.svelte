@@ -19,6 +19,8 @@
 	import CreateUser from '$lib/user/CreateUser.svelte';
 	import { popup } from '@skeletonlabs/skeleton';
 	import EditUser from '$lib/user/EditUser.svelte';
+	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
+
 	export let data;
 
 	const popupSettings = {
@@ -49,6 +51,31 @@
 </Drawer>
 <Toast position="br" />
 <AppShell>
+	<svelte:fragment slot="sidebarLeft">
+		{#if $page.route.id.startsWith('/admin')}
+			<AppRail>
+				<AppRailAnchor
+					href="/admin/tickets"
+					title="tickets"
+					selected={$page.url.pathname === '/admin/tickets'}
+				>
+					<svelte:fragment slot="lead"><i class="fa-solid fa-ticket" /></svelte:fragment>
+					<span>Tickets</span>
+				</AppRailAnchor>
+
+				<svelte:fragment slot="trail">
+					<AppRailAnchor
+						href="/admin/settings"
+						title="settings"
+						selected={$page.url.pathname.startsWith('/admin/settings')}
+					>
+						<svelte:fragment slot="lead"><i class="fa-solid fa-gear" /></svelte:fragment>
+						<span>Settings</span>
+					</AppRailAnchor>
+				</svelte:fragment>
+			</AppRail>
+		{/if}
+	</svelte:fragment>
 	<svelte:fragment slot="header">
 		{#if data.user}
 			<AppBar
@@ -62,7 +89,7 @@
 			</AppBar>
 		{/if}
 	</svelte:fragment>
-	<div class="h-full w-full">
+	<div class="h-full w-full p-4">
 		<slot />
 	</div>
 	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
