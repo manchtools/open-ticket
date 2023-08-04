@@ -38,7 +38,7 @@ module.exports = async function (req, res) {
 	}
 	const user = JSON.parse(req.variables['APPWRITE_FUNCTION_EVENT_DATA']);
 	try {
-		await database.deleteDocument('ticketing', 'users', user.$id);
+		await database.deleteDocument('ticketing', 'users', user.id);
 
 		res.send('success');
 	} catch (e) {
@@ -46,7 +46,7 @@ module.exports = async function (req, res) {
 		res.send('error', 500);
 	}
 	try {
-		await database.deleteDocument('ticketing', 'agents', user.$id);
+		await database.deleteDocument('ticketing', 'agents', user.id);
 
 		res.send('success');
 	} catch (e) {

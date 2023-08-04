@@ -1,11 +1,6 @@
 <script>
-	import { AppwriteService } from '$lib/AppwriteService';
-
+	import { pb } from '$lib/db';
 	import { onMount } from 'svelte';
-
-	onMount(async () => {
-		await AppwriteService.getAccount();
-	});
 </script>
 
 <h1>A</h1>

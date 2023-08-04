@@ -41,10 +41,10 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"appwrite": "^11.0.0",
 		"date-fns": "^2.30.0",
 		"dotenv": "^16.3.1",
-		"node-appwrite": "^9.0.0",
+		"lodash.unionby": "^4.8.0",
+		"pocketbase": "^0.16.0",
 		"undici": "^5.22.1"
 	}
 }

@@ -9,5 +9,9 @@
 		{data.body}
 	</h4>
 	<hr class="my-2" />
-	<TicketReplies replies={data.replies} ticketId={data.$id} ticketCreator={data.createdBy.$id} />
+	<TicketReplies
+		replies={data.expand['replies(ticket)']}
+		ticketId={data.id}
+		ticketCreator={data.expand?.createdBy?.id}
+	/>
 </div>

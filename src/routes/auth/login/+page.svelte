@@ -1,8 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { AppwriteService } from '$lib/AppwriteService';
-	import { handleAppwriteError } from '$lib/helpers';
+	import { pb } from '$lib/db';
+
+	// import { AppwriteService } from '$lib/AppwriteService';
+	// import { handleAppwriteError } from '$lib/helpers';
 	let email;
 	let password;
 </script>
@@ -13,11 +15,8 @@
 	use:enhance={() => {
 		return async ({ result }) => {
 			if (result.type === 'success') {
-				AppwriteService.setSession();
+				pb.authStore.loadFromCookie(result.data);
 				goto('/', { invalidateAll: true });
-			} else {
-				console.log(result);
-				handleAppwriteError({ code: result.status });
 			}
 		};
 	}}

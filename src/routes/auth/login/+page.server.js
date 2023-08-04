@@ -1,37 +1,20 @@
-import { AppwriteService, AppwriteEndpoint, AppwriteProject } from '$lib/AppwriteService';
-import { splitCookiesString, parseString } from '$lib/helpers';
+import { serializePoJos } from '$lib/helpers';
 import { error } from '@sveltejs/kit';
+import { Agent, setGlobalDispatcher } from 'undici';
+
+const agent = new Agent({
+	connect: {
+		rejectUnauthorized: false
+	}
+});
+
+setGlobalDispatcher(agent);
 export const actions = {
-	login: async ({ request, cookies }) => {
+	login: async ({ request, locals }) => {
 		const data = Object.fromEntries(await request.formData());
 		try {
-			const response = await fetch(`${AppwriteEndpoint}/account/sessions/email`, {
-				method: 'POST',
-				headers: {
-					'x-appwrite-project': AppwriteProject,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					email: data.email,
-					password: data.password
-				})
-			});
-			const json = await response.json();
-			if (!response.ok) {
-				throw error(response.status, response.statusText);
-			}
-			const cookiesArray = splitCookiesString(response.headers.get('set-cookie'));
-			const cookiesParsed = cookiesArray.map((cookie) => parseString(cookie));
-			for (const cookie of cookiesParsed) {
-				cookies.set(cookie.name, cookie.value, {
-					secure: false,
-					sameSite: 'Strict',
-					path: '/',
-					maxAge: cookie.maxAge,
-					httpOnly: false,
-					expires: cookie.expires
-				});
-			}
+			const user = await locals.pb.collection('users').authWithPassword(data.email, data.password);
+			return serializePoJos(user);
 		} catch (e) {
 			throw e;
 		}

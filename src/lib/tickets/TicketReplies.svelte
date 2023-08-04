@@ -1,7 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { toastStore } from '@skeletonlabs/skeleton';
-	export let replies;
+	export let replies = [];
 	export let ticketId;
 	export let ticketCreator;
 	import { page } from '$app/stores';
@@ -9,7 +9,6 @@
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { format, parseISO } from 'date-fns';
-	import es from 'date-fns/locale/es';
 	let privateMessage = false;
 	let sending = false;
 	let currentMessage = '';
@@ -21,9 +20,10 @@
 		scrollToBottom(element);
 	}
 	const scrollToBottom = async (node) => {
-		node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+		if (currentMessage.length !== 0) {
+			node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+		}
 	};
-	console.log(replies.length);
 </script>
 
 {#if replies.length > 0}
@@ -35,28 +35,28 @@
 		{#each replies as reply}
 			<div
 				class="grid grid-cols-[auto_1fr] gap-2 rounded-lg max-w-[95%] lg:max-w-[70%]"
-				class:self-end={$page.data.user.$id === reply.createdBy?.$id}
+				class:self-end={$page.data.user.id === reply.expand?.createdBy?.id}
 			>
 				<div
 					class="card p-4 space-y-2"
-					class:variant-ghost-warning={reply.public === false}
-					class:variant-ghost-surface={ticketCreator !== reply.createdBy?.$id &&
-						reply.public === true}
-					class:variant-ghost-success={ticketCreator === reply.createdBy?.$id}
+					class:variant-ghost-warning={reply.private === true}
+					class:variant-ghost-surface={ticketCreator !== reply.expand?.createdBy?.id &&
+						reply.private === false}
+					class:variant-ghost-success={ticketCreator === reply.expand?.createdBy?.id}
 				>
 					<header class="flex gap-2 items-center">
 						<small>
-							{#if $page.data.user.$id !== reply.createdBy?.$id}
-								{reply.createdBy.name || reply.createdBy.email}
+							{#if $page.data.user.id !== reply.expand?.createdBy?.id}
+								{reply.expand?.createdBy?.name || reply.expand?.createdBy?.email || 'Deleted user'}
 							{:else}
 								Me
 							{/if}
 						</small>
 						<small class="opacity-50"
-							>{format(parseISO(reply.$createdAt), 'dd.MM.yyyy HH:mm:ss')}
+							>{format(parseISO(reply.created), 'dd.MM.yyyy HH:mm:ss')}
 						</small>
 						<small class="opacity-50 ml-auto">
-							{#if !reply.public}
+							{#if reply.private}
 								<i class="fa-solid fa-lock fa-xs" />
 							{/if}
 						</small>
@@ -80,7 +80,6 @@
 		// `formData` is its `FormData` object that's about to be submitted
 
 		return async ({ result }) => {
-			// `result` is an `ActionResult` object
 			if (result.status === 200) {
 				replies = [...replies, result.data];
 				currentMessage = '';

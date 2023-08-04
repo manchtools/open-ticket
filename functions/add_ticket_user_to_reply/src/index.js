@@ -39,9 +39,9 @@ module.exports = async function (req, res) {
 	const req_data = JSON.parse(req.variables['APPWRITE_FUNCTION_EVENT_DATA']);
 	try {
 		if (req_data.public === true) {
-			await database.updateDocument('ticketing', 'replies', req_data.$id, {}, [
+			await database.updateDocument('ticketing', 'replies', req_data.id, {}, [
 				...req_data.$permissions,
-				sdk.Permission.read(sdk.Role.user(req_data.ticket.createdBy.$id))
+				sdk.Permission.read(sdk.Role.user(req_data.ticket.createdBy.id))
 			]);
 		}
 		res.send('success');

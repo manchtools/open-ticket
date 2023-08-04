@@ -1,42 +1,30 @@
-import { AppwriteProject, AppwriteNodeService, AppwriteEndpoint } from '$lib/AppwriteNodeService';
+import PocketBase from 'pocketbase';
 import { redirect } from '@sveltejs/kit';
-import { PRIVATE_APPWRITE_API_KEY } from '$env/static/private';
-import { Health, Client } from 'node-appwrite';
-const client = new Client()
-	.setEndpoint(AppwriteEndpoint)
-	.setProject(AppwriteProject)
-	.setKey(PRIVATE_APPWRITE_API_KEY)
-	.setSelfSigned();
-const health = new Health(client);
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { serializePoJos } from '$lib/helpers';
+
 export async function handle({ event, resolve }) {
-	// try {
-	// 	console.log(await health.getDB());
-	// } catch (e) {
-	// 	if (event.route.id !== '/setup') {
-	// 		throw redirect(307, '/setup');
-	// 	}
-	// }
+	event.locals.pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+	event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
-	const cookieString =
-		event.cookies.get('a_session_' + AppwriteProject) ||
-		event.cookies.get('a_session_' + AppwriteProject + '_legacy') ||
-		'';
-
-	if (cookieString === '') {
-		if (event.route.id !== '/auth/login') {
-			throw redirect(307, '/auth/login');
+	try {
+		event.locals.pb.authStore.isValid && (await event.locals.pb.collection('users').authRefresh());
+		event.locals.user = serializePoJos(event.locals.pb.authStore.baseModel);
+		event.locals.agents = serializePoJos(
+			await event.locals.pb.collection('users').getFullList({ filter: "type='agent'" })
+		);
+		if (event.route.id.startsWith('/admin') && event.locals.user.type !== 'agent') {
+			throw redirect(307, '/');
 		}
-	} else {
-		AppwriteNodeService.setSession(cookieString);
-		try {
-			event.locals.user = await AppwriteNodeService.getAccount();
-			event.locals.agents = await AppwriteNodeService.getAgents();
-		} catch (e) {
-			event.cookies.delete('a_session_' + AppwriteProject, { path: '/' });
-			event.cookies.delete('a_session_' + AppwriteProject + '_legacy', { path: '/' });
-			throw redirect(307, '/auth/logout');
-		}
+	} catch (e) {
+		event.locals.pb.authStore.clear();
+		throw redirect(307, '/auth/logout');
 	}
+
 	const response = await resolve(event);
+	response.headers.append(
+		'set-cookie',
+		event.locals.pb.authStore.exportToCookie({ httpOnly: false })
+	);
 	return response;
 }

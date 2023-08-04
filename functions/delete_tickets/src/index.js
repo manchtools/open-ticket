@@ -38,7 +38,7 @@ module.exports = async function (req, res) {
 	}
 	const alltickets = await database.listDocuments('ticketing', 'tickets', [sdk.Query.limit(100)]);
 	alltickets.documents.forEach(async (element) => {
-		await database.deleteDocument('ticketing', 'tickets', element.$id);
+		await database.deleteDocument('ticketing', 'tickets', element.id);
 	});
 	res.json({
 		success: true

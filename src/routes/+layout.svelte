@@ -5,14 +5,35 @@
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { Modal } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
+
+	import { storePopup } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+
 	import { AppShell, Toast } from '@skeletonlabs/skeleton';
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import Ticket from '$lib/tickets/Ticket.svelte';
 	import CreateUser from '$lib/user/CreateUser.svelte';
+	import { popup } from '@skeletonlabs/skeleton';
+	import EditUser from '$lib/user/EditUser.svelte';
 	export let data;
+
+	const popupSettings = {
+		event: 'click',
+		// Matches the data-popup value on your popup element
+		target: 'userPane',
+		// Defines which side of your trigger the popup will appear
+		placement: 'bottom'
+	};
+
+	$: classesActive = (href, fallback = '') =>
+		href === $page.url.pathname ? '!variant-ghost-primary' : fallback;
 </script>
 
+<Modal />
 <Drawer position="bottom">
 	<div class="p-4">
 		{#if $drawerStore.type === 'ticket'}
@@ -21,21 +42,54 @@
 		{#if $drawerStore.type === 'new_user'}
 			<CreateUser />
 		{/if}
+		{#if $drawerStore.type === 'user'}
+			<EditUser data={$drawerStore.data} />
+		{/if}
 	</div>
 </Drawer>
 <Toast position="br" />
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar gridColumns="grid-cols-2" slotDefault="place-self-center" slotTrail="place-content-end">
-			<svelte:fragment slot="trail">
-				{#if data.user}
-					<a href="/admin">Admin</a>
-				{/if}
-			</svelte:fragment>
-		</AppBar>
+		{#if data.user}
+			<AppBar
+				gridColumns="grid-cols-2"
+				slotDefault="place-self-center"
+				slotTrail="place-content-end"
+			>
+				<svelte:fragment slot="trail">
+					<i class="fa-solid fa-user hover:cursor-pointer" use:popup={popupSettings} />
+				</svelte:fragment>
+			</AppBar>
+		{/if}
 	</svelte:fragment>
 	<div class="h-full w-full">
 		<slot />
 	</div>
 	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
 </AppShell>
+
+<nav class="card list p-4 z-[999] shadow-xl" data-popup="userPane">
+	<!-- (optionally you can provide a label here) -->
+	<ul class="flex gap-2 flex-col">
+		<li>
+			<a href="/user" class="btn btn-sm variant-ghost {classesActive('/user')}">My account</a>
+		</li>
+		<li class="pl-4 flex">
+			<i class="fa-solid fa-turn-up rotate-90" />
+			<a href="/user/tickets" class="btn btn-sm variant-ghost {classesActive('/user/tickets')}">
+				My Tickets</a
+			>
+		</li>
+
+		{#if data.user?.type === 'agent'}
+			<li>
+				<a href="/admin" class="btn btn-sm {classesActive('/admin', 'variant-ghost-warning')}"
+					>Admin</a
+				>
+			</li>
+		{/if}
+		<li>
+			<a href="/auth/logout" class="btn btn-sm variant-ghost-error">Logout</a>
+		</li>
+	</ul>
+</nav>

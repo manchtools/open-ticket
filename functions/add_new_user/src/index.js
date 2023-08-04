@@ -37,11 +37,11 @@ module.exports = async function (req, res) {
 			.setSelfSigned(true);
 	}
 	const payload = JSON.parse(req.payload);
-	console.log(payload);
+
 	if (payload.email) {
 		try {
 			const newUser = await users.create('unique()', payload.email, null, null, payload.name);
-			// await users.updatePrefs(newUser.$id, { email_notification: false });
+			// await users.updatePrefs(newUser.id, { email_notification: false });
 			res.json({ error: false, data: newUser });
 		} catch (e) {
 			console.error(e);

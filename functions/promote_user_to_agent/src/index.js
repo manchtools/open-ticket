@@ -42,12 +42,12 @@ module.exports = async function (req, res) {
 		const new_user = await database.createDocument(
 			'ticketing',
 			'agents',
-			user.$id,
+			user.id,
 			{
 				email: user.email,
 				name: user.name || ''
 			},
-			[sdk.Permission.read(sdk.Role.user(user.$id))]
+			[sdk.Permission.read(sdk.Role.user(user.id))]
 		);
 		res.send('success');
 	} catch (e) {
@@ -59,19 +59,19 @@ module.exports = async function (req, res) {
 		const new_user = await database.createDocument(
 			'ticketing',
 			'users',
-			user.$id,
+			user.id,
 			{
 				email: user.email,
 				name: user.name || ''
 			},
-			[sdk.Permission.read(sdk.Role.user(user.$id)), sdk.Permission.read(sdk.Role.users())]
+			[sdk.Permission.read(sdk.Role.user(user.id)), sdk.Permission.read(sdk.Role.users())]
 		);
 
 		res.send('success');
 	} catch (e) {
 		try {
-			const userDocument = await database.getDocument('ticketing', 'users', user.$id);
-			await database.updateDocument('ticketing', 'users', user.$id, {}, [
+			const userDocument = await database.getDocument('ticketing', 'users', user.id);
+			await database.updateDocument('ticketing', 'users', user.id, {}, [
 				...userDocument.$permissions,
 				sdk.Permission.read(sdk.Role.users())
 			]);

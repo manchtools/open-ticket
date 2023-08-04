@@ -1,23 +1,23 @@
 <script>
 	import { drawerBaseSettings } from '$lib/helpers';
 	import { drawerStore } from '@skeletonlabs/skeleton';
-	import { format, parse, parseISO } from 'date-fns';
+	import { format, parseISO } from 'date-fns';
 
 	export let tickets = [];
 </script>
 
-<!-- Responsive Container (recommended) -->
 <div class="table-container">
-	<!-- Native Table Element -->
 	<table class="table table-hover">
 		<thead>
 			<tr>
+				<th>Ticket ID</th>
+				<th>Status</th>
 				<th>Subject</th>
 				<th>body</th>
 				<th>Created by</th>
 				<th>Agent</th>
-				<th>Updated at</th>
 				<th>Created at</th>
+				<th>Updated at</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,12 +31,14 @@
 						drawerStore.open(settings);
 					}}
 				>
+					<td>{ticket.id}</td>
+					<td>{ticket.status}</td>
 					<td>{ticket.subject || ''}</td>
 					<td>{ticket.body}</td>
-					<td>{ticket.createdBy?.email}</td>
-					<td>{ticket.agent?.email || 'not assigned'}</td>
-					<td>{format(parseISO(ticket.$createdAt), 'dd.MM.yyyy HH:mm:ss')}</td>
-					<td>{format(parseISO(ticket.$updatedAt), 'dd.MM.yyyy HH:mm:ss')}</td>
+					<td>{ticket.expand.createdBy?.email || 'Deleted user'}</td>
+					<td>{ticket.expand.agent?.email || 'not assigned'}</td>
+					<td>{format(parseISO(ticket.created), 'dd.MM.yyyy HH:mm:ss')}</td>
+					<td>{format(parseISO(ticket.updated), 'dd.MM.yyyy HH:mm:ss')}</td>
 				</tr>
 			{/each}
 		</tbody>

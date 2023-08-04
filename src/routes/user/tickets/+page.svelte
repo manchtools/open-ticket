@@ -4,4 +4,4 @@
 	export let data;
 </script>
 
-<TicketView tickets={data.tickets.documents} />
+<TicketView tickets={data.tickets} />

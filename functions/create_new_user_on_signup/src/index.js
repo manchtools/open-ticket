@@ -36,19 +36,25 @@ module.exports = async function (req, res) {
 			.setKey(req.variables['APPWRITE_FUNCTION_API_KEY'])
 			.setSelfSigned(true);
 	}
-	const user = JSON.parse(req.variables['APPWRITE_FUNCTION_EVENT_DATA']);
+
+	let user;
+	if (req.variables['APPWRITE_FUNCTION_EVENT_DATA']) {
+		user = JSON.parse(req.variables['APPWRITE_FUNCTION_EVENT_DATA']);
+	} else if (req.payload) {
+		user = JSON.parse(req.payload);
+	}
 	try {
 		const new_user = await database.createDocument(
 			'ticketing',
 			'users',
-			user.$id,
+			user.id,
 			{
 				email: user.email,
 				name: user.name || ''
 			},
-			[sdk.Permission.read(sdk.Role.user(user.$id))]
+			[sdk.Permission.read(sdk.Role.user(user.id))]
 		);
-
+		await users.updatePrefs(user.id, { email_notification: false });
 		res.send('success');
 	} catch (e) {
 		console.error(e);
