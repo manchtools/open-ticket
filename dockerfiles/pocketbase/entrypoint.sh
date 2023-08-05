@@ -1,7 +1,7 @@
 #!/bin/sh
 
-./pocketbase serve --http $PUBLIC_POCKETBASE_ENDPOINT:$PUBLIC_POCKETBASE_PORT &
+./pocketbase serve --http $PUBLIC_POCKETBASE_ENDPOINT:$PUBLIC_POCKETBASE_PORT --automigrate=0 &
 sleep 4
 kill $(pidof pocketbase)
 ./pocketbase admin create $PRIVATE_POCKETBASE_ADMIN $PRIVATE_POCKETBASE_PASSWORD
-./pocketbase serve --http $PUBLIC_POCKETBASE_ENDPOINT:$PUBLIC_POCKETBASE_PORT
+./pocketbase serve --http $PUBLIC_POCKETBASE_ENDPOINT:$PUBLIC_POCKETBASE_PORT --automigrate=0
