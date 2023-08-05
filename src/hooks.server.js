@@ -25,6 +25,7 @@ export async function handle({ event, resolve }) {
 			}
 		} catch (e) {
 			event.locals.pb.authStore.clear();
+			event.cookies.delete('pb_auth');
 			throw redirect(307, '/auth/logout');
 		}
 
