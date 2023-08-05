@@ -7,8 +7,7 @@ export const actions = {
 		let payload = {
 			email,
 			username,
-			name,
-			type: 'user'
+			name
 		};
 		if (oldPassword && password && passwordConfirm) {
 			payload['oldPassword'] = oldPassword;
