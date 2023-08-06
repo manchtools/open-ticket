@@ -1,5 +1,3 @@
-import { redirect } from '@sveltejs/kit';
-
 export async function load({ locals, cookies }) {
 	locals.pb.authStore.clear();
 	cookies.delete('pb_auth');
