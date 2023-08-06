@@ -24,7 +24,7 @@ export const actions = {
 		return { tmpPass: randPass };
 	},
 	updateUser: async ({ request, locals }) => {
-		const { id, username, name, email, password, oldPassword, agent } = Object.fromEntries(
+		const { id, username, name, email, password, passwordConfirm, agent } = Object.fromEntries(
 			await request.formData()
 		);
 		let payload = {
@@ -33,8 +33,7 @@ export const actions = {
 			name,
 			type: 'user'
 		};
-		if (oldPassword && password) {
-			payload['oldPassword'] = oldPassword;
+		if (password && passwordConfirm) {
 			payload['password'] = password;
 			payload['passwordConfirm'] = passwordConfirm;
 		}
