@@ -11,22 +11,27 @@ export async function handle({ event, resolve }) {
 		event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
 		try {
-			event.locals.pb.authStore.isValid &&
-				(await event.locals.pb.collection('users').authRefresh());
+			await event.locals.pb.collection('users').authRefresh();
 			event.locals.user = serializePoJos(event.locals.pb.authStore.baseModel);
 			event.locals.agents = serializePoJos(
 				await event.locals.pb.collection('users').getFullList({ filter: "type='agent'" })
 			);
 			if (
 				event.route.id.startsWith('/setup') ||
+				event.route.id === '/auth/login' ||
 				(event.route.id.startsWith('/admin') && event.locals.user.type !== 'agent')
 			) {
-				throw redirect(307, '/');
+				throw redirect(303, '/');
 			}
 		} catch (e) {
-			event.locals.pb.authStore.clear();
-			event.cookies.delete('pb_auth');
-			throw redirect(307, '/auth/logout');
+			if (e.constructor.name === 'Redirect') {
+				throw e;
+			}
+			if (!event.route.id.startsWith('/auth')) {
+				event.locals.pb.authStore.clear();
+				event.cookies.delete('pb_auth');
+				throw redirect(307, '/auth/login');
+			}
 		}
 
 		const response = await resolve(event);

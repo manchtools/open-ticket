@@ -5,8 +5,7 @@
 
 	// import { AppwriteService } from '$lib/AppwriteService';
 	// import { handleAppwriteError } from '$lib/helpers';
-	let email;
-	let password;
+	export let form;
 </script>
 
 <form
@@ -21,7 +20,7 @@
 		};
 	}}
 >
-	<input type="text" name="email" class="input" bind:value={email} />
-	<input type="password" name="password" class="input" bind:value={password} />
+	<input type="text" name="email" class="input" value={form?.email ?? ''} />
+	<input type="password" name="password" class="input" />
 	<button>Submit</button>
 </form>

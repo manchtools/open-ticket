@@ -1,5 +1,5 @@
 import { serializePoJos } from '$lib/helpers';
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { Agent, setGlobalDispatcher } from 'undici';
 
 const agent = new Agent({
@@ -16,7 +16,7 @@ export const actions = {
 			const user = await locals.pb.collection('users').authWithPassword(data.email, data.password);
 			return serializePoJos(user);
 		} catch (e) {
-			throw e;
+			return fail(e.status, { email: data.email });
 		}
 	}
 };
