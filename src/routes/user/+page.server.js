@@ -1,4 +1,5 @@
 import { serializePoJos } from '$lib/helpers';
+import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	updateUser: async ({ request, locals }) => {
@@ -15,8 +16,10 @@ export const actions = {
 			payload['passwordConfirm'] = passwordConfirm;
 		}
 
-		const response = await locals.pb.collection('users').update(id, payload);
-		return { response: serializePoJos(response) };
+		await locals.pb.collection('users').update(id, payload);
+		if (oldPassword && password && passwordConfirm) {
+			throw redirect(303, '/auth/logout');
+		}
 	},
 	deleteUser: async ({ locals }) => {
 		await locals.pb.collection('users').delete(locals.user.id);
