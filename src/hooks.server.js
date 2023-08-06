@@ -12,6 +12,14 @@ export async function handle({ event, resolve }) {
 
 		try {
 			await event.locals.pb.collection('users').authRefresh();
+		} catch (e) {
+			if (!event.url.pathname.startsWith('/auth')) {
+				event.locals.pb.authStore.clear();
+				event.cookies.delete('pb_auth');
+				throw redirect(307, '/auth/login');
+			}
+		}
+		if (event.locals.pb.authStore.isValid) {
 			event.locals.user = serializePoJos(event.locals.pb.authStore.baseModel);
 			event.locals.agents = serializePoJos(
 				await event.locals.pb.collection('users').getFullList({ filter: "type='agent'" })
@@ -22,15 +30,6 @@ export async function handle({ event, resolve }) {
 				(event.route.id.startsWith('/admin') && event.locals.user.type !== 'agent')
 			) {
 				throw redirect(303, '/');
-			}
-		} catch (e) {
-			if (e.constructor.name === 'Redirect') {
-				throw e;
-			}
-			if (!event.route.id.startsWith('/auth')) {
-				event.locals.pb.authStore.clear();
-				event.cookies.delete('pb_auth');
-				throw redirect(307, '/auth/login');
 			}
 		}
 
