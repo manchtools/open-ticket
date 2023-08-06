@@ -1,14 +1,19 @@
 import { PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
 import PocketBase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { error, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { writeFile } from 'node:fs';
 export const actions = {
 	createAgent: async ({ request }) => {
+		const data = Object.fromEntries(await request.formData());
+		const tmpPB = new PocketBase(PUBLIC_POCKETBASE_URL);
+		if (data.password !== data.passwordConfirm) {
+			return fail(400, { error: true, message: 'Passwords dont match' });
+		}
+		if (data.password.length !== 8) {
+			return fail(400, { error: true, message: 'Password has to be at least 8 charakters' });
+		}
 		try {
-			const tmpPB = new PocketBase(PUBLIC_POCKETBASE_URL);
-			const data = Object.fromEntries(await request.formData());
-			console.log(data);
 			await tmpPB.admins.authWithPassword(PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD);
 			await tmpPB.collection('users').create({
 				email: data.email,
@@ -21,13 +26,9 @@ export const actions = {
 					throw error(500, "Can't write setupDone file");
 				}
 			});
-			throw redirect(303, '/auth/login');
 		} catch (e) {
-			if (e.constructor.name === 'Redirect') {
-				throw e;
-			} else {
-				throw error(400, 'Admin user does not exist');
-			}
+			throw error(400, 'Admin user does not exist');
 		}
+		throw redirect(303, '/auth/login');
 	}
 };
