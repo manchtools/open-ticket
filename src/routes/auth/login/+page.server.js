@@ -1,4 +1,15 @@
+import { serializePoJos } from '$lib/helpers';
 import { fail, redirect } from '@sveltejs/kit';
+
+export async function load({ locals }) {
+	try {
+		const authPrividers = await locals.pb.collection('users').listAuthMethods();
+
+		return serializePoJos({ authMethods: authPrividers });
+	} catch (e) {
+		console.log(e);
+	}
+}
 
 export const actions = {
 	login: async ({ request, locals }) => {
@@ -16,5 +27,8 @@ export const actions = {
 			});
 		}
 		throw redirect(303, '/');
+	},
+	loginOauth: async ({ url, params }) => {
+		console.log(url.searchParams.get('provider'));
 	}
 };
