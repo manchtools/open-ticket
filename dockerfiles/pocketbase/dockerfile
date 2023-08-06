@@ -9,13 +9,17 @@ WORKDIR /home/pocketbase
 RUN curl -LJ https://github.com/pocketbase/pocketbase/releases/download/v0.17.2/pocketbase_0.17.2_linux_arm64.zip -o pb.zip
 RUN unzip pb
 RUN rm pb.zip
-EXPOSE 8091
+
 ENV PUBLIC_POCKETBASE_ENDPOINT="0.0.0.0"
 ENV PUBLIC_POCKETBASE_PORT=8090
 ENV PRIVATE_POCKETBASE_ADMIN=""
 ENV PRIVATE_POCKETBASE_PASSWORD=""
 RUN mkdir pb_migrations
 RUN mkdir pb_hooks
-COPY --chown=pocketbase --chmod=700 ./entrypoint.sh ./pb_hooks
+EXPOSE $PUBLIC_POCKETBASE_PORT
+VOLUME [ "pb_data" ]
+
+COPY --chown=pocketbase --chmod=700 ./entrypoint.sh .
 COPY --chown=pocketbase --chmod=700 ./pb_migrations/ ./pb_migrations
+COPY --chown=pocketbase --chmod=700 ./pb_hooks/ ./pb_hooks
 ENTRYPOINT [ "./entrypoint.sh" ]
