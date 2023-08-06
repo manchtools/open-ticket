@@ -44,7 +44,10 @@ export async function handle({ event, resolve }) {
 		try {
 			await tmpPB.admins.authWithPassword(PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD);
 		} catch (e) {
-			throw error(400, 'Admin user does not exist');
+			throw error(
+				500,
+				'Admin user does not exist or credentials are wrong, please check you configuration and reload server'
+			);
 		}
 		try {
 			await tmpPB.collection('users').getFirstListItem('type="agent"');
