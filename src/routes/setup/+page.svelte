@@ -1,5 +1,12 @@
 <script>
 	import { Stepper, Step } from '@skeletonlabs/skeleton';
+	export let form;
+	import { toastStore } from '@skeletonlabs/skeleton';
+
+	if (form?.error) {
+		toastStore.trigger({ message: form.message, background: 'variant-filled-error' });
+	}
+	console.log(form);
 </script>
 
 <div class="w-full flex justify-center h-full items-center">
@@ -13,7 +20,7 @@
 				</h4>
 				<form action="?/createAgent" method="POST" class="flex gap-2 flex-col">
 					<label for="email"> Email </label>
-					<input type="email" name="email" class="input" id="email" />
+					<input type="email" name="email" class="input" id="email" value={form?.email || ''} />
 					<label for="password">
 						Password
 						<input type="password" name="password" class="input" id="password" />

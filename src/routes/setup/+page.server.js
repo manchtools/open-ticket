@@ -7,14 +7,28 @@ export const actions = {
 	createAgent: async ({ request }) => {
 		const data = Object.fromEntries(await request.formData());
 		const tmpPB = new PocketBase(PUBLIC_POCKETBASE_URL);
-		if (data.password !== data.passwordConfirm) {
-			return fail(400, { error: true, message: 'Passwords dont match' });
+		if (data.email === '') {
+			return fail(400, { error: true, message: "Email can't be empty" });
 		}
-		if (data.password.length !== 8) {
-			return fail(400, { error: true, message: 'Password has to be at least 8 charakters' });
+		if (data.password !== data.passwordConfirm) {
+			return fail(400, { error: true, message: 'Passwords dont match', email: data.email });
+		}
+		if (data.password.length <= 8) {
+			return fail(400, {
+				error: true,
+				message: 'Password has to be at least 8 charakters',
+				email: data.email
+			});
 		}
 		try {
 			await tmpPB.admins.authWithPassword(PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD);
+		} catch (e) {
+			throw error(
+				500,
+				'Admin user does not exist or credentials are wrong, please check you configuration and reload server'
+			);
+		}
+		try {
 			await tmpPB.collection('users').create({
 				email: data.email,
 				password: data.password,
@@ -27,7 +41,7 @@ export const actions = {
 				}
 			});
 		} catch (e) {
-			throw error(400, 'Admin user does not exist');
+			throw error(e.status, 'There was an error creating agent user');
 		}
 		throw redirect(303, '/auth/login');
 	}
