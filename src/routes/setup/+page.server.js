@@ -33,7 +33,8 @@ export const actions = {
 				email: data.email,
 				password: data.password,
 				passwordConfirm: data.passwordConfirm,
-				type: 'agent'
+				type: 'agent',
+				emailVidability: true
 			});
 			writeFile('setupDone', '', (err) => {
 				if (err) {

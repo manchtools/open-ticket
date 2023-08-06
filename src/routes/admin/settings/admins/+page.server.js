@@ -18,10 +18,11 @@ export const actions = {
 			email: data.email,
 			username: data.username || '',
 			type: 'agent',
-			emailVisability: true,
+			emailVisibility: true,
 			password: randPass,
 			passwordConfirm: randPass
 		});
+		console.log(response);
 		return { tmpPass: randPass };
 	},
 	updateUser: async ({ request, locals }) => {
@@ -40,7 +41,7 @@ export const actions = {
 			payload['passwordConfirm'] = passwordConfirm;
 		}
 		if (!agent) {
-			(payload.type = 'user'), (payload['emailVisability'] = false);
+			(payload.type = 'user'), (payload['emailVisibility'] = false);
 		}
 
 		const response = await locals.pb.collection('users').update(id, payload);
