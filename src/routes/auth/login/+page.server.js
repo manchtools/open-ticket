@@ -9,13 +9,12 @@ export const actions = {
 		try {
 			const user = await locals.pb.collection('users').authWithPassword(data.email, data.password);
 		} catch (e) {
-			console.log(e);
 			return fail(e.status, {
 				email: data.email,
 				message: 'Invalid email or password',
 				error: true
 			});
 		}
-		throw redirect(307, '/');
+		throw redirect(303, '/');
 	}
 };
