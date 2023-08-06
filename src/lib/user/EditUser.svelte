@@ -40,7 +40,7 @@
 		<p>Email</p>
 		<input type="email" name="email" value={data.email} class="input" {disabled} />
 	</label>
-	{#if $page.data.user.type !== 'agent'}
+	{#if $page.url.pathname.startsWith('/user')}
 		<label for="oldPassword">
 			<p>Old Password</p>
 			<input type="password" name="oldPassword" class="input" {disabled} />
