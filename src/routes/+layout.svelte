@@ -92,7 +92,6 @@
 	<div class="h-full w-full p-4">
 		<slot />
 	</div>
-	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
 </AppShell>
 
 <nav class="card list p-4 z-[999] shadow-xl" data-popup="userPane">
