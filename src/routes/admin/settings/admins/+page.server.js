@@ -26,7 +26,7 @@ export const actions = {
 		return { tmpPass: randPass };
 	},
 	updateUser: async ({ request, locals }) => {
-		const { id, username, name, email, password, oldPassword, agent } = Object.fromEntries(
+		const { id, username, name, email, password, passwordConfirm, agent } = Object.fromEntries(
 			await request.formData()
 		);
 		let payload = {
@@ -35,15 +35,14 @@ export const actions = {
 			name,
 			type: 'agent'
 		};
-		if (oldPassword && password) {
-			payload['oldPassword'] = oldPassword;
-			payload['password'] = password;
+		if (passwordConfirm && password) {
 			payload['passwordConfirm'] = passwordConfirm;
+			payload['password'] = password;
 		}
 		if (!agent) {
 			(payload.type = 'user'), (payload['emailVisibility'] = false);
 		}
-
+		console.log(payload);
 		const response = await locals.pb.collection('users').update(id, payload);
 		return { response: serializePoJos(response) };
 	},
