@@ -4,7 +4,7 @@ migrate((db) => {
     {
       "id": "_pb_users_auth_",
       "created": "2023-08-03 15:26:29.221Z",
-      "updated": "2023-08-05 19:07:29.097Z",
+      "updated": "2023-08-05 19:13:23.777Z",
       "name": "users",
       "type": "auth",
       "system": false,
@@ -79,7 +79,7 @@ migrate((db) => {
     {
       "id": "79ttfu5qeuc85nj",
       "created": "2023-08-03 15:31:13.761Z",
-      "updated": "2023-08-05 19:09:35.240Z",
+      "updated": "2023-08-08 07:50:38.597Z",
       "name": "tickets",
       "type": "base",
       "system": false,
@@ -167,6 +167,21 @@ migrate((db) => {
             "maxSelect": 1,
             "displayFields": []
           }
+        },
+        {
+          "system": false,
+          "id": "faxa4swp",
+          "name": "replies",
+          "type": "relation",
+          "required": false,
+          "unique": false,
+          "options": {
+            "collectionId": "0sgkselqp3o3cly",
+            "cascadeDelete": false,
+            "minSelect": null,
+            "maxSelect": null,
+            "displayFields": []
+          }
         }
       ],
       "indexes": [
@@ -182,7 +197,7 @@ migrate((db) => {
     {
       "id": "0sgkselqp3o3cly",
       "created": "2023-08-03 15:32:32.084Z",
-      "updated": "2023-08-05 19:07:08.437Z",
+      "updated": "2023-08-05 19:13:23.777Z",
       "name": "replies",
       "type": "base",
       "system": false,
@@ -251,7 +266,7 @@ migrate((db) => {
     {
       "id": "vqabe9s01biwqz2",
       "created": "2023-08-04 14:57:31.290Z",
-      "updated": "2023-08-05 19:07:08.437Z",
+      "updated": "2023-08-08 08:43:17.968Z",
       "name": "tickets_versions",
       "type": "base",
       "system": false,
@@ -345,11 +360,26 @@ migrate((db) => {
           "id": "pagqwrrv",
           "name": "ticket",
           "type": "relation",
-          "required": false,
+          "required": true,
           "unique": false,
           "options": {
             "collectionId": "79ttfu5qeuc85nj",
             "cascadeDelete": true,
+            "minSelect": null,
+            "maxSelect": 1,
+            "displayFields": []
+          }
+        },
+        {
+          "system": false,
+          "id": "lgzdqe0o",
+          "name": "updatedBy",
+          "type": "relation",
+          "required": false,
+          "unique": false,
+          "options": {
+            "collectionId": "_pb_users_auth_",
+            "cascadeDelete": false,
             "minSelect": null,
             "maxSelect": 1,
             "displayFields": []
@@ -369,7 +399,7 @@ migrate((db) => {
     {
       "id": "60k1z3y4mg2q2en",
       "created": "2023-08-04 15:20:51.449Z",
-      "updated": "2023-08-05 19:07:08.437Z",
+      "updated": "2023-08-08 08:43:07.321Z",
       "name": "replies_versions",
       "type": "base",
       "system": false,
@@ -416,7 +446,7 @@ migrate((db) => {
           "id": "dzsjaciq",
           "name": "ticket",
           "type": "relation",
-          "required": false,
+          "required": true,
           "unique": false,
           "options": {
             "collectionId": "79ttfu5qeuc85nj",
@@ -431,11 +461,26 @@ migrate((db) => {
           "id": "fmwr7ccs",
           "name": "reply",
           "type": "relation",
-          "required": false,
+          "required": true,
           "unique": false,
           "options": {
             "collectionId": "0sgkselqp3o3cly",
             "cascadeDelete": true,
+            "minSelect": null,
+            "maxSelect": 1,
+            "displayFields": []
+          }
+        },
+        {
+          "system": false,
+          "id": "zka4wojp",
+          "name": "updatedBy",
+          "type": "relation",
+          "required": false,
+          "unique": false,
+          "options": {
+            "collectionId": "_pb_users_auth_",
+            "cascadeDelete": false,
             "minSelect": null,
             "maxSelect": 1,
             "displayFields": []
