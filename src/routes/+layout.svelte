@@ -79,10 +79,15 @@
 	<svelte:fragment slot="header">
 		{#if data.user}
 			<AppBar
-				gridColumns="grid-cols-2"
+				gridColumns="grid-cols-3"
 				slotDefault="place-self-center"
 				slotTrail="place-content-end"
 			>
+				<svelte:fragment slot="lead">
+					<a href="/">
+						<i class="fa-solid fa-ticket fa-xl" />
+					</a>
+				</svelte:fragment>
 				<svelte:fragment slot="trail">
 					<i class="fa-solid fa-user hover:cursor-pointer" use:popup={popupSettings} />
 				</svelte:fragment>
