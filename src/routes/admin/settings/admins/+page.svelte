@@ -52,13 +52,15 @@
 		</tbody>
 	</table>
 	<small class="self-end">Total admins: {data.users.totalItems}</small>
-	<Paginator
-		bind:settings={page}
-		showNumerals={true}
-		maxNumerals={1}
-		on:page={onPageChange}
-		amountText="Users"
-		controlVariant="variant-filled-surface"
-		class="self-center"
-	/>
+	{#if data.users.items.length > 0}
+		<Paginator
+			bind:settings={page}
+			showNumerals={true}
+			maxNumerals={1}
+			on:page={onPageChange}
+			amountText="Users"
+			controlVariant="variant-filled-surface"
+			class="self-center"
+		/>
+	{/if}
 </div>
