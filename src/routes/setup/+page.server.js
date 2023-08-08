@@ -13,7 +13,7 @@ export const actions = {
 		if (data.password !== data.passwordConfirm) {
 			return fail(400, { error: true, message: 'Passwords dont match', email: data.email });
 		}
-		if (data.password.length <= 8) {
+		if (data.password.length <= 7) {
 			return fail(400, {
 				error: true,
 				message: 'Password has to be at least 8 charakters',
