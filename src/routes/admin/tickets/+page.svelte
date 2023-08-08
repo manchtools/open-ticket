@@ -58,24 +58,28 @@
 			<i class="fa-solid fa-magnifying-glass" />
 		</button>
 	</div>
-	<Paginator
-		bind:settings={page}
-		showNumerals={true}
-		maxNumerals={1}
-		on:page={onPageChange}
-		amountText="tickets"
-		controlVariant="variant-filled-surface"
-		class="self-center"
-	/>
+	{#if tickets.length > 15}
+		<Paginator
+			bind:settings={page}
+			showNumerals={true}
+			maxNumerals={1}
+			on:page={onPageChange}
+			amountText="tickets"
+			controlVariant="variant-filled-surface"
+			class="self-center"
+		/>
+	{/if}
 	<small class="self-end">Total tickets: {data.tickets.totalItems}</small>
 	<TicketView {tickets} />
-	<Paginator
-		bind:settings={page}
-		showNumerals={true}
-		maxNumerals={1}
-		on:page={onPageChange}
-		amountText="tickets"
-		controlVariant="variant-filled-surface"
-		class="self-center"
-	/>
+	{#if tickets.length > 0}
+		<Paginator
+			bind:settings={page}
+			showNumerals={true}
+			maxNumerals={1}
+			on:page={onPageChange}
+			amountText="tickets"
+			controlVariant="variant-filled-surface"
+			class="self-center"
+		/>
+	{/if}
 </div>
