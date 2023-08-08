@@ -13,6 +13,7 @@
 	let sending = false;
 	let currentMessage = '';
 	let element;
+	let submitButton;
 	afterUpdate(() => {
 		if (replies) scrollToBottom(element);
 	});
@@ -100,6 +101,11 @@
 			placeholder="Write a message..."
 			rows="1"
 			maxlength="20000"
+			on:keydown={(e) => {
+				if (e.key === 'Enter' && e.shiftKey) {
+					submitButton.click();
+				}
+			}}
 		/>
 		<span>
 			{#if currentMessage.length >= 17000}
@@ -107,7 +113,11 @@
 			{/if}
 		</span>
 
-		<button class="variant-filled-primary" disabled={sending || currentMessage.length === 0}>
+		<button
+			class="variant-filled-primary"
+			disabled={sending || currentMessage.length === 0}
+			bind:this={submitButton}
+		>
 			{#if sending}
 				<ProgressRadial
 					stroke={200}
