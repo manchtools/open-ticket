@@ -1,5 +1,5 @@
 <script>
-	export let data;
+	export let data../$types.js;
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	function extractName(string) {
 		const tmp = string.split('Auth')[0];
