@@ -19,7 +19,7 @@ RUN mkdir pb_hooks
 EXPOSE $PUBLIC_POCKETBASE_PORT
 VOLUME [ "pb_data" ]
 
-COPY --chown=pocketbase --chmod=700 ./entrypoint.sh .
+COPY --chown=pocketbase --chmod=700 ./dockerfiles/pocketbase/entrypoint.sh .
 COPY --chown=pocketbase --chmod=700 ./pb_migrations/ ./pb_migrations
 COPY --chown=pocketbase --chmod=700 ./pb_hooks/ ./pb_hooks
 ENTRYPOINT [ "./entrypoint.sh" ]
