@@ -4,7 +4,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { pb } from '$lib/db';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { fade } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import { page } from '$app/stores';
 	export let tickets = [];
 	onMount(() => {
@@ -59,7 +59,7 @@
 							goto(`/ticket/${ticket.id}`);
 						}
 					}}
-					in:fade
+					in:fly={{ y: -50, duration: 125 }}
 				>
 					<td>
 						{#if (ticket.updatedBy !== pb.authStore.model?.id && ticket.updatedBy !== '') || ticket.update}
