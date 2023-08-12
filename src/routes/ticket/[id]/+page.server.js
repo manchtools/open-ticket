@@ -1,5 +1,13 @@
 import { serializePoJos } from '$lib/helpers';
 
+export async function load({ params, locals }) {
+	const ticket = await locals.pb.collection('tickets').getOne(params.id, {
+		expand: 'replies,replies.createdBy,createdBy,agent'
+	});
+
+	return { ticket: serializePoJos(ticket) };
+}
+
 export const actions = {
 	addReply: async ({ request, params, locals }) => {
 		const data = Object.fromEntries(await request.formData());
