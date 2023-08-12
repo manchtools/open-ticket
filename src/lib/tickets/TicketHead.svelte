@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 
 	export let data;
-	let agentId = data.expand?.agent?.id || '';
 </script>
 
 <div class="flex flex-col lg:flex-row justify-between w-full lg:items-center gap-2">
@@ -31,7 +30,8 @@
 			<label class="flex items-center gap-2">
 				<p>Agent:</p>
 
-				<select class="select w-fit py-1 lg:p-2" name="agent" bind:value={agentId}>
+				<select class="select w-fit py-1 lg:p-2" name="agent" value={data.expand.agent?.id || ''}>
+					<option value="">not assigned</option>
 					{#each $page.data?.agents as agent}
 						<option value={agent.id}>{agent.email}</option>
 					{/each}
