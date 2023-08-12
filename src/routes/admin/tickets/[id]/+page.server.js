@@ -10,7 +10,10 @@ export async function load({ params, locals }) {
 
 export const actions = {
 	updateTicket: async ({ params, request, locals }) => {
-		const { status, agent } = Object.fromEntries(await request.formData());
+		let { status, agent } = Object.fromEntries(await request.formData());
+		if (agent === 'self') {
+			agent = locals.user.id;
+		}
 		const res = await locals.pb
 			.collection('tickets')
 			.update(params.id, { status, agent, updatedBy: locals.user.id });
