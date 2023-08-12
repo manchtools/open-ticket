@@ -10,7 +10,7 @@
 	</h4>
 	<hr class="my-2" />
 	<TicketReplies
-		replies={data.expand['replies(ticket)']}
+		replies={data.expand.replies}
 		ticketId={data.id}
 		ticketCreator={data.expand?.createdBy?.id}
 	/>
