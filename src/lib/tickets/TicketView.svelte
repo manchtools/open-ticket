@@ -1,9 +1,41 @@
 <script>
-	import { drawerBaseSettings } from '$lib/helpers';
-	import { drawerStore } from '@skeletonlabs/skeleton';
+	import { toastStore } from '@skeletonlabs/skeleton';
 	import { format, parseISO } from 'date-fns';
-
+	import { onDestroy, onMount } from 'svelte';
+	import { pb } from '$lib/db';
+	import { goto } from '$app/navigation';
 	export let tickets = [];
+	onMount(() => {
+		pb.collection('tickets').subscribe('*', async (e) => {
+			let tmp = await pb.collection('tickets').getOne(e.record.id, { expand: 'agent,createdBy' });
+			if (e.action === 'update') {
+				const index = tickets.findIndex((x) => x.id === e.record.id);
+				tickets[index].update = true;
+				tickets[index] = tmp;
+				tickets = [...tickets];
+
+				if (e.record.updatedBy !== pb.authStore.model.id) {
+					toastStore.trigger({
+						message: `Ticket <a href="/admin/tickets/${e.record.id}" class="underline">${e.record.id}</a> was updated!`,
+						background: 'variant-ghost-warning'
+					});
+				}
+			}
+			if (e.action === 'create') {
+				tmp.create = true;
+				tickets.unshift(tmp);
+				tickets = [...tickets];
+				toastStore.trigger({
+					message: `A new ticket <a href="/admin/tickets/${e.record.id}" class="underline">${e.record.id}</a> was created!`,
+
+					background: 'variant-ghost-success'
+				});
+			}
+		});
+	});
+	onDestroy(() => {
+		pb.collection('tickets').unsubscribe('*');
+	});
 </script>
 
 <div class="table-container">
@@ -25,13 +57,20 @@
 				<tr
 					class="hover:cursor-pointer"
 					on:click={() => {
-						let settings = drawerBaseSettings;
-						settings['type'] = 'ticket';
-						settings['data'] = ticket;
-						drawerStore.open(settings);
+						goto(`/admin/tickets/${ticket.id}`);
 					}}
 				>
-					<td>{ticket.id}</td>
+					<td>
+						{#if (ticket.updatedBy !== pb.authStore.model?.id && ticket.updatedBy !== '') || ticket.update}
+							<button>
+								<i class="fa-regular fa-circle-dot text-warning-400" />
+							</button>
+						{/if}
+						{#if ticket.created === ticket.updated}
+							<i class="fa-regular fa-circle-dot text-success-400" />
+						{/if}
+						{ticket.id}</td
+					>
 					<td>{ticket.status}</td>
 					<td>{ticket.subject || ''}</td>
 					<td>{ticket.body}</td>
