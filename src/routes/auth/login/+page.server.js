@@ -19,6 +19,7 @@ export const actions = {
 		}
 		try {
 			const user = await locals.pb.collection('users').authWithPassword(data.email, data.password);
+			return locals.pb.authStore.exportToCookie();
 		} catch (e) {
 			return fail(e.status, {
 				email: data.email,
@@ -26,7 +27,7 @@ export const actions = {
 				error: true
 			});
 		}
-		throw redirect(303, '/');
+		// throw redirect(303, '/');
 	},
 	loginOauth: async ({ url, params }) => {
 		console.log(url.searchParams.get('provider'));

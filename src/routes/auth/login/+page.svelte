@@ -3,6 +3,8 @@
 	export let data;
 
 	import { toastStore } from '@skeletonlabs/skeleton';
+	import { enhance } from '$app/forms';
+	import { pb } from '$lib/db.js';
 
 	if (form?.error) {
 		toastStore.trigger({ message: form.message, background: 'variant-filled-error' });
@@ -14,6 +16,20 @@
 		method="POST"
 		action="?/login"
 		class="flex flex-col gap-2 w-[95%] md:w-1/3 card p-4 variant-ghost"
+		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+			// `formElement` is this `<form>` element
+			// `formData` is its `FormData` object that's about to be submitted
+			// `action` is the URL to which the form is posted
+			// calling `cancel()` will prevent the submission
+			// `submitter` is the `HTMLElement` that caused the form to be submitted
+
+			return async ({ result, update }) => {
+				pb.authStore.loadFromCookie(result.data);
+				update();
+
+				// `update` is a function which triggers the default logic that would be triggered if this callback wasn't set
+			};
+		}}
 	>
 		<label for="email">
 			Email
