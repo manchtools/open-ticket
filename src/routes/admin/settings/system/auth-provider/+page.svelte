@@ -79,8 +79,8 @@
 							</label>
 						{/if}
 					{/if}
-					<button class="btn btn-sm variant-ghost-success">Update</button>
 				{/if}
+				<button class="btn btn-sm variant-ghost-success">Update</button>
 			</div>
 		</form>
 	{/each}
