@@ -38,7 +38,7 @@
 				{#if payload.enabled}
 					<label for="{name}_{payload.clientId}">
 						<p>* Client ID</p>
-						<input type="url" value={payload.clientId} name="clientId" class="input" required />
+						<input type="text" value={payload.clientId} name="clientId" class="input" required />
 					</label>
 					<label for="{name}_{payload.clientSecret}">
 						<p>* Client Secret</p>
