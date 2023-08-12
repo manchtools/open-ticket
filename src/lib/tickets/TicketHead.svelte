@@ -31,7 +31,8 @@
 				<p>Agent:</p>
 
 				<select class="select w-fit py-1 lg:p-2" name="agent" value={data.expand.agent?.id || ''}>
-					<option value="">not assigned</option>
+					<option value="">---</option>
+					<option value="self">My self</option>
 					{#each $page.data?.agents as agent}
 						<option value={agent.id}>{agent.email}</option>
 					{/each}
