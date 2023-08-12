@@ -26,7 +26,12 @@
 				if (message.length >= 1) {
 					message += ', and ';
 				}
-				message += `updated agent to <span class="underline">${tmp.expand.agent.email}</span>`;
+				if (tmp.expand.agent?.email) {
+					message += `updated agent to <span class="underline">${tmp.expand.agent?.email}</span>`;
+				}
+				if (!tmp.expand.agent?.email) {
+					message += `unassigned agent`;
+				}
 			}
 			data = tmp;
 			if (e.action === 'update' && e.record?.updatedBy !== pb.authStore.model.id) {
