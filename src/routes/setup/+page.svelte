@@ -6,7 +6,6 @@
 	if (form?.error) {
 		toastStore.trigger({ message: form.message, background: 'variant-filled-error' });
 	}
-	console.log(form);
 </script>
 
 <div class="w-full flex justify-center h-full items-center">

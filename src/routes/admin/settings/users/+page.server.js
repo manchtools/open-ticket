@@ -40,7 +40,7 @@ export const actions = {
 		if (agent) {
 			(payload.type = 'agent'), (payload['emailVisibility'] = true);
 		}
-		console.log(payload);
+
 		const response = await locals.pb.collection('users').update(id, payload);
 		return { response: serializePoJos(response) };
 	},

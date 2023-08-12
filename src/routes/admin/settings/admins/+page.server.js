@@ -22,7 +22,7 @@ export const actions = {
 			password: randPass,
 			passwordConfirm: randPass
 		});
-		console.log(response);
+
 		return { tmpPass: randPass };
 	},
 	updateUser: async ({ request, locals }) => {
@@ -42,7 +42,7 @@ export const actions = {
 		if (!agent) {
 			(payload.type = 'user'), (payload['emailVisibility'] = false);
 		}
-		console.log(payload);
+
 		const response = await locals.pb.collection('users').update(id, payload);
 		return { response: serializePoJos(response) };
 	},
