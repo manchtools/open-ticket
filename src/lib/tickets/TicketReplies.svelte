@@ -82,7 +82,6 @@
 
 		return async ({ result }) => {
 			if (result.status === 200) {
-				replies = [...replies, result.data];
 				currentMessage = '';
 			}
 			if (result.status === 400) {
