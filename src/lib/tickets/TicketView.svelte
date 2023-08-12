@@ -3,25 +3,21 @@
 	import { format, parseISO } from 'date-fns';
 	import { onDestroy, onMount } from 'svelte';
 	import { pb } from '$lib/db';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
+	import { fade } from 'svelte/transition';
+	import { page } from '$app/stores';
 	export let tickets = [];
 	onMount(() => {
 		pb.collection('tickets').subscribe('*', async (e) => {
-			let tmp = await pb.collection('tickets').getOne(e.record.id, { expand: 'agent,createdBy' });
-			if (e.action === 'update') {
-				const index = tickets.findIndex((x) => x.id === e.record.id);
-				tickets[index].update = true;
-				tickets[index] = tmp;
-				tickets = [...tickets];
-
-				if (e.record.updatedBy !== pb.authStore.model.id) {
-					toastStore.trigger({
-						message: `Ticket <a href="/admin/tickets/${e.record.id}" class="underline">${e.record.id}</a> was updated!`,
-						background: 'variant-ghost-warning'
-					});
-				}
+			if (e.action === 'update' && e.record.updatedBy !== pb.authStore.model.id) {
+				toastStore.trigger({
+					message: `Ticket <a href="/admin/tickets/${e.record.id}" class="underline">${e.record.id}</a> was updated!`,
+					background: 'variant-ghost-warning'
+				});
+				invalidateAll();
 			}
 			if (e.action === 'create') {
+				let tmp = await pb.collection('tickets').getOne(e.record.id, { expand: 'agent,createdBy' });
 				tmp.create = true;
 				tickets.unshift(tmp);
 				tickets = [...tickets];
@@ -53,12 +49,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each tickets as ticket}
+			{#each tickets as ticket (ticket.id)}
 				<tr
 					class="hover:cursor-pointer"
 					on:click={() => {
-						goto(`/admin/tickets/${ticket.id}`);
+						if ($page.url.pathname.startsWith('/admin')) {
+							goto(`/admin/tickets/${ticket.id}`);
+						} else {
+							goto(`/ticket/${ticket.id}`);
+						}
 					}}
+					in:fade
 				>
 					<td>
 						{#if (ticket.updatedBy !== pb.authStore.model?.id && ticket.updatedBy !== '') || ticket.update}
