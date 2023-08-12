@@ -5,7 +5,7 @@
 	export let data;
 </script>
 
-<div>
+<div class="card p-4">
 	<TicketHead {data} />
 	<hr class="my-2" />
 	<TicketBody {data} />
