@@ -46,7 +46,7 @@
 		size: data.totalItems,
 		amounts: []
 	};
-	$: console.log(data, pageSettings);
+
 	function onPageChange(e) {
 		$page.url.searchParams.set('offset', e.detail + 1);
 		goto('?' + $page.url.searchParams.toString(), { invalidateAll: true });
