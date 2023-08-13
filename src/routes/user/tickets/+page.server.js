@@ -2,7 +2,7 @@ import { serializePoJos } from '$lib/helpers';
 
 export async function load({ url, locals }) {
 	const offset = parseInt(url.searchParams.get('offset')) || 1;
-	const searchTerm = parseInt(url.searchParams.get('search'));
+	const searchTerm = url.searchParams.get('search');
 	let searchData = {
 		sort: '-created',
 		expand: 'createdBy,agent',
