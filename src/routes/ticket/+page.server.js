@@ -1,4 +1,5 @@
 import { serializePoJos } from '$lib/helpers';
+import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	create: async ({ request, locals }) => {
@@ -9,9 +10,7 @@ export const actions = {
 			status: 'new',
 			createdBy: locals.user.id
 		});
-		const returnTicket = await locals.pb
-			.collection('tickets')
-			.getOne(res.id, { expand: 'createdBy,replies,replies.createdBy,agent' });
-		return serializePoJos(returnTicket);
+
+		throw redirect(303, `/ticket/${res.id}`);
 	}
 };
