@@ -75,6 +75,18 @@
 				</svelte:fragment>
 			</AppRail>
 		{/if}
+		{#if !$page.route.id.startsWith('/admin')}
+			<AppRail>
+				<AppRailAnchor
+					href="/user/tickets"
+					title="tickets"
+					selected={$page.url.pathname === '/user/tickets'}
+				>
+					<svelte:fragment slot="lead"><i class="fa-solid fa-ticket" /></svelte:fragment>
+					<span>My Tickets</span>
+				</AppRailAnchor>
+			</AppRail>
+		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="header">
 		{#if data.user}
