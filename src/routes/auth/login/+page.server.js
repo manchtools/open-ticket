@@ -28,8 +28,5 @@ export const actions = {
 			});
 		}
 		// throw redirect(303, '/');
-	},
-	loginOauth: async ({ url, params }) => {
-		console.log(url.searchParams.get('provider'));
 	}
 };

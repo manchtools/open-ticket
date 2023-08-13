@@ -5,10 +5,15 @@
 	import { toastStore } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import { pb } from '$lib/db.js';
+	import { invalidateAll } from '$app/navigation';
 
 	if (form?.error) {
 		toastStore.trigger({ message: form.message, background: 'variant-filled-error' });
 	}
+	pb.authStore.onChange(() => {
+		document.cookie = pb.authStore.exportToCookie({ path: '/', httpOnly: false });
+		invalidateAll();
+	});
 </script>
 
 <div class="flex flex-col w-full h-full justify-center items-center">
@@ -46,7 +51,10 @@
 				{#each data.authMethods.authProviders as provider}
 					<button
 						class="btn variant-filled flex flex-row"
-						formaction="?/loginOauth&provider={provider.name}"
+						on:click|preventDefault={async () =>
+							await pb
+								.collection('users')
+								.authWithOAuth2({ provider: provider.name, createData: { type: 'user' } })}
 					>
 						<i class="fa-brands fa-{provider.name}" />
 						<div class="flex">
