@@ -1,13 +1,18 @@
 import PocketBase from 'pocketbase';
 import { error, redirect } from '@sveltejs/kit';
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
+import { env as pub } from '$env/dynamic/public';
+import { env as priv } from '$env/dynamic/private';
 import { serializePoJos } from '$lib/helpers';
 import { existsSync, writeFile } from 'node:fs';
 
 export async function handle({ event, resolve }) {
+	console.log(
+		pub.PUBLIC_POCKETBASE_URL,
+		priv.PRIVATE_POCKETBASE_ADMIN,
+		priv.PRIVATE_POCKETBASE_PASSWORD
+	);
 	if (existsSync('setupDone')) {
-		event.locals.pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+		event.locals.pb = new PocketBase(pub.PUBLIC_POCKETBASE_URL);
 		event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
 		try {
@@ -25,9 +30,9 @@ export async function handle({ event, resolve }) {
 				await event.locals.pb.collection('users').getFullList({ filter: "type='agent'" })
 			);
 			if (
-				event.route.id.startsWith('/setup') ||
-				event.route.id === '/auth/login' ||
-				(event.route.id.startsWith('/admin') && event.locals.user.type !== 'agent')
+				event.url.pathname.startsWith('/setup') ||
+				event.url.pathname === '/auth/login' ||
+				(event.url.pathname.startsWith('/admin') && event.locals.user.type !== 'agent')
 			) {
 				throw redirect(303, '/');
 			}
@@ -40,9 +45,12 @@ export async function handle({ event, resolve }) {
 		);
 		return response;
 	} else {
-		const tmpPB = new PocketBase(PUBLIC_POCKETBASE_URL);
+		const tmpPB = new PocketBase(pub.PUBLIC_POCKETBASE_URL);
 		try {
-			await tmpPB.admins.authWithPassword(PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD);
+			await tmpPB.admins.authWithPassword(
+				priv.PRIVATE_POCKETBASE_ADMIN,
+				priv.PRIVATE_POCKETBASE_PASSWORD
+			);
 		} catch (e) {
 			throw error(
 				500,
@@ -58,7 +66,7 @@ export async function handle({ event, resolve }) {
 			});
 			throw redirect(307, '/');
 		} catch (e) {
-			if (event.route.id !== '/setup') {
+			if (event.url.pathname !== '/setup') {
 				throw redirect(307, '/setup');
 			}
 		}
