@@ -2,84 +2,9 @@
 migrate((db) => {
   const snapshot = [
     {
-      "id": "_pb_users_auth_",
-      "created": "2023-08-03 15:26:29.221Z",
-      "updated": "2023-08-05 19:13:23.777Z",
-      "name": "users",
-      "type": "auth",
-      "system": false,
-      "schema": [
-        {
-          "system": false,
-          "id": "users_name",
-          "name": "name",
-          "type": "text",
-          "required": false,
-          "unique": false,
-          "options": {
-            "min": null,
-            "max": null,
-            "pattern": ""
-          }
-        },
-        {
-          "system": false,
-          "id": "users_avatar",
-          "name": "avatar",
-          "type": "file",
-          "required": false,
-          "unique": false,
-          "options": {
-            "maxSelect": 1,
-            "maxSize": 5242880,
-            "mimeTypes": [
-              "image/jpeg",
-              "image/png",
-              "image/svg+xml",
-              "image/gif",
-              "image/webp"
-            ],
-            "thumbs": null,
-            "protected": false
-          }
-        },
-        {
-          "system": false,
-          "id": "z6aerqau",
-          "name": "type",
-          "type": "select",
-          "required": true,
-          "unique": false,
-          "options": {
-            "maxSelect": 1,
-            "values": [
-              "user",
-              "agent"
-            ]
-          }
-        }
-      ],
-      "indexes": [],
-      "listRule": "id = @request.auth.id||type = \"agent\"||@request.auth.type = \"agent\"",
-      "viewRule": "id = @request.auth.id||type = \"agent\"||@request.auth.type = \"agent\"",
-      "createRule": "",
-      "updateRule": "(id = @request.auth.id&&(@request.data.type = type|| @request.data.type=null))||@request.auth.type = \"agent\"",
-      "deleteRule": "@request.auth.type = \"agent\"",
-      "options": {
-        "allowEmailAuth": true,
-        "allowOAuth2Auth": true,
-        "allowUsernameAuth": true,
-        "exceptEmailDomains": null,
-        "manageRule": "@request.auth.type = \"agent\"",
-        "minPasswordLength": 8,
-        "onlyEmailDomains": null,
-        "requireEmail": true
-      }
-    },
-    {
       "id": "79ttfu5qeuc85nj",
       "created": "2023-08-03 15:31:13.761Z",
-      "updated": "2023-08-08 07:50:38.597Z",
+      "updated": "2023-08-11 10:17:48.998Z",
       "name": "tickets",
       "type": "base",
       "system": false,
@@ -182,6 +107,21 @@ migrate((db) => {
             "maxSelect": null,
             "displayFields": []
           }
+        },
+        {
+          "system": false,
+          "id": "kv43ne5p",
+          "name": "updatedBy",
+          "type": "relation",
+          "required": false,
+          "unique": false,
+          "options": {
+            "collectionId": "_pb_users_auth_",
+            "cascadeDelete": false,
+            "minSelect": null,
+            "maxSelect": 1,
+            "displayFields": []
+          }
         }
       ],
       "indexes": [
@@ -190,14 +130,14 @@ migrate((db) => {
       "listRule": "@request.auth.id = createdBy.id||@request.auth.type = \"agent\"",
       "viewRule": "@request.auth.id = createdBy.id||@request.auth.type = \"agent\"",
       "createRule": "@request.auth.id != \"\"",
-      "updateRule": "@request.auth.type = \"agent\"",
+      "updateRule": "@request.auth.type = \"agent\"||(@request.auth.id = createdBy.id&&@request.data.replies:length>0)",
       "deleteRule": "",
       "options": {}
     },
     {
       "id": "0sgkselqp3o3cly",
       "created": "2023-08-03 15:32:32.084Z",
-      "updated": "2023-08-05 19:13:23.777Z",
+      "updated": "2023-08-11 10:18:02.415Z",
       "name": "replies",
       "type": "base",
       "system": false,
@@ -253,6 +193,21 @@ migrate((db) => {
             "maxSelect": 1,
             "displayFields": []
           }
+        },
+        {
+          "system": false,
+          "id": "hvhyprbl",
+          "name": "updatedBy",
+          "type": "relation",
+          "required": false,
+          "unique": false,
+          "options": {
+            "collectionId": "_pb_users_auth_",
+            "cascadeDelete": false,
+            "minSelect": null,
+            "maxSelect": 1,
+            "displayFields": []
+          }
         }
       ],
       "indexes": [],
@@ -266,7 +221,7 @@ migrate((db) => {
     {
       "id": "vqabe9s01biwqz2",
       "created": "2023-08-04 14:57:31.290Z",
-      "updated": "2023-08-08 08:43:17.968Z",
+      "updated": "2023-08-12 15:33:17.633Z",
       "name": "tickets_versions",
       "type": "base",
       "system": false,
@@ -384,6 +339,21 @@ migrate((db) => {
             "maxSelect": 1,
             "displayFields": []
           }
+        },
+        {
+          "system": false,
+          "id": "acnp3i8b",
+          "name": "replies",
+          "type": "relation",
+          "required": false,
+          "unique": false,
+          "options": {
+            "collectionId": "0sgkselqp3o3cly",
+            "cascadeDelete": false,
+            "minSelect": null,
+            "maxSelect": null,
+            "displayFields": []
+          }
         }
       ],
       "indexes": [
@@ -399,7 +369,7 @@ migrate((db) => {
     {
       "id": "60k1z3y4mg2q2en",
       "created": "2023-08-04 15:20:51.449Z",
-      "updated": "2023-08-08 08:43:07.321Z",
+      "updated": "2023-08-12 09:21:25.108Z",
       "name": "replies_versions",
       "type": "base",
       "system": false,
@@ -450,7 +420,7 @@ migrate((db) => {
           "unique": false,
           "options": {
             "collectionId": "79ttfu5qeuc85nj",
-            "cascadeDelete": false,
+            "cascadeDelete": true,
             "minSelect": null,
             "maxSelect": 1,
             "displayFields": []
@@ -494,6 +464,81 @@ migrate((db) => {
       "updateRule": "@request.auth.type = \"agent\"",
       "deleteRule": null,
       "options": {}
+    },
+    {
+      "id": "_pb_users_auth_",
+      "created": "2023-08-08 08:44:09.214Z",
+      "updated": "2023-08-13 15:09:52.534Z",
+      "name": "users",
+      "type": "auth",
+      "system": false,
+      "schema": [
+        {
+          "system": false,
+          "id": "users_name",
+          "name": "name",
+          "type": "text",
+          "required": false,
+          "unique": false,
+          "options": {
+            "min": null,
+            "max": null,
+            "pattern": ""
+          }
+        },
+        {
+          "system": false,
+          "id": "users_avatar",
+          "name": "avatar",
+          "type": "file",
+          "required": false,
+          "unique": false,
+          "options": {
+            "maxSelect": 1,
+            "maxSize": 5242880,
+            "mimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/svg+xml",
+              "image/gif",
+              "image/webp"
+            ],
+            "thumbs": null,
+            "protected": false
+          }
+        },
+        {
+          "system": false,
+          "id": "z6aerqau",
+          "name": "type",
+          "type": "select",
+          "required": true,
+          "unique": false,
+          "options": {
+            "maxSelect": 1,
+            "values": [
+              "user",
+              "agent"
+            ]
+          }
+        }
+      ],
+      "indexes": [],
+      "listRule": "id = @request.auth.id||type = \"agent\"||@request.auth.type = \"agent\"",
+      "viewRule": "id = @request.auth.id||type = \"agent\"||@request.auth.type = \"agent\"",
+      "createRule": "@request.data.type = \"user\"||@request.auth.type = \"agent\"",
+      "updateRule": "(id = @request.auth.id&&(@request.data.type = type|| @request.data.type=null))||@request.auth.type = \"agent\"",
+      "deleteRule": "@request.auth.type = \"agent\"",
+      "options": {
+        "allowEmailAuth": true,
+        "allowOAuth2Auth": true,
+        "allowUsernameAuth": true,
+        "exceptEmailDomains": null,
+        "manageRule": "@request.auth.type = \"agent\"",
+        "minPasswordLength": 8,
+        "onlyEmailDomains": null,
+        "requireEmail": true
+      }
     }
   ];
 
