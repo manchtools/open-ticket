@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
 
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 
-export let pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+export let pb = new PocketBase(env.PUBLIC_POCKETBASE_URL);

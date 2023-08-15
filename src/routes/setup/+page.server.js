@@ -1,12 +1,12 @@
-import { PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
+import { env as priv } from '$env/dynamic/private';
 import PocketBase from 'pocketbase';
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { env as pub } from '$env/dynamic/public';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { writeFile } from 'node:fs';
 export const actions = {
 	createAgent: async ({ request }) => {
 		const data = Object.fromEntries(await request.formData());
-		const tmpPB = new PocketBase(PUBLIC_POCKETBASE_URL);
+		const tmpPB = new PocketBase(pub.PUBLIC_POCKETBASE_URL);
 		if (data.email === '') {
 			return fail(400, { error: true, message: "Email can't be empty" });
 		}
@@ -21,7 +21,10 @@ export const actions = {
 			});
 		}
 		try {
-			await tmpPB.admins.authWithPassword(PRIVATE_POCKETBASE_ADMIN, PRIVATE_POCKETBASE_PASSWORD);
+			await tmpPB.admins.authWithPassword(
+				priv.PRIVATE_POCKETBASE_ADMIN,
+				priv.PRIVATE_POCKETBASE_PASSWORD
+			);
 		} catch (e) {
 			throw error(
 				500,
