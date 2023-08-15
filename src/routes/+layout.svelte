@@ -52,7 +52,7 @@
 <Toast position="br" />
 <AppShell>
 	<svelte:fragment slot="sidebarLeft">
-		{#if $page.route.id.startsWith('/admin')}
+		{#if $page.url.pathname.startsWith('/admin')}
 			<AppRail>
 				<AppRailAnchor
 					href="/admin/tickets"
@@ -75,7 +75,7 @@
 				</svelte:fragment>
 			</AppRail>
 		{/if}
-		{#if !$page.route.id.startsWith('/admin')}
+		{#if !$page.url.pathname.startsWith('/admin') && !$page.url.pathname.startsWith('/auth')}
 			<AppRail>
 				<AppRailAnchor
 					href="/user/tickets"

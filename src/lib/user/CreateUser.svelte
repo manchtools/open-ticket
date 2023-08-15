@@ -8,7 +8,7 @@
 </script>
 
 <div class="flex">
-	<h1>Create new {$page.route.id.includes('admins') ? 'admin' : 'user'}</h1>
+	<h1>Create new {$page.url.pathname.includes('admins') ? 'admin' : 'user'}</h1>
 	<button
 		class="btn btn-sm variant-ghost-surface w-fit ml-auto"
 		on:click|preventDefault={() => drawerStore.close()}>X</button

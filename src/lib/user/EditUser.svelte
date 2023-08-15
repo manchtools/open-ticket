@@ -54,7 +54,7 @@
 		<p>Confirm password</p>
 		<input type="password" name="passwordConfirm" class="input" {disabled} />
 	</label>
-	{#if $page.route.id?.startsWith('/admin')}
+	{#if $page.url.pathname?.startsWith('/admin')}
 		<SlideToggle name="agent" active="bg-primary-500" size="sm" bind:checked={agent} {disabled}
 			>Agent</SlideToggle
 		>

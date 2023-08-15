@@ -8,7 +8,7 @@
 	<h1>
 		Subject: {data.subject || 'not provided'}
 	</h1>
-	{#if $page.route.id.startsWith('/admin')}
+	{#if $page.url.pathname.startsWith('/admin')}
 		<form
 			action="?/updateTicket"
 			method="POST"

@@ -130,7 +130,7 @@
 		</button>
 	</span>
 	<span class="flex justify-end">
-		{#if $page.route.id?.startsWith('/admin')}
+		{#if $page.url.pathname?.startsWith('/admin')}
 			<SlideToggle name="visability" active="bg-primary-500" size="sm" bind:checked={privateMessage}
 				>Add as private note</SlideToggle
 			>
