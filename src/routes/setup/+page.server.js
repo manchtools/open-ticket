@@ -1,12 +1,11 @@
 import { env as priv } from '$env/dynamic/private';
 import PocketBase from 'pocketbase';
-import { env as pub } from '$env/dynamic/public';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { writeFile } from 'node:fs';
 export const actions = {
 	createAgent: async ({ request }) => {
 		const data = Object.fromEntries(await request.formData());
-		const tmpPB = new PocketBase(pub.PUBLIC_POCKETBASE_URL);
+		const tmpPB = new PocketBase(priv.PRIVATE_POCKETBASE_URL);
 		if (data.email === '') {
 			return fail(400, { error: true, message: "Email can't be empty" });
 		}
@@ -37,7 +36,7 @@ export const actions = {
 				password: data.password,
 				passwordConfirm: data.passwordConfirm,
 				type: 'agent',
-				emailVidability: true
+				emailVisability: true
 			});
 			writeFile('setupDone', '', (err) => {
 				if (err) {
