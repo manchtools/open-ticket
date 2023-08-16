@@ -6,6 +6,7 @@
 	import { pb } from '$lib/db';
 
 	export let data;
+	console.log(data);
 	onMount(() => {
 		pb.collection('tickets').subscribe(data.id, async (e) => {
 			let tmp = await pb
@@ -13,7 +14,7 @@
 				.getOne(e.record.id, { expand: 'replies,replies.createdBy,agent,createdBy,updatedBy' });
 
 			let message = '';
-			if (tmp.expand.replies.length !== data.expand.replies.length) {
+			if (tmp.expand.replies.length !== (data.expand?.replies?.length || [])) {
 				message = message + 'replied to this ticket';
 			}
 			if (tmp.status !== data.status) {
@@ -34,11 +35,8 @@
 				}
 			}
 			data = tmp;
-			if (
-				e.action === 'update' &&
-				e.record?.updatedBy !== pb.authStore.model.id &&
-				tmp.expand.replies.length !== data.expand.replies.length
-			) {
+
+			if (e.action === 'update' && e.record?.updatedBy !== pb.authStore.model.id) {
 				toastStore.trigger({
 					message: `<b class="underline">${tmp.expand.updatedBy.email}</b> ${message}.`,
 					background: 'variant-ghost-warning'
