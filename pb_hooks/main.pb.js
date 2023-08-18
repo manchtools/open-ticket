@@ -66,3 +66,21 @@ onRecordBeforeDeleteRequest(
 	'replies_versions',
 	'tickets_versions'
 );
+
+onRecordBeforeUpdateRequest(
+	(e) => {
+		const info = $apis.requestInfo(e.httpContext);
+		e.record.set('updatedBy', info.authRecord?.id);
+	},
+	'tickets',
+	'replies'
+);
+
+onRecordBeforeCreateRequest(
+	(e) => {
+		const info = $apis.requestInfo(e.httpContext);
+		e.record.set('createdBy', info.authRecord?.id);
+	},
+	'tickets',
+	'replies'
+);
