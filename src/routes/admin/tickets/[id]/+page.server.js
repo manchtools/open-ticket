@@ -14,9 +14,7 @@ export const actions = {
 		if (agent === 'self') {
 			agent = locals.user.id;
 		}
-		const res = await locals.pb
-			.collection('tickets')
-			.update(params.id, { status, agent, updatedBy: locals.user.id });
+		const res = await locals.pb.collection('tickets').update(params.id, { status, agent });
 		return serializePoJos(res);
 	}
 };
