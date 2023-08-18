@@ -5,12 +5,6 @@ import { serializePoJos } from '$lib/helpers';
 import { existsSync, writeFile } from 'node:fs';
 
 export async function handle({ event, resolve }) {
-	console.log(
-		priv.PRIVATE_POCKETBASE_URL,
-		priv.PRIVATE_POCKETBASE_ADMIN,
-		priv.PRIVATE_POCKETBASE_PASSWORD,
-		event.url.pathname
-	);
 	if (existsSync('setupDone')) {
 		event.locals.pb = new PocketBase(priv.PRIVATE_POCKETBASE_URL);
 		event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
