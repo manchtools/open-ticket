@@ -4,7 +4,7 @@ migrate((db) => {
     {
       "id": "79ttfu5qeuc85nj",
       "created": "2023-08-03 15:31:13.761Z",
-      "updated": "2023-08-11 10:17:48.998Z",
+      "updated": "2023-08-16 10:37:18.941Z",
       "name": "tickets",
       "type": "base",
       "system": false,
@@ -120,7 +120,9 @@ migrate((db) => {
             "cascadeDelete": false,
             "minSelect": null,
             "maxSelect": 1,
-            "displayFields": []
+            "displayFields": [
+              "id"
+            ]
           }
         }
       ],
@@ -369,7 +371,7 @@ migrate((db) => {
     {
       "id": "60k1z3y4mg2q2en",
       "created": "2023-08-04 15:20:51.449Z",
-      "updated": "2023-08-12 09:21:25.108Z",
+      "updated": "2023-08-16 11:13:26.745Z",
       "name": "replies_versions",
       "type": "base",
       "system": false,
@@ -458,17 +460,17 @@ migrate((db) => {
         }
       ],
       "indexes": [],
-      "listRule": "(@request.auth.id = ticket.createdBy.id&&private=false)||@request.auth.type = \"agent\"",
-      "viewRule": "(@request.auth.id = ticket.createdBy.id&&private=false)||@request.auth.type = \"agent\"",
-      "createRule": "@request.auth.id = ticket.createdBy.id||@request.auth.type = \"agent\"",
-      "updateRule": "@request.auth.type = \"agent\"",
+      "listRule": "@request.auth.type = \"agent\"",
+      "viewRule": "@request.auth.type = \"agent\"",
+      "createRule": null,
+      "updateRule": null,
       "deleteRule": null,
       "options": {}
     },
     {
       "id": "_pb_users_auth_",
-      "created": "2023-08-08 08:44:09.214Z",
-      "updated": "2023-08-13 15:09:52.534Z",
+      "created": "2023-08-13 15:43:17.277Z",
+      "updated": "2023-08-13 15:43:17.280Z",
       "name": "users",
       "type": "auth",
       "system": false,
