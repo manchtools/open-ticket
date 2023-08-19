@@ -106,7 +106,7 @@
 			</AppBar>
 		{/if}
 	</svelte:fragment>
-	<div class="p-4">
+	<div class="p-4 h-full w-full">
 		<slot />
 	</div>
 </AppShell>

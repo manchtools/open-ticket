@@ -8,7 +8,7 @@
 	}
 </script>
 
-<div class="w-full flex justify-center h-full items-center">
+<div class="h-full w-full flex items-center justify-center">
 	<div class="w-1/3">
 		<Stepper>
 			<Step>
