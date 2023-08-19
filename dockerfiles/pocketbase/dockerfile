@@ -6,7 +6,7 @@ RUN adduser -s /bin/bash -D pocketbase
 USER pocketbase
 
 WORKDIR /home/pocketbase
-RUN curl -LJ https://github.com/pocketbase/pocketbase/releases/download/v0.17.2/pocketbase_0.17.2_linux_arm64.zip -o pb.zip
+RUN curl -LJ https://github.com/pocketbase/pocketbase/releases/download/v0.17.5/pocketbase_0.17.5_linux_arm64.zip -o pb.zip
 RUN unzip pb
 RUN rm pb.zip
 
