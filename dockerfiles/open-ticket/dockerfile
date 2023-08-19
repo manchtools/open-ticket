@@ -1,18 +1,21 @@
-FROM node:20
+FROM node:20-alpine
 
-RUN useradd --create-home --shell /bin/bash nodejs
+RUN adduser -s /bin/bash -D nodejs
 
 USER nodejs
 
 WORKDIR /home/nodejs
 
 COPY package.json ./
-RUN npm install
+RUN npm install --ci
 COPY ./build .
 
 
-ENV PUBLIC_POCKETBASE_ENDPOINT=""
+ENV PUBLIC_POCKETBASE_URL=""
+ENV PRIVATE_POCKETBASE_URL=""
 ENV ORIGIN="http://localhost:3000"
+ENV PRIVATE_POCKETBASE_ADMIN=""
+ENV PRIVATE_POCKETBASE_PASSWORD=""
 
 EXPOSE 3000
 
