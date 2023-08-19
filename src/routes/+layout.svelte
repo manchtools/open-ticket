@@ -75,7 +75,7 @@
 				</svelte:fragment>
 			</AppRail>
 		{/if}
-		{#if !$page.url.pathname.startsWith('/admin') && !$page.url.pathname.startsWith('/auth')}
+		{#if !$page.url.pathname.startsWith('/admin') && data.user}
 			<AppRail>
 				<AppRailAnchor
 					href="/user/tickets"
