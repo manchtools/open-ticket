@@ -15,7 +15,7 @@ ENV PRIVATE_POCKETBASE_PASSWORD=""
 RUN mkdir pb_migrations
 RUN mkdir pb_hooks
 EXPOSE 8090
-VOLUME [ "./pb_data" ]
+VOLUME [ "/home/pocketbase/pb_data" ]
 
 COPY --chown=pocketbase --chmod=700 ./dockerfiles/pocketbase/entrypoint.sh .
 COPY --chown=pocketbase --chmod=700 ./pb_migrations/ ./pb_migrations
