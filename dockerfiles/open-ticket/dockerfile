@@ -1,10 +1,8 @@
 FROM node:20-alpine
 
-RUN adduser -s /bin/bash -D nodejs
+USER node
 
-USER nodejs
-
-WORKDIR /home/nodejs
+WORKDIR /home/node
 
 COPY package.json ./
 RUN npm install --ci
