@@ -56,7 +56,7 @@ services:
     depends_on:
       - open-ticket-traefik
     volumes:
-      - ./pb_data:/home/nodejs/pb_data
+      - ./pb_data:/home/pocketbase/pb_data
 
 networks:
   web:
