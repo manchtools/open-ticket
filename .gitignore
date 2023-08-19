@@ -12,3 +12,4 @@ pb
 /pb_data
 local_*
 letsencrypt
+setupDone
