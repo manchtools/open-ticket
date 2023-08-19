@@ -1,0 +1,65 @@
+services:
+  open-ticket-traefik:
+    image: traefik:v2.10.4
+    restart: always
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker'
+      - '--providers.docker.exposedByDefault=false'
+      - '--providers.docker.network=traefik_web'
+      - '--entrypoints.http.address=:80'
+      - '--entrypoints.http.http.redirections.entrypoint.to=https'
+      - '--entrypoints.http.http.redirections.entrypoint.scheme=https'
+      - '--entrypoints.https.address=:443'
+      - '--entrypoints.https.http.tls.certResolver=le'
+      - '--certificatesresolvers.le.acme.tlschallenge=false'
+      - '--certificatesresolvers.le.acme.email=${LE_EMAIL}'
+      - '--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - web
+
+  open-ticket:
+    image: manchtools/open-ticket:latest
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.open-ticket.rule=Host(`${BASE_DOMAIN}`)'
+      - 'traefik.http.routers.open-ticket.priority=1'
+    networks:
+      - web
+    environment:
+      - PRIVATE_POCKETBASE_URL=http://open-ticket-pocketbase:8090
+      - ORIGIN=https://${BASE_DOMAIN}
+      - PUBLIC_POCKETBASE_URL=https://${BASE_DOMAIN}
+      - PRIVATE_POCKETBASE_ADMIN=${PRIVATE_POCKETBASE_ADMIN}
+      - PRIVATE_POCKETBASE_PASSWORD=${PRIVATE_POCKETBASE_PASSWORD}
+    depends_on:
+      - open-ticket-pocketbase
+      - open-ticket-traefik
+
+  open-ticket-pocketbase:
+    image: manchtools/open-ticket-pocketbase:latest
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.open-ticket-pocketbase.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/_/`))'
+      - 'traefik.http.routers.open-ticket-pocketbase.priority=2'
+
+    networks:
+      - web
+    environment:
+      - PRIVATE_POCKETBASE_ADMIN=${PRIVATE_POCKETBASE_ADMIN}
+      - PRIVATE_POCKETBASE_PASSWORD=${PRIVATE_POCKETBASE_PASSWORD}
+    depends_on:
+      - open-ticket-traefik
+    volumes:
+      - ./pb_data:/home/nodejs/pb_data
+
+networks:
+  web:
+    name: traefik_web
