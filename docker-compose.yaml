@@ -45,7 +45,7 @@ services:
     image: manchtools/open-ticket-pocketbase:latest
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.open-ticket-pocketbase.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/_/`))'
+      - 'traefik.http.routers.open-ticket-pocketbase.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`))'
       - 'traefik.http.routers.open-ticket-pocketbase.priority=2'
 
     networks:
