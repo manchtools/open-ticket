@@ -45,8 +45,7 @@ After editing the `.env` file just run `docker compose up -d` and open-ticket wi
 
 PocketBase admin dashboard is not exposed by default. If you wish to access the admin dashboard please modify the [docker-compose.yaml](https://github.com/manchtools/open-ticket/blob/main/docker-compose.yaml) file as follows:
 
-```
-diff
+```diff
  labels:
    - 'traefik.http.routers.open-ticket-pocketbase.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`)+ || PathPrefix(`/_/`))'
 ```
