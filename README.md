@@ -24,7 +24,7 @@ Some of them indlude:
 - implement SLA times
 - implement ticket escrow
 
-In the distant futre i would like to morph open-ticket into a complete open source ITSM tool. Plans on that are still tbd.
+In the distant future i would like to morph open-ticket into a complete open source ITSM tool. Plans on that are still tbd.
 
 ## Setup and running
 
