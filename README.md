@@ -41,7 +41,7 @@ LETS_ENCRYPT_EMAIL=<EMAIL for lets encrypt certificates>
 
 > **PRIVATE_POCKETBASE_ADMIN** and **PRIVATE_POCKETBASE_PASSWORD** should be treated as highly sensitive credentials, since they give the account complete administrative access to the pocketbase instance. open-ticket does not expose these credentials to the client. Please handle them with care.
 
-After editing the `.env` file just run `docker compose up -d` and open-ticket will start up. You can now setup yout instance by navigating to https:// + BASE_DOMAIN.
+After editing the `.env` file just run `docker compose up -d` and open-ticket will start up. You can now setup your instance by navigating to https:// + BASE_DOMAIN.
 
 ## Caveats
 
