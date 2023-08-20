@@ -45,4 +45,4 @@ After editing the `.env` file just run `docker compose up -d` and open-ticket wi
 
 ## Caveats
 
-There currently only exist Linux ARM64 docker images for open-ticket. I will expand on that in the near future, but currently it only will run on 64 bit ARM hardware.
+There currently only exist Linux ARM64 docker images for open-ticket. I will expand on that in the near future, but currently it will only run on 64 bit ARM hardware.
