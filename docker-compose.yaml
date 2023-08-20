@@ -11,8 +11,8 @@ services:
       - '--entrypoints.http.http.redirections.entrypoint.scheme=https'
       - '--entrypoints.https.address=:443'
       - '--entrypoints.https.http.tls.certResolver=le'
-      - '--certificatesresolvers.le.acme.tlschallenge=false'
-      - '--certificatesresolvers.le.acme.email=${LE_EMAIL}'
+      - '--certificatesresolvers.le.acme.tlschallenge=true'
+      - '--certificatesresolvers.le.acme.email=${LETS_ENCRYPT_EMAIL}'
       - '--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json'
     ports:
       - '80:80'
