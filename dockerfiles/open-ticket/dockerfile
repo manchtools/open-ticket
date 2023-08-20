@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine as BUILD_IMAGE
 
 USER node
 
@@ -6,7 +6,16 @@ WORKDIR /home/node
 
 COPY package.json ./
 RUN npm install --ci
+
+FROM node:20-alpine
+
+USER node
+
+WORKDIR /home/node
+
 COPY ./build .
+COPY package.json .
+COPY --from=BUILD_IMAGE /home/node/node_modules ./node_modules
 
 
 ENV PUBLIC_POCKETBASE_URL=""
