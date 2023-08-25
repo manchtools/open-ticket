@@ -25,6 +25,7 @@ services:
 
   open-ticket:
     image: manchtools/open-ticket:latest
+    restart: always
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.open-ticket.rule=Host(`${BASE_DOMAIN}`)'
@@ -43,6 +44,7 @@ services:
 
   open-ticket-pocketbase:
     image: manchtools/open-ticket-pocketbase:latest
+    restart: always
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.open-ticket-pocketbase.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`))'
