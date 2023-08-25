@@ -9,6 +9,7 @@
 	import { page } from '$app/stores';
 	export let data;
 	let searchTerms = '';
+	let currentQueue = $page.url.searchParams.get('queue') || '';
 	onMount(() => {
 		pb.collection('tickets').subscribe('*', async (e) => {
 			if (e.action === 'update' && e.record.updatedBy !== pb.authStore.model.id) {
@@ -94,7 +95,26 @@
 			class="self-center"
 		/>
 	{/if}
-	<small class="self-end">Total tickets: {data.totalItems}</small>
+	<div class="flex items-ceter w-full">
+		{#if $page.url.pathname.startsWith('/admin')}
+			<div class="flex items-center gap-2">
+				<p>Queue:</p>
+				<select
+					class="select py-1"
+					on:change={(e) => {
+						goto(`?queue=${e.target.value}`);
+					}}
+					bind:value={currentQueue}
+				>
+					<option value="">All</option>
+					{#each $page.data.queues as queue}
+						<option value={queue.id}>{queue.name}</option>
+					{/each}
+				</select>
+			</div>
+		{/if}
+		<small class="ml-auto">Total tickets: {data.totalItems}</small>
+	</div>
 	<div class="table-container">
 		<table class="table table-hover">
 			<thead>
