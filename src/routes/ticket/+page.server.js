@@ -8,7 +8,8 @@ export const actions = {
 			subject: data.subject || '',
 			body: data.body,
 			status: 'new',
-			createdBy: locals.user.id
+			createdBy: locals.user.id,
+			queue: data.queue
 		});
 
 		throw redirect(303, `/ticket/${res.id}`);

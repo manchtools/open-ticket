@@ -16,6 +16,7 @@
 					<h2>Subject</h2>
 					<input type="text" name="subject" id="subject" class="input" bind:value={subject} />
 				</div>
+
 				{#if !$page.data.user}
 					<div class="flex-grow">
 						<h2>Email</h2>
@@ -23,6 +24,15 @@
 					</div>
 				{/if}
 			</span>
+			<div class="">
+				<h2>Queue:</h2>
+				<select class="select py-1" name="queue">
+					<option value="">No queue</option>
+					{#each $page.data.queues as queue}
+						<option value={queue.id}>{queue.name}</option>
+					{/each}
+				</select>
+			</div>
 			<label for="body"><h2>Issue</h2></label>
 			<textarea name="body" id="" rows="10" class="textarea" bind:value={body} />
 			<button class="btn variant-ghost-success" disabled={body.length <= 0}>Submit</button>
