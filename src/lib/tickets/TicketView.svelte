@@ -20,7 +20,9 @@
 				invalidateAll();
 			}
 			if (e.action === 'create') {
-				let tmp = await pb.collection('tickets').getOne(e.record.id, { expand: 'agent,createdBy' });
+				let tmp = await pb
+					.collection('tickets')
+					.getOne(e.record.id, { expand: 'agent,createdBy,queue' });
 				tmp.create = true;
 				data.items.unshift(tmp);
 				data.totalItems += 1;
@@ -102,7 +104,12 @@
 				<select
 					class="select py-1"
 					on:change={(e) => {
-						goto(`?queue=${e.target.value}`);
+						if (e.target.value === '') {
+							$page.url.searchParams.delete('queue');
+						} else {
+							$page.url.searchParams.set('queue', e.target.value);
+						}
+						goto($page.url.pathname + $page.url.search, { invalidateAll: true });
 					}}
 					bind:value={currentQueue}
 				>
