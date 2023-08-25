@@ -2,7 +2,7 @@ import { serializePoJos } from '$lib/helpers';
 
 export async function load({ params, locals }) {
 	const ticket = await locals.pb.collection('tickets').getOne(params.id, {
-		expand: 'replies,replies.createdBy,createdBy,agent'
+		expand: 'replies,replies.createdBy,createdBy,agent,queue'
 	});
 
 	return { ticket: serializePoJos(ticket) };

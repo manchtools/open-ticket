@@ -20,9 +20,20 @@ export async function handle({ event, resolve }) {
 		}
 		if (event.locals.pb.authStore.isValid) {
 			event.locals.user = serializePoJos(event.locals.pb.authStore.baseModel);
-			event.locals.agents = serializePoJos(
-				await event.locals.pb.collection('users').getFullList({ filter: "type='agent'" })
-			);
+			try {
+				event.locals.agents = serializePoJos(
+					await event.locals.pb.collection('users').getFullList({ filter: "type='agent'" })
+				);
+			} catch (e) {
+				console.log(e);
+			}
+			try {
+				event.locals.queues = serializePoJos(
+					await event.locals.pb.collection('queues').getFullList()
+				);
+			} catch (e) {
+				console.log(e);
+			}
 			if (
 				event.url.pathname.startsWith('/setup') ||
 				event.url.pathname === '/auth/login' ||

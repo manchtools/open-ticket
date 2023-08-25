@@ -5,7 +5,7 @@ export async function load({ url, locals }) {
 	const searchTerm = url.searchParams.get('search');
 	let searchData = {
 		sort: '-created',
-		expand: 'createdBy,agent',
+		expand: 'createdBy,agent,queue',
 		filter: `createdBy = "${locals.user.id}"`
 	};
 	if (searchTerm) {

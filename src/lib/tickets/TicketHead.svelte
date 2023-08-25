@@ -14,8 +14,8 @@
 			method="POST"
 			class="flex flex-col lg:flex-row lg:items-center gap-4"
 		>
+			<input type="text" name="id" value={data.id} hidden />
 			<label class="flex flex-row items-center gap-2">
-				<input type="text" name="id" value={data.id} hidden />
 				<p>Status:</p>
 
 				<select class="select w-fit py-1 lg:p-2" name="status" bind:value={data.status}>
@@ -25,6 +25,16 @@
 					<option value="in progress">In progress</option>
 					<option value="resolved">Resolved</option>
 					<option value="closed">Closed</option>
+				</select>
+			</label>
+			<label class="flex items-center gap-2">
+				<p>Queue:</p>
+
+				<select class="select w-fit py-1 lg:p-2" name="queue" value={data.expand?.queue?.id || ''}>
+					<option value="">---</option>
+					{#each $page.data?.queues as queue}
+						<option value={queue.id}>{queue.name}</option>
+					{/each}
 				</select>
 			</label>
 			<label class="flex items-center gap-2">
@@ -47,9 +57,12 @@
 		<div class="flex flex-col lg:flex-row lg:items-center gap-4">
 			<p>Status: {data.status}</p>
 
-			<p>Agent: {data.expand?.agent?.name || data.expand?.agent?.email || 'not assigned'}</p>
+			<p>Queue: {data.expand?.queue?.name || 'not assigned'}</p>
 
-			<div>Created by: {data.expand?.createdBy?.email || 'Deleted user'}</div>
+			<p>Agent: {$page.data.expand?.agent?.name || data.expand?.agent?.email || 'not assigned'}</p>
+			{#if $page.data.user.email !== data.expand?.createdBy?.email}
+				<div>Created by: {data.expand?.createdBy?.email || 'Deleted user'}</div>
+			{/if}
 		</div>
 	{/if}
 </div>

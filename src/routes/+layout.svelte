@@ -22,7 +22,7 @@
 	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
 
 	export let data;
-
+	console.log(data);
 	const popupSettings = {
 		event: 'click',
 		// Matches the data-popup value on your popup element

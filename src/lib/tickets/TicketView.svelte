@@ -101,6 +101,7 @@
 				<tr>
 					<th>Ticket ID</th>
 					<th>Status</th>
+					<th>Queue</th>
 					<th>Subject</th>
 					<th>body</th>
 					<th>Created by</th>
@@ -134,6 +135,7 @@
 							{ticket.id}</td
 						>
 						<td>{ticket.status}</td>
+						<td>{ticket.expand?.queue?.name || 'not assigned'}</td>
 						<td>{ticket.subject || ''}</td>
 						<td>{ticket.body}</td>
 						<td>{ticket.expand.createdBy?.email || 'Deleted user'}</td>

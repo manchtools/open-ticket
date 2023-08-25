@@ -6,7 +6,6 @@
 	import { pb } from '$lib/db';
 
 	export let data;
-	console.log(data);
 	onMount(() => {
 		pb.collection('tickets').subscribe(data.id, async (e) => {
 			let tmp = await pb

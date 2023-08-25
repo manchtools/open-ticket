@@ -6,7 +6,7 @@ export async function load({ url, locals }) {
 
 	let searchData = {
 		sort: '-created',
-		expand: 'createdBy,agent',
+		expand: 'createdBy,agent,queue',
 		filter: ''
 	};
 	if (searchTerm) {
