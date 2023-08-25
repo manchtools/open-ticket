@@ -8,9 +8,9 @@
 	export let data;
 	onMount(() => {
 		pb.collection('tickets').subscribe(data.id, async (e) => {
-			let tmp = await pb
-				.collection('tickets')
-				.getOne(e.record.id, { expand: 'replies,replies.createdBy,agent,createdBy,updatedBy' });
+			let tmp = await pb.collection('tickets').getOne(e.record.id, {
+				expand: 'replies,replies.createdBy,agent,createdBy,updatedBy,queue'
+			});
 
 			let message = '';
 			if (tmp.expand.replies.length !== (data.expand?.replies?.length || [])) {
@@ -32,6 +32,9 @@
 				if (!tmp.expand.agent?.email) {
 					message += `unassigned agent`;
 				}
+			}
+			if (tmp.queue != data.queue) {
+				message += `updated queue`;
 			}
 			data = tmp;
 
