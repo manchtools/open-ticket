@@ -17,12 +17,15 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import Ticket from '$lib/tickets/Ticket.svelte';
 	import CreateUser from '$lib/user/CreateUser.svelte';
+
 	import { popup } from '@skeletonlabs/skeleton';
 	import EditUser from '$lib/user/EditUser.svelte';
 	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
+	import CreateQueue from '$lib/queue/CreateQueue.svelte';
+	import EditQueue from '$lib/queue/EditQueue.svelte';
 
 	export let data;
-	console.log(data);
+
 	const popupSettings = {
 		event: 'click',
 		// Matches the data-popup value on your popup element
@@ -46,6 +49,12 @@
 		{/if}
 		{#if $drawerStore.type === 'user'}
 			<EditUser data={$drawerStore.data} />
+		{/if}
+		{#if $drawerStore.type === 'new_queue'}
+			<CreateQueue />
+		{/if}
+		{#if $drawerStore.type === 'queue'}
+			<EditQueue data={$drawerStore.data} />
 		{/if}
 	</div>
 </Drawer>
