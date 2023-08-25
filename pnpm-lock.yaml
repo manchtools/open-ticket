@@ -7,6 +7,9 @@ dependencies:
   lodash.unionby:
     specifier: ^4.8.0
     version: 4.8.0
+  lucide-svelte:
+    specifier: ^0.268.0
+    version: 0.268.0(svelte@3.59.2)
   pocketbase:
     specifier: ^0.16.0
     version: 0.16.0
@@ -1639,6 +1642,14 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /lucide-svelte@0.268.0(svelte@3.59.2):
+    resolution: {integrity: sha512-w2pqfViiU9PgHkyOoYEr3FBG4tk+fupm2tR7/p6ugfNQZg1ABdXP2okkasEfQ8TF41KkR6uFqQUp8ciCdpGwVw==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      svelte: 3.59.2
+    dev: false
+
   /magic-string@0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
@@ -2302,7 +2313,6 @@ packages:
   /svelte@3.59.2:
     resolution: {integrity: sha512-vzSyuGr3eEoAtT/A6bmajosJZIUWySzY2CzB3w2pgPvnkUjGqlDnsNnA0PMO+mMAhuyMul6C2uuZzY6ELSkzyA==}
     engines: {node: '>= 8'}
-    dev: true
 
   /tailwindcss@3.3.3:
     resolution: {integrity: sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==}
