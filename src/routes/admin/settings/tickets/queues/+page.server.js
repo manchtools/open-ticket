@@ -26,7 +26,7 @@ export const actions = {
 	updateQueue: async ({ locals, request }) => {
 		const { id, name, members } = Object.fromEntries(await request.formData());
 		let res;
-		console.log(id, name, members);
+
 		try {
 			res = await locals.pb.collection('queues').update(id, { name, members });
 		} catch (e) {

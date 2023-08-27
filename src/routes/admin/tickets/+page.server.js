@@ -4,7 +4,6 @@ export async function load({ url, locals }) {
 	const offset = parseInt(url.searchParams.get('offset')) || 1;
 	const searchTerm = url.searchParams.get('search');
 	const queue = url.searchParams.get('queue');
-	console.log(searchTerm, queue);
 	let searchData = {
 		sort: '-created',
 		expand: 'createdBy,agent,queue',
@@ -25,7 +24,6 @@ export async function load({ url, locals }) {
 			searchData['filter'] = `queue.id = '${queue}'`;
 		}
 	}
-	console.log(searchData);
 	try {
 		const tickets = await locals.pb.collection('tickets').getList(offset, 25, searchData);
 		return { tickets: serializePoJos(tickets) };
