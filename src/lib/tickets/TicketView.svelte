@@ -10,6 +10,7 @@
 	export let data;
 	let searchTerms = '';
 	let currentQueue = $page.url.searchParams.get('queue') || '';
+	let currentStatus = $page.url.searchParams.get('status') || '';
 	onMount(() => {
 		pb.collection('tickets').subscribe('*', async (e) => {
 			if (e.action === 'update' && e.record.updatedBy !== pb.authStore.model.id) {
@@ -97,7 +98,7 @@
 			class="self-center"
 		/>
 	{/if}
-	<div class="flex items-ceter w-full">
+	<div class="flex gap-2 items-ceter w-full">
 		{#if $page.url.pathname.startsWith('/admin')}
 			<div class="flex items-center gap-2">
 				<p>Queue:</p>
@@ -117,6 +118,29 @@
 					{#each $page.data.queues as queue}
 						<option value={queue.id}>{queue.name}</option>
 					{/each}
+				</select>
+			</div>
+			<div class="flex items-center gap-2">
+				<p>Status :</p>
+				<select
+					class="select w-fit py-1 lg:p-2"
+					on:change={(e) => {
+						if (e.target.value === '') {
+							$page.url.searchParams.delete('status');
+						} else {
+							$page.url.searchParams.set('status', e.target.value);
+						}
+						goto($page.url.pathname + $page.url.search, { invalidateAll: true });
+					}}
+					bind:value={currentStatus}
+				>
+					<option value="">All</option>
+					<option value="new"> New </option>
+					<option value="open">Open</option>
+					<option value="pending">Pending</option>
+					<option value="in progress">In progress</option>
+					<option value="resolved">Resolved</option>
+					<option value="closed">Closed</option>
 				</select>
 			</div>
 		{/if}
