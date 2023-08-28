@@ -15,7 +15,7 @@ export async function handle({ event, resolve }) {
 			if (!event.url.pathname.startsWith('/auth')) {
 				event.locals.pb.authStore.clear();
 				event.cookies.delete('pb_auth');
-				throw redirect(307, '/auth/login');
+				throw redirect(307, '/auth/logout');
 			}
 		}
 		if (event.locals.pb.authStore.isValid) {
