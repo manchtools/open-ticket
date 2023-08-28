@@ -7,7 +7,7 @@ Since i could not find a suitable solution i decided to build it on my own to ga
 
 **open-ticket** is build with [SvelteKit](https://kit.svelte.dev), [Skeleton UI](https://www.skeleton.dev) and [PocketBase](https://pocketbase.io) as the backend.
 
-## Current stage of the project (alpha-0.1.0)
+## Current stage of the project (alpha-0.2.0)
 
 This project is very new and under active development. Currently only basic functionallity is implemented, but i consider it stable enough for the first alpha release.
 
@@ -20,7 +20,7 @@ Some of them indlude:
 
 - create tickets via E-mail
 - add global notification System
-- creating queues
+- ~~creating queues (implemented in alpha-0.2.0)~~
 - implement SLA times
 - implement ticket escrow
 
