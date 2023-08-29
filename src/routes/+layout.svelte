@@ -24,6 +24,9 @@
 	import CreateQueue from '$lib/queue/CreateQueue.svelte';
 	import EditQueue from '$lib/queue/EditQueue.svelte';
 
+	import { modalStore } from '@skeletonlabs/skeleton';
+	import Licenses from './Licenses.svelte';
+
 	export let data;
 
 	const popupSettings = {
@@ -118,6 +121,27 @@
 	<div class="p-4 h-full w-full">
 		<slot />
 	</div>
+	<svelte:fragment slot="pageFooter">
+		<hr />
+		<div class="w-full flex justify-center p-2">
+			<p
+				on:click={() => {
+					modalStore.trigger({
+						type: 'component',
+						component: {
+							ref: Licenses,
+							// Add the component properties as key/value pairs
+							props: { background: 'bg-red-500' },
+							// Provide a template literal for the default component slot
+							slot: '<p>Skeleton</p>'
+						}
+					});
+				}}
+			>
+				Licenses
+			</p>
+		</div>
+	</svelte:fragment>
 </AppShell>
 
 <nav class="card list p-4 z-[999] shadow-xl" data-popup="userPane">
