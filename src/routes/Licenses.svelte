@@ -4,7 +4,7 @@
 </script>
 
 <div class="card p-4 w-modal shadow-xl space-y-4">
-	<header class="text-2xl font-bold">Licenses for Software used by open-ticket</header>
+	<header class="text-2xl font-bold">Licenses for software used by open-ticket</header>
 	<Accordion autocollapse>
 		<AccordionItem>
 			<svelte:fragment slot="summary">SvelteKit</svelte:fragment>
