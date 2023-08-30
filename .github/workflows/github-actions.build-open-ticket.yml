@@ -33,7 +33,6 @@ jobs:
           path: build
       - name: Display structure of downloaded files
         run: ls -R
-        working-directory: build
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v2
       # - name: Set up Docker Buildx
