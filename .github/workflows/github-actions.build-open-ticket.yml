@@ -22,3 +22,13 @@ jobs:
           name: save build folder
           path: build
           retention-days: 1
+  create_docker_container:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: save build folder
+      - name: Display structure of downloaded files
+        run: ls -R
