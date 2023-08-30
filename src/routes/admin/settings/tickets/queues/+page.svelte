@@ -3,6 +3,7 @@
 	import { drawerBaseSettings } from '$lib/helpers.js';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { drawerStore } from '@skeletonlabs/skeleton';
+	import { Plus } from 'lucide-svelte';
 	export let data;
 
 	let page = {
@@ -23,7 +24,7 @@
 			let settings = drawerBaseSettings;
 			settings['type'] = 'new_queue';
 			drawerStore.open(settings);
-		}}><i class="fa-solid fa-plus" />Add queue</button
+		}}><Plus size="20" />Add queue</button
 	>
 	<table class="table table-hover">
 		<thead>

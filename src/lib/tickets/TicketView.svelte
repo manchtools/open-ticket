@@ -7,7 +7,7 @@
 	import { fly } from 'svelte/transition';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import { Search } from 'lucide-svelte';
+	import { Search, CircleDot } from 'lucide-svelte';
 	export let data;
 	let searchTerms = '';
 	let currentQueue = $page.url.searchParams.get('queue') || '';
@@ -175,14 +175,12 @@
 						}}
 						in:fly={{ y: -50, duration: 125 }}
 					>
-						<td>
+						<td class="flex items-center gap-1">
 							{#if (ticket.updatedBy !== pb.authStore.model?.id && ticket.updatedBy !== '') || ticket.update}
-								<button>
-									<i class="fa-regular fa-circle-dot text-warning-400" />
-								</button>
+								<CircleDot size="15" strokeWidth="4" class="text-warning-400" />
 							{/if}
 							{#if ticket.created === ticket.updated}
-								<i class="fa-regular fa-circle-dot text-success-400" />
+								<CircleDot size="15" strokeWidth="4" class="text-success-400" />
 							{/if}
 							{ticket.id}</td
 						>

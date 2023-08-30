@@ -3,6 +3,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { clipboard, drawerStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { ClipboardCheck, Clipboard } from 'lucide-svelte';
 	export let form = {};
 	let copied = false;
 </script>
@@ -59,9 +60,9 @@
 					use:clipboard={{ input: 'tmpPass' }}
 				>
 					{#if copied}
-						<i class="fa-solid fa-clipboard-check" />
+						<ClipboardCheck />
 					{:else}
-						<i class="fa-solid fa-clipboard" />
+						<Clipboard />
 					{/if}</button
 				>
 			</div>

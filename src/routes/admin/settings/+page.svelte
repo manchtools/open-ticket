@@ -1,5 +1,5 @@
 <script>
-	import { ListOrdered, KeyRound, LogOut } from 'lucide-svelte';
+	import { ListOrdered, KeyRound, LogOut, Users2, UserCog2 } from 'lucide-svelte';
 </script>
 
 <div class="flex flex-col gap-2 flex-wrap mb-4">
@@ -7,22 +7,22 @@
 	<div class="flex gap-4">
 		<a
 			href="/admin/settings/users"
-			class="card card-hover p-4 w-fit h-fit items-center flex flex-col gap-4"
+			class="card card-hover p-4 w-fit h-fit items-center flex flex-col"
 		>
-			<i class="fa-solid fa-users card-header fa-xl" />
+			<Users2 size="32" strokeWidth="1.5" />
 			<section>Users</section>
 		</a>
 		<a
 			href="/admin/settings/admins"
-			class="card card-hover p-4 w-fit h-fit items-center flex flex-col gap-4"
+			class="card card-hover p-4 w-fit h-fit items-center flex flex-col"
 		>
-			<i class="fa-solid fa-users-gear card-header fa-xl" />
+			<UserCog2 size="32" strokeWidth="1.5" />
 			<section>Admins</section>
 		</a>
 		<form
 			action="?/loggOfEveryone"
 			method="POST"
-			class="card card-hover variant-filled-error p-4 w-fit h-fit items-center flex flex-col"
+			class="card card-hover p-4 w-fit h-fit items-center flex flex-col variant-filled-error"
 		>
 			<LogOut size="32" strokeWidth="1.5" />
 			<button>Log off everyone</button>

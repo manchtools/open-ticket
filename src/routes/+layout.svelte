@@ -23,7 +23,7 @@
 	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
 	import CreateQueue from '$lib/queue/CreateQueue.svelte';
 	import EditQueue from '$lib/queue/EditQueue.svelte';
-
+	import { Ticket as TicketIcon, User2, CornerDownRight, Settings } from 'lucide-svelte';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import Licenses from './Licenses.svelte';
 
@@ -71,7 +71,7 @@
 					title="tickets"
 					selected={$page.url.pathname === '/admin/tickets'}
 				>
-					<svelte:fragment slot="lead"><i class="fa-solid fa-ticket" /></svelte:fragment>
+					<svelte:fragment slot="lead"><TicketIcon /></svelte:fragment>
 					<span>Tickets</span>
 				</AppRailAnchor>
 
@@ -81,7 +81,7 @@
 						title="settings"
 						selected={$page.url.pathname.startsWith('/admin/settings')}
 					>
-						<svelte:fragment slot="lead"><i class="fa-solid fa-gear" /></svelte:fragment>
+						<svelte:fragment slot="lead"><Settings /></svelte:fragment>
 						<span>Settings</span>
 					</AppRailAnchor>
 				</svelte:fragment>
@@ -94,7 +94,7 @@
 					title="tickets"
 					selected={$page.url.pathname === '/user/tickets'}
 				>
-					<svelte:fragment slot="lead"><i class="fa-solid fa-ticket" /></svelte:fragment>
+					<svelte:fragment slot="lead"><TicketIcon /></svelte:fragment>
 					<span>My Tickets</span>
 				</AppRailAnchor>
 			</AppRail>
@@ -109,11 +109,13 @@
 			>
 				<svelte:fragment slot="lead">
 					<a href="/">
-						<i class="fa-solid fa-ticket fa-xl" />
+						<TicketIcon />
 					</a>
 				</svelte:fragment>
 				<svelte:fragment slot="trail">
-					<i class="fa-solid fa-user hover:cursor-pointer" use:popup={popupSettings} />
+					<button use:popup={popupSettings}>
+						<User2 />
+					</button>
 				</svelte:fragment>
 			</AppBar>
 		{/if}
@@ -146,8 +148,8 @@
 		<li>
 			<a href="/user" class="btn btn-sm variant-ghost {classesActive('/user')}">My account</a>
 		</li>
-		<li class="pl-4 flex">
-			<i class="fa-solid fa-turn-up rotate-90" />
+		<li class="pl-2 flex">
+			<CornerDownRight strokeWidth="3" size="18" />
 			<a href="/user/tickets" class="btn btn-sm variant-ghost {classesActive('/user/tickets')}">
 				My Tickets</a
 			>
