@@ -1,4 +1,4 @@
-name: open-ticket build
+name: Build open-ticket and create docker container
 on:
   workflow_dispatch:
   release:
