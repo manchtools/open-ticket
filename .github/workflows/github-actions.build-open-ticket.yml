@@ -48,4 +48,4 @@ jobs:
           file: ./dockerfiles/open-ticket/dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/open-ticket:${{  github.ref_name }} , ${{ secrets.DOCKERHUB_USERNAME }}/open-ticket:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/open-ticket:${{ github.ref_name }} , ${{ secrets.DOCKERHUB_USERNAME }}/open-ticket:latest
