@@ -9,6 +9,7 @@
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { format, parseISO } from 'date-fns';
+	import { Lock } from 'lucide-svelte';
 	let privateMessage = false;
 	let sending = false;
 	let currentMessage = '';
@@ -58,7 +59,7 @@
 						</small>
 						<small class="opacity-50 ml-auto">
 							{#if reply.private}
-								<i class="fa-solid fa-lock fa-xs" />
+								<Lock strokeWidth="4" size="12" />
 							{/if}
 						</small>
 					</header>
