@@ -46,6 +46,6 @@ jobs:
         with:
           context: .
           file: ./dockerfiles/open-ticket/dockerfile
-          platforms: linux/amd64,linux/arm/v7,linux/arm/v8
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: manchtools/open-ticket:latest
