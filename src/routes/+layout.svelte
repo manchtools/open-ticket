@@ -124,22 +124,18 @@
 	<svelte:fragment slot="pageFooter">
 		<hr />
 		<div class="w-full flex justify-center p-2">
-			<p
+			<button
 				on:click={() => {
 					modalStore.trigger({
 						type: 'component',
 						component: {
-							ref: Licenses,
-							// Add the component properties as key/value pairs
-							props: { background: 'bg-red-500' },
-							// Provide a template literal for the default component slot
-							slot: '<p>Skeleton</p>'
+							ref: Licenses
 						}
 					});
 				}}
 			>
 				Licenses
-			</p>
+			</button>
 		</div>
 	</svelte:fragment>
 </AppShell>
