@@ -30,5 +30,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: save build folder
+          path: build/
       - name: Display structure of downloaded files
         run: ls -R
