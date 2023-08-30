@@ -30,7 +30,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: save build folder
-          path: dockerfiles/open-ticket/
+          path: build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -44,6 +44,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          context: .
           file: ./dockerfiles/open-ticket/dockerfile
           platforms: linux/amd64,linux/arm/v7,linux/arm/v8
           push: true
