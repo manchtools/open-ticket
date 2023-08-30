@@ -4,7 +4,7 @@ USER node
 
 WORKDIR /home/node
 
-COPY ./package.json ./
+COPY package.json ./
 RUN npm install --ci
 
 FROM node:18-alpine
@@ -13,7 +13,7 @@ USER node
 
 WORKDIR /home/node
 
-COPY ./build .
+COPY build .
 COPY package.json .
 COPY --from=BUILD_IMAGE /home/node/node_modules ./node_modules
 
