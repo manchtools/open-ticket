@@ -11,10 +11,6 @@ jobs:
       - name: 'Get Previous tag'
         id: previoustag
         uses: 'WyriHaximus/github-action-get-previous-tag@v1'
-      - uses: actions/download-artifact@v3
-        with:
-          name: save build folder
-          path: build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
