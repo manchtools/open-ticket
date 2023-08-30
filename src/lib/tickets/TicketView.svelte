@@ -7,6 +7,7 @@
 	import { fly } from 'svelte/transition';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { Search } from 'lucide-svelte';
 	export let data;
 	let searchTerms = '';
 	let currentQueue = $page.url.searchParams.get('queue') || '';
@@ -84,7 +85,7 @@
 				search();
 			}}
 		>
-			<i class="fa-solid fa-magnifying-glass" />
+			<Search size="20" />
 		</button>
 	</div>
 	{#if data.items.length > 15}
