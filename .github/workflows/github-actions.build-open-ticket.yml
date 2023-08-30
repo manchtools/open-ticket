@@ -1,0 +1,23 @@
+name: open-ticket build
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setting up node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Install dependencies
+        run: npm ci
+      - name: Building application
+        run: npm run build
+      - name: Archive build result
+        uses: actions/upload-artifact@v3
+        with:
+          name: save build folder
+          path: build
+          retention-days: 1
