@@ -1,8 +1,11 @@
 <script>
 	export let data;
 	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import * as brands from '@fortawesome/free-brands-svg-icons';
+	import Fa from 'svelte-fa';
 	function extractName(string) {
 		const tmp = string.split('Auth')[0];
+		console.log(tmp);
 		return tmp.charAt(0).toUpperCase() + tmp.slice(1);
 	}
 </script>
@@ -16,13 +19,18 @@
 			class="flex flex-col gap-2 p-4 card h-fit"
 		>
 			<h3>
-				<i
-					class="fa-brands fa-lg fa-{name.includes('oidc')
-						? 'openid'
-						: name.includes('git') && !name.includes('gitlab')
-						? 'git-alt'
-						: extractName(name).toLowerCase()}"
+				<Fa
+					icon={brands[
+						`fa${
+							name.includes('oidc')
+								? 'Openid'
+								: name.includes('git') && !name.includes('gitlab') && !name.includes('github')
+								? 'GitAlt'
+								: extractName(name)
+						}`
+					]}
 				/>
+
 				{extractName(name)}
 			</h3>
 			<div class="flex flex-col gap-2">

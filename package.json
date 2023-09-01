@@ -41,10 +41,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fortawesome/free-brands-svg-icons": "^6.4.2",
+		"@fortawesome/free-solid-svg-icons": "^6.4.2",
 		"date-fns": "^2.30.0",
 		"lodash.unionby": "^4.8.0",
-		"lucide-svelte": "^0.268.0",
 		"pocketbase": "^0.16.0",
+		"svelte-fa": "^3.0.4",
 		"undici": "^5.22.1"
 	}
 }

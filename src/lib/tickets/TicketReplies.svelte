@@ -9,7 +9,8 @@
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { format, parseISO } from 'date-fns';
-	import { Lock } from 'lucide-svelte';
+	import { faLock } from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
 	let privateMessage = false;
 	let sending = false;
 	let currentMessage = '';
@@ -29,7 +30,7 @@
 </script>
 
 {#if replies.length > 0}
-	<p class="">Conversation</p>
+	<p>Conversation</p>
 	<div
 		class="max-h-[400px] lg:max-h-[600px] h-fit card flex flex-col gap-3 p-4 overflow-y-auto mb-2"
 		bind:this={element}
@@ -59,7 +60,7 @@
 						</small>
 						<small class="opacity-50 ml-auto">
 							{#if reply.private}
-								<Lock strokeWidth="4" size="12" />
+								<Fa icon={faLock} />
 							{/if}
 						</small>
 					</header>

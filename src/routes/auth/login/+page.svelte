@@ -6,6 +6,8 @@
 	import { enhance } from '$app/forms';
 	import { pb } from '$lib/db.js';
 	import { invalidateAll } from '$app/navigation';
+	import * as brands from '@fortawesome/free-brands-svg-icons';
+	import Fa from 'svelte-fa';
 
 	if (form?.error) {
 		toastStore.trigger({ message: form.message, background: 'variant-filled-error' });
@@ -56,7 +58,9 @@
 								.collection('users')
 								.authWithOAuth2({ provider: provider.name, createData: { type: 'user' } })}
 					>
-						<i class="fa-brands fa-{provider.name}" />
+						<Fa
+							icon={brands[`fa${provider.name.charAt(0).toUpperCase() + provider.name.slice(1)}`]}
+						/>
 						<div class="flex">
 							<p>Sign in with {provider.name}</p>
 						</div>

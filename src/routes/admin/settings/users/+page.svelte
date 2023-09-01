@@ -3,7 +3,8 @@
 	import { drawerBaseSettings } from '$lib/helpers.js';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { drawerStore } from '@skeletonlabs/skeleton';
-	import { Plus } from 'lucide-svelte';
+	import { faPlus } from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
 	export let data;
 
 	let page = {
@@ -24,7 +25,7 @@
 			let settings = drawerBaseSettings;
 			settings['type'] = 'new_user';
 			drawerStore.open(settings);
-		}}><Plus size="20" />Add User</button
+		}}><Fa icon={faPlus} />Add User</button
 	>
 	<table class="table table-hover">
 		<thead>

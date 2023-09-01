@@ -1,5 +1,12 @@
 <script>
-	import { ListOrdered, KeyRound, LogOut, Users2, UserCog2 } from 'lucide-svelte';
+	import {
+		faListOl,
+		faKey,
+		faSignOut,
+		faUser,
+		faUserGear
+	} from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
 </script>
 
 <div class="flex flex-col gap-2 flex-wrap mb-4">
@@ -9,14 +16,14 @@
 			href="/admin/settings/users"
 			class="card card-hover p-4 w-fit h-fit items-center flex flex-col"
 		>
-			<Users2 size="32" strokeWidth="1.5" />
+			<Fa icon={faUser} />
 			<section>Users</section>
 		</a>
 		<a
 			href="/admin/settings/admins"
 			class="card card-hover p-4 w-fit h-fit items-center flex flex-col"
 		>
-			<UserCog2 size="32" strokeWidth="1.5" />
+			<Fa icon={faUserGear} />
 			<section>Admins</section>
 		</a>
 		<form
@@ -24,7 +31,7 @@
 			method="POST"
 			class="card card-hover p-4 w-fit h-fit items-center flex flex-col variant-filled-error"
 		>
-			<LogOut size="32" strokeWidth="1.5" />
+			<Fa icon={faSignOut} />
 			<button>Log off everyone</button>
 		</form>
 	</div>
@@ -35,7 +42,7 @@
 			href="/admin/settings/tickets/queues"
 			class="card card-hover p-4 w-fit h-fit items-center flex flex-col"
 		>
-			<ListOrdered size="36" strokeWidth="1.5" />
+			<Fa icon={faListOl} />
 			<section>Queues</section>
 		</a>
 	</div>
@@ -46,7 +53,7 @@
 			href="/admin/settings/system/auth-provider"
 			class="card card-hover p-4 w-fit h-fit items-center flex flex-col"
 		>
-			<KeyRound size="36" strokeWidth="1.5" />
+			<Fa icon={faKey} />
 			<section>Auth Provider</section>
 		</a>
 	</div>

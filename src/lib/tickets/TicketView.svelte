@@ -7,7 +7,9 @@
 	import { fly } from 'svelte/transition';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import { Search, CircleDot } from 'lucide-svelte';
+
+	import { faSearch, faCircleDot } from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
 	export let data;
 	let searchTerms = '';
 	let currentQueue = $page.url.searchParams.get('queue') || '';
@@ -85,7 +87,7 @@
 				search();
 			}}
 		>
-			<Search size="20" />
+			<Fa icon={faSearch} />
 		</button>
 	</div>
 	{#if data.items.length > 15}
@@ -177,10 +179,10 @@
 					>
 						<td class="flex items-center gap-1">
 							{#if (ticket.updatedBy !== pb.authStore.model?.id && ticket.updatedBy !== '') || ticket.update}
-								<CircleDot size="15" strokeWidth="4" class="text-warning-400" />
+								<Fa icon={faCircleDot} class="text-warning-400" />
 							{/if}
 							{#if ticket.created === ticket.updated}
-								<CircleDot size="15" strokeWidth="4" class="text-success-400" />
+								<Fa icon={faCircleDot} class="text-success-400" />
 							{/if}
 							{ticket.id}</td
 						>
