@@ -4,7 +4,6 @@
 	import TicketReplies from './TicketReplies.svelte';
 	import Fa from 'svelte-fa';
 	export let data;
-	console.log(data);
 </script>
 
 <div>
