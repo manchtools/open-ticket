@@ -8,7 +8,8 @@
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 
-	import { faSearch, faCircleDot } from '@fortawesome/free-solid-svg-icons';
+	import { faSearch } from '@fortawesome/free-solid-svg-icons';
+	import { faCircleDot } from '@fortawesome/free-regular-svg-icons';
 	import Fa from 'svelte-fa';
 	export let data;
 	let searchTerms = '';

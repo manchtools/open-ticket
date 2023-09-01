@@ -23,7 +23,7 @@
 	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
 	import CreateQueue from '$lib/queue/CreateQueue.svelte';
 	import EditQueue from '$lib/queue/EditQueue.svelte';
-	import { faTicket, faUser, faArrowTurnRight, faGear } from '@fortawesome/free-solid-svg-icons';
+	import { faTicket, faUser, faTurnUp, faGear } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import Licenses from './Licenses.svelte';
@@ -150,7 +150,7 @@
 			<a href="/user" class="btn btn-sm variant-ghost {classesActive('/user')}">My account</a>
 		</li>
 		<li class="pl-2 flex">
-			<Fa icon={faArrowTurnRight} />
+			<Fa icon={faTurnUp} class="rotate-90" />
 			<a href="/user/tickets" class="btn btn-sm variant-ghost {classesActive('/user/tickets')}">
 				My Tickets</a
 			>
