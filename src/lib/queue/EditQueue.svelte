@@ -34,8 +34,15 @@
 	<div class="max-w-[60vh] flex flex-col gap-2">
 		{#each $page.data.agents as agent}
 			<label class="flex items-center gap-2">
-				<input type="checkbox" class="checkbox" value={agent.id} bind:group={data.members} />
-				<p>
+				<input
+					type="checkbox"
+					class="checkbox"
+					class:cursor-not-allowed={disabled}
+					value={agent.id}
+					bind:group={data.members}
+					{disabled}
+				/>
+				<p class:opacity-40={disabled}>
 					{agent.name || agent.email}
 				</p>
 			</label>
