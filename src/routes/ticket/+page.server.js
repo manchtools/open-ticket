@@ -3,14 +3,10 @@ import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	create: async ({ request, locals }) => {
-		const data = Object.fromEntries(await request.formData());
-		const res = await locals.pb.collection('tickets').create({
-			subject: data.subject || '',
-			body: data.body,
-			status: 'new',
-			createdBy: locals.user.id,
-			queue: data.queue
-		});
+		const data = await request.formData();
+		data.append('status', 'new');
+		data.append('createdBy', locals.user.id);
+		const res = await locals.pb.collection('tickets').create(data);
 
 		throw redirect(303, `/ticket/${res.id}`);
 	}

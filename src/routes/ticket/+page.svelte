@@ -1,16 +1,17 @@
 <script>
 	import { page } from '$app/stores';
 	import TicketView from '$lib/tickets/TicketView.svelte';
+	import { FileDropzone } from '@skeletonlabs/skeleton';
 
 	export let form;
-
+	let files;
 	let body = '';
 	let subject = '';
 </script>
 
 <div class="flex items-center justify-center h-full">
 	<div class="flex flex-col gap-2 w-[90%] md:w-2/5">
-		<form method="POST" action="?/create" class="gap-2 flex flex-col">
+		<form method="POST" action="?/create" class="gap-2 flex flex-col" enctype="multipart/form-data">
 			<span class="flex flex-row gap-2">
 				<div class="flex-grow">
 					<h2>Subject</h2>
@@ -37,6 +38,14 @@
 			{/if}
 			<label for="body"><h2>Issue</h2></label>
 			<textarea name="body" id="" rows="10" class="textarea" bind:value={body} />
+			<FileDropzone name="attachments" multiple bind:files />
+			{#if files}
+				<div class="flex gap-2 flex-wrap">
+					{#each files as file}
+						<span class="chip variant-filled">{file.name}</span>
+					{/each}
+				</div>
+			{/if}
 			<button class="btn variant-ghost-success" disabled={body.length <= 0}>Submit</button>
 		</form>
 
