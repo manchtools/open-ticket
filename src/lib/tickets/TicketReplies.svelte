@@ -1,6 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { toastStore } from '@skeletonlabs/skeleton';
+	import { FileDropzone } from '@skeletonlabs/skeleton';
 	export let replies = [];
 	export let ticketId;
 	export let ticketCreator;
@@ -16,6 +17,7 @@
 	let currentMessage = '';
 	let element;
 	let submitButton;
+	let files;
 	afterUpdate(() => {
 		if (replies) scrollToBottom(element);
 	});
@@ -77,11 +79,10 @@
 	action={`/ticket/${ticketId}?/addReply`}
 	method="POST"
 	class="flex flex-col gap-2"
+	enctype="multipart/form-data"
 	use:enhance={({ formElement, formData, cancel }) => {
 		sending = true;
-		// `formElement` is this `<form>` element
-		// `formData` is its `FormData` object that's about to be submitted
-
+		console.log(formData.getAll('attachments'));
 		return async ({ result }) => {
 			if (result.status === 200) {
 				currentMessage = '';
@@ -131,6 +132,13 @@
 			{/if}
 		</button>
 	</span>
+	{#if files}
+		<div class="flex gap-2 flex-wrap">
+			{#each files as file}
+				<span class="chip variant-filled">{file.name}</span>
+			{/each}
+		</div>
+	{/if}
 	<span class="flex justify-end">
 		{#if $page.url.pathname?.startsWith('/admin')}
 			<SlideToggle name="visability" active="bg-primary-500" size="sm" bind:checked={privateMessage}
