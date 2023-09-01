@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import TicketView from '$lib/tickets/TicketView.svelte';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
-
 	export let form;
 	let files;
 	let body = '';
