@@ -35,7 +35,7 @@ export const actions = {
 	},
 	removeAttachment: async ({ request, params, locals }) => {
 		const data = Object.fromEntries(await request.formData());
-		console.log(data);
+
 		try {
 			await locals.pb.collection('tickets').update(params.id, { 'attachments-': [data.fileName] });
 		} catch (e) {

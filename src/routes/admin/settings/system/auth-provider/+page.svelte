@@ -5,7 +5,7 @@
 	import Fa from 'svelte-fa';
 	function extractName(string) {
 		const tmp = string.split('Auth')[0];
-		console.log(tmp);
+
 		return tmp.charAt(0).toUpperCase() + tmp.slice(1);
 	}
 </script>

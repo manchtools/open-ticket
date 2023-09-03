@@ -2,7 +2,6 @@
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 
 	export let data;
-	console.log(data);
 </script>
 
 <form action="?/updateBucket" method="POST" class="w-full flex flex-col items-center">

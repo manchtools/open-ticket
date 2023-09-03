@@ -31,7 +31,6 @@
 			node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
 		}
 	};
-	$: console.log(value);
 </script>
 
 {#if replies.length > 0}

@@ -40,7 +40,7 @@ export const actions = {
 			if (data.secret === '******') {
 				delete data.secret;
 			}
-			console.log(data);
+
 			await tmpPB.settings.update({ s3: { ...data } });
 		} else {
 			throw error(400, 'Only agents can perform this action');
