@@ -4,7 +4,8 @@
 		faKey,
 		faSignOut,
 		faUser,
-		faUserGear
+		faUserGear,
+		faBucket
 	} from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
 </script>
@@ -55,6 +56,13 @@
 		>
 			<Fa icon={faKey} />
 			<section>Auth Provider</section>
+		</a>
+		<a
+			href="/admin/settings/system/s3"
+			class="card card-hover p-4 w-fit h-fit items-center flex flex-col"
+		>
+			<Fa icon={faBucket} />
+			<section>S3 Configuration</section>
 		</a>
 	</div>
 </div>
