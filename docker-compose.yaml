@@ -38,6 +38,7 @@ services:
       - PUBLIC_POCKETBASE_URL=https://${BASE_DOMAIN}
       - PRIVATE_POCKETBASE_ADMIN=${PRIVATE_POCKETBASE_ADMIN}
       - PRIVATE_POCKETBASE_PASSWORD=${PRIVATE_POCKETBASE_PASSWORD}
+      - BODY_SIZE_LIMIT=1470000000
     depends_on:
       - open-ticket-pocketbase
       - open-ticket-traefik
