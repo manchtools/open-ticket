@@ -3,7 +3,6 @@
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	export let replies = [];
 	export let fileToken = '';
-	export let ticketId;
 	export let ticketCreator;
 	import { page } from '$app/stores';
 	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
