@@ -1,8 +1,9 @@
 <script>
 	import { pb } from '$lib/db';
-	import { faCloudArrowDown, faFileArrowDown, faXmark } from '@fortawesome/free-solid-svg-icons';
+	import { faCloudArrowDown, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import TicketReplies from './TicketReplies.svelte';
 	import Fa from 'svelte-fa';
+	import { page } from '$app/stores';
 	export let data;
 </script>
 
@@ -18,10 +19,12 @@
 						><Fa icon={faCloudArrowDown} />
 						{attachment}
 					</a>
-					<form action="?/removeAttachment" method="POST" class="flex">
-						<input value={attachment} hidden name="fileName" />
-						<button><Fa icon={faXmark} /></button>
-					</form>
+					{#if $page.url.pathname.startsWith('/admin')}
+						<form action="?/removeAttachment" method="POST" class="flex">
+							<input value={attachment} hidden name="fileName" />
+							<button><Fa icon={faXmark} /></button>
+						</form>
+					{/if}
 				</div>
 			{/each}
 		</div>
