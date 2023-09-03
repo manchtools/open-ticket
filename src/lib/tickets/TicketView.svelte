@@ -125,9 +125,9 @@
 				</select>
 			</div>
 			<div class="flex items-center gap-2">
-				<p>Status :</p>
+				<p>Status:</p>
 				<select
-					class="select w-fit py-1 lg:p-2"
+					class="select py-1"
 					on:change={(e) => {
 						if (e.target.value === '') {
 							$page.url.searchParams.delete('status');
