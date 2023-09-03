@@ -11,16 +11,18 @@
 		<div class="flex gap-2 flex-wrap items-center">
 			Attachments:
 			{#each data.attachments as attachment}
-				<a
-					class="chip variant-filled flex gap-2"
-					href={pb.files.getUrl(data, attachment, { token: data.fileToken, download: 1 })}
-					><Fa icon={faCloudArrowDown} />
-					{attachment}
+				<div class="chip variant-filled flex gap-2">
+					<a
+						class="flex gap-2 items-center"
+						href={pb.files.getUrl(data, attachment, { token: data.fileToken, download: 1 })}
+						><Fa icon={faCloudArrowDown} />
+						{attachment}
+					</a>
 					<form action="?/removeAttachment" method="POST" class="flex">
 						<input value={attachment} hidden name="fileName" />
 						<button><Fa icon={faXmark} /></button>
 					</form>
-				</a>
+				</div>
 			{/each}
 		</div>
 		<hr class="my-2" />
