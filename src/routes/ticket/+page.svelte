@@ -37,14 +37,14 @@
 			{/if}
 			<label for="body"><h2>Issue</h2></label>
 			<textarea name="body" id="" rows="10" class="textarea" bind:value={body} />
-			<!-- <FileDropzone name="attachments" multiple bind:files />
+			<FileDropzone name="attachments" multiple bind:files />
 			{#if files}
 				<div class="flex gap-2 flex-wrap">
 					{#each files as file}
 						<span class="chip variant-filled">{file.name}</span>
 					{/each}
 				</div>
-			{/if} -->
+			{/if}
 			<button class="btn variant-ghost-success" disabled={body.length <= 0}>Submit</button>
 		</form>
 

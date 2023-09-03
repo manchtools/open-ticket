@@ -1,23 +1,25 @@
 <script>
 	import { afterUpdate } from 'svelte';
-	import { toastStore } from '@skeletonlabs/skeleton';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	export let replies = [];
+	export let fileToken = '';
 	export let ticketId;
 	export let ticketCreator;
 	import { page } from '$app/stores';
-	import { enhance } from '$app/forms';
+	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { format, parseISO } from 'date-fns';
-	import { faLock } from '@fortawesome/free-solid-svg-icons';
+	import { faCloudArrowDown, faLock } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
+	import { pb } from '$lib/db';
 	let privateMessage = false;
 	let sending = false;
 	let currentMessage = '';
 	let element;
 	let submitButton;
 	let files;
+	let value = '';
 	afterUpdate(() => {
 		if (replies) scrollToBottom(element);
 	});
@@ -29,6 +31,7 @@
 			node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
 		}
 	};
+	$: console.log(value);
 </script>
 
 {#if replies.length > 0}
@@ -67,6 +70,25 @@
 						</small>
 					</header>
 					<p class=" whitespace-pre-wrap">{reply.body}</p>
+					{#if reply.attachments.length > 0}
+						<Accordion>
+							<AccordionItem>
+								<svelte:fragment slot="summary"><small> Attachments</small></svelte:fragment>
+								<svelte:fragment slot="content">
+									<div class="flex flex-col gap-1">
+										{#each reply.attachments as attachment}
+											<a
+												class="chip variant-filled flex w-fit gap-2"
+												target="_blank"
+												href={pb.files.getUrl(reply, attachment, { token: fileToken, download: 1 })}
+												>{attachment} <Fa icon={faCloudArrowDown} /></a
+											>
+										{/each}
+									</div>
+								</svelte:fragment>
+							</AccordionItem>
+						</Accordion>
+					{/if}
 				</div>
 			</div>
 		{/each}
@@ -75,26 +97,7 @@
 	<h3>Start a new conversation!</h3>
 {/if}
 
-<form
-	action={`/ticket/${ticketId}?/addReply`}
-	method="POST"
-	class="flex flex-col gap-2"
-	enctype="multipart/form-data"
-	use:enhance={({ formElement, formData, cancel }) => {
-		sending = true;
-		console.log(formData.getAll('attachments'));
-		return async ({ result }) => {
-			if (result.status === 200) {
-				currentMessage = '';
-			}
-			if (result.status === 400) {
-				toastStore.trigger({ message: result.error.message, background: 'variant-filled-error' });
-			}
-			sending = false;
-			privateMessage = false;
-		};
-	}}
->
+<form action={'?/addReply'} method="POST" class="flex flex-col gap-2" enctype="multipart/form-data">
 	<span class="rounded-container-token input-group input-group-divider grid-cols-[1fr_auto_auto]">
 		<textarea
 			bind:value={currentMessage}
@@ -132,6 +135,7 @@
 			{/if}
 		</button>
 	</span>
+	<FileDropzone name="attachments" multiple bind:files />
 	{#if files}
 		<div class="flex gap-2 flex-wrap">
 			{#each files as file}

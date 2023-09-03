@@ -7,7 +7,7 @@
 </script>
 
 <div>
-	{#if data.attachments}
+	{#if data.attachments.length > 0}
 		<div class="flex gap-2 flex-wrap items-center">
 			Attachments:
 			{#each data.attachments as attachment}
@@ -28,5 +28,6 @@
 		replies={data.expand.replies}
 		ticketId={data.id}
 		ticketCreator={data.expand?.createdBy?.id}
+		fileToken={data.fileToken}
 	/>
 </div>

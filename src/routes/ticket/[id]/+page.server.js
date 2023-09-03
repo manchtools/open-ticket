@@ -11,13 +11,14 @@ export async function load({ params, locals }) {
 
 export const actions = {
 	addReply: async ({ request, params, locals }) => {
-		const data = Object.fromEntries(await request.formData());
-		const res = await locals.pb.collection('replies').create({
-			private: data.visability ? true : false,
-			body: data.body,
-			createdBy: locals.user.id,
-			ticket: params.id
-		});
+		const data = await request.formData();
+		if (data.getAll('attachments').length === 1 && data.getAll('attachments')[0].size === 0) {
+			data.delete('attachments');
+		}
+		data.append('private', data.get('visability') ? true : false);
+		data.append('createdBy', locals.user.id);
+		data.append('ticket', params.id);
+		const res = await locals.pb.collection('replies').create(data);
 		await locals.pb.collection('tickets').update(params.id, { 'replies+': res.id });
 		const reply = await locals.pb
 			.collection('replies')
