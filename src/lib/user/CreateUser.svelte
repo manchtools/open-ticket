@@ -4,6 +4,7 @@
 	import { clipboard, drawerStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { faClipboardCheck, faClipboard } from '@fortawesome/free-solid-svg-icons';
+	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import Fa from 'svelte-fa';
 	export let form = {};
 	let copied = false;
@@ -38,6 +39,9 @@
 		<p>Email</p>
 		<input type="email" name="email" id="" class="input" />
 	</label>
+	{#if $page.url.pathname?.includes('/settings/admins')}
+		<SlideToggle name="limited_agent" active="bg-primary-500" size="sm">Limited Agent</SlideToggle>
+	{/if}
 	{#if form?.tmpPass}
 		<div>
 			<p>User password</p>

@@ -75,16 +75,17 @@
 					<svelte:fragment slot="lead"><Fa icon={faTicket} /></svelte:fragment>
 					<span>Tickets</span>
 				</AppRailAnchor>
-
 				<svelte:fragment slot="trail">
-					<AppRailAnchor
-						href="/admin/settings"
-						title="settings"
-						selected={$page.url.pathname.startsWith('/admin/settings')}
-					>
-						<svelte:fragment slot="lead"><Fa icon={faGear} /></svelte:fragment>
-						<span>Settings</span>
-					</AppRailAnchor>
+					{#if data.user.type === 'agent'}
+						<AppRailAnchor
+							href="/admin/settings"
+							title="settings"
+							selected={$page.url.pathname.startsWith('/admin/settings')}
+						>
+							<svelte:fragment slot="lead"><Fa icon={faGear} /></svelte:fragment>
+							<span>Settings</span>
+						</AppRailAnchor>
+					{/if}
 				</svelte:fragment>
 			</AppRail>
 		{/if}
@@ -156,7 +157,7 @@
 			>
 		</li>
 
-		{#if data.user?.type === 'agent'}
+		{#if data.user?.type.includes('agent')}
 			<li>
 				<a href="/admin" class="btn btn-sm {classesActive('/admin', 'variant-ghost-warning')}"
 					>Admin</a

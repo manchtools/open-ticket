@@ -1,12 +1,17 @@
 import { serializePoJos } from '$lib/helpers';
+import { redirect } from '@sveltejs/kit';
 
 export async function load({ params, locals }) {
-	const ticket = await locals.pb.collection('tickets').getOne(params.id, {
-		expand: 'replies,replies.createdBy,createdBy,agent,queue'
-	});
-	const fileToken = await locals.pb.files.getToken();
-	ticket['fileToken'] = fileToken;
-	return { ticket: serializePoJos(ticket) };
+	try {
+		const ticket = await locals.pb.collection('tickets').getOne(params.id, {
+			expand: 'replies,replies.createdBy,createdBy,agent,queue'
+		});
+		const fileToken = await locals.pb.files.getToken();
+		ticket['fileToken'] = fileToken;
+		return { ticket: serializePoJos(ticket) };
+	} catch (e) {
+		throw redirect(303, '/admin/tickets');
+	}
 }
 
 export const actions = {

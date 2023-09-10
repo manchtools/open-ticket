@@ -22,7 +22,9 @@ export async function handle({ event, resolve }) {
 			event.locals.user = serializePoJos(event.locals.pb.authStore.baseModel);
 			try {
 				event.locals.agents = serializePoJos(
-					await event.locals.pb.collection('users').getFullList({ filter: "type='agent'" })
+					await event.locals.pb
+						.collection('users')
+						.getFullList({ filter: "type='agent'||type='limited_agent'" })
 				);
 			} catch (e) {
 				console.log(e);
@@ -35,9 +37,17 @@ export async function handle({ event, resolve }) {
 				console.log(e);
 			}
 			if (
+				event.url.pathname.startsWith('/admin/settings') &&
+				event.locals.user.type === 'limited_agent'
+			) {
+				throw redirect(303, '/admin');
+			}
+			if (
 				event.url.pathname.startsWith('/setup') ||
 				event.url.pathname === '/auth/login' ||
-				(event.url.pathname.startsWith('/admin') && event.locals.user.type !== 'agent')
+				(event.url.pathname.startsWith('/admin') &&
+					event.locals.user.type !== 'agent' &&
+					event.locals.user.type !== 'limited_agent')
 			) {
 				throw redirect(303, '/');
 			}

@@ -24,9 +24,8 @@ export const actions = {
 		return { tmpPass: randPass };
 	},
 	updateUser: async ({ request, locals }) => {
-		const { id, username, name, email, password, passwordConfirm, agent } = Object.fromEntries(
-			await request.formData()
-		);
+		const { id, username, name, email, password, passwordConfirm, agent, limited_agent } =
+			Object.fromEntries(await request.formData());
 		let payload = {
 			email,
 			username,
@@ -36,6 +35,9 @@ export const actions = {
 		if (password && passwordConfirm) {
 			payload['password'] = password;
 			payload['passwordConfirm'] = passwordConfirm;
+		}
+		if (limited_agent) {
+			(payload.type = 'limited_agent'), (payload['emailVisibility'] = true);
 		}
 		if (agent) {
 			(payload.type = 'agent'), (payload['emailVisibility'] = true);

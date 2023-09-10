@@ -5,6 +5,7 @@
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	let disabled = true;
 	let agent = data.type === 'agent' ? true : false;
+	let limitedAgent = data.type === 'limited_agent' ? true : false;
 </script>
 
 <form action="?/updateUser" method="POST" class="flex flex-col gap-4">
@@ -57,6 +58,14 @@
 	{#if $page.url.pathname?.startsWith('/admin')}
 		<SlideToggle name="agent" active="bg-primary-500" size="sm" bind:checked={agent} {disabled}
 			>Agent</SlideToggle
+		>
+
+		<SlideToggle
+			name="limited_agent"
+			active="bg-primary-500"
+			size="sm"
+			bind:checked={limitedAgent}
+			{disabled}>Limited Agent</SlideToggle
 		>
 	{/if}
 </form>

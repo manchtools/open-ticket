@@ -28,6 +28,7 @@
 			drawerStore.open(settings);
 		}}><Fa icon={faPlus} />Add Admin</button
 	>
+
 	<table class="table table-hover">
 		<thead>
 			<tr>
