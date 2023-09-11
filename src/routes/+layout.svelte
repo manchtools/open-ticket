@@ -27,6 +27,7 @@
 	import Fa from 'svelte-fa';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import Licenses from './Licenses.svelte';
+	import Logo from '$lib/Logo_old.svelte';
 
 	export let data;
 
@@ -110,8 +111,8 @@
 				slotTrail="place-content-end"
 			>
 				<svelte:fragment slot="lead">
-					<a href="/">
-						<Fa icon={faTicket} />
+					<a href="/" class="w-6">
+						<Logo />
 					</a>
 				</svelte:fragment>
 				<svelte:fragment slot="trail">
