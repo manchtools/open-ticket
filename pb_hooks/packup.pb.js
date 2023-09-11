@@ -11,7 +11,7 @@ $app.rootCmd.addCommand(
 	new Command({
 		use: 'restore',
 		run: (cmd, args) => {
-			$app.createBackup($app.rootCmd.context(), `${args}.zip`);
+			$app.restoreBackup($app.rootCmd.context(), `${args}.zip`);
 		}
 	})
 );
