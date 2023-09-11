@@ -6,3 +6,12 @@ $app.rootCmd.addCommand(
 		}
 	})
 );
+
+$app.rootCmd.addCommand(
+	new Command({
+		use: 'restore',
+		run: (cmd, args) => {
+			$app.createBackup($app.rootCmd.context(), `${args}.zip`);
+		}
+	})
+);
