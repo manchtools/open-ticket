@@ -6,7 +6,7 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { Modal } from '@skeletonlabs/skeleton';
+	import { Modal, toastStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -23,11 +23,19 @@
 	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
 	import CreateQueue from '$lib/queue/CreateQueue.svelte';
 	import EditQueue from '$lib/queue/EditQueue.svelte';
-	import { faTicket, faUser, faTurnUp, faGear } from '@fortawesome/free-solid-svg-icons';
+	import { faTicket, faUser, faTurnUp, faGear, faBell } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import Licenses from './Licenses.svelte';
-	import Logo from '$lib/Logo_old.svelte';
+	import Logo from '$lib/Logo.svelte';
+	import { onMount } from 'svelte';
+	import { pb } from '$lib/db';
+	import { notifyUser } from '$lib/helpers';
+	onMount(() => {
+		pb.collection('notifications').subscribe('*', function (e) {
+			notifyUser(e.record);
+		});
+	});
 
 	export let data;
 
@@ -35,6 +43,13 @@
 		event: 'click',
 		// Matches the data-popup value on your popup element
 		target: 'userPane',
+		// Defines which side of your trigger the popup will appear
+		placement: 'bottom'
+	};
+	const notificationPopUp = {
+		event: 'click',
+		// Matches the data-popup value on your popup element
+		target: 'notificationPane',
 		// Defines which side of your trigger the popup will appear
 		placement: 'bottom'
 	};
@@ -116,6 +131,9 @@
 					</a>
 				</svelte:fragment>
 				<svelte:fragment slot="trail">
+					<button use:popup={notificationPopUp}>
+						<Fa icon={faBell} />
+					</button>
 					<button use:popup={popupSettings}>
 						<Fa icon={faUser} />
 					</button>
@@ -169,4 +187,8 @@
 			<a href="/auth/logout" class="btn btn-sm variant-ghost-error">Logout</a>
 		</li>
 	</ul>
+</nav>
+
+<nav class="card list p-4 z-[999] shadow-xl" data-popup="notificationPane">
+	<h1>Notifications</h1>
 </nav>
