@@ -32,7 +32,6 @@ onRecordAfterCreateRequest(
 
 		if (e.collection.name === 'replies') {
 			const ticket = $app.dao().findRecordById('tickets', newRecord.get('ticket'));
-
 			tmpRecord.payload.resourceType = 'reply';
 			if (newRecord.get('createdBy') === ticket.get('createdBy')) {
 				if (ticket.get('agent')) {
@@ -48,7 +47,7 @@ onRecordAfterCreateRequest(
 					});
 				}
 			} else {
-				tmpRecord.recipients = ticket.createdBy;
+				tmpRecord.recipients = ticket.get('createdBy');
 			}
 		}
 
@@ -62,7 +61,7 @@ onRecordAfterCreateRequest(
 				});
 			}
 		}
-		const index = tmpRecord.recipients.indexOf(info?.authRecord?.id);
+		const index = tmpRecord?.recipients?.indexOf(info?.authRecord?.id);
 		if (index > -1) {
 			tmpRecord.recipients.splice(index, 1);
 		}
