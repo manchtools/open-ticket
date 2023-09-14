@@ -1,4 +1,7 @@
+import { goto } from '$app/navigation';
+import { page } from '$app/stores';
 import { toastStore } from '@skeletonlabs/skeleton';
+import { get } from 'svelte/store';
 
 export function handlePocketBaseError({ code, message }) {
 	switch (code) {
@@ -18,6 +21,41 @@ export function handlePocketBaseError({ code, message }) {
 			toastStore.trigger({ message: 'Ratelimit exceded' });
 			break;
 	}
+}
+
+export function notifyUser(notification) {
+	const { payload } = notification;
+	let message = '';
+	let gotoSrting = '/';
+	message += `${payload.resourceType.charAt(0).toUpperCase() + payload.resourceType.slice(1)} ${
+		payload.resource.id
+	} was ${payload.action} by ${payload.trigger}`;
+
+	if (payload.resourceType === 'ticket') {
+		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
+			gotoSrting += `admin/tickets/${payload.resource.id}/`;
+		} else {
+			gotoSrting += `/ticket/${payload.resource.id}/`;
+		}
+	}
+	if (payload.resourceType === 'reply') {
+		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
+			gotoSrting += `admin/tickets/${payload.resource.ticket}/`;
+		} else {
+			gotoSrting += `/ticket/${payload.resource.id}/`;
+		}
+	}
+	if (payload.resourceType === 'queue') {
+		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
+			gotoSrting += `admin/settings/tickets/queues/`;
+		}
+	}
+
+	let action = {
+		label: 'Open',
+		response: () => goto(gotoSrting)
+	};
+	toastStore.trigger({ message, action });
 }
 
 export let drawerBaseSettings = {
