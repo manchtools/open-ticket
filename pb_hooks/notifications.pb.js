@@ -53,8 +53,8 @@ onRecordAfterCreateRequest(
 		}
 
 		if (e.collection.name === 'queues') {
-			tmpRecord.resourceType = 'queue';
-			if (newRecord.get('members')) {
+			tmpRecord.payload.resourceType = 'queue';
+			if (newRecord.get('members').length > 0) {
 				tmpRecord.recipients = newRecord.get('members');
 			} else {
 				tmpRecord.recipients = allAgents.map((el) => {
@@ -66,7 +66,6 @@ onRecordAfterCreateRequest(
 		if (index > -1) {
 			tmpRecord.recipients.splice(index, 1);
 		}
-
 		const record = new Record(collection, tmpRecord);
 		$app.dao().saveRecord(record);
 	},
@@ -108,6 +107,18 @@ onModelBeforeCreate((e) => {
 				if (
 					parsedUser.notificationPrefs.indexOf(
 						`ticket.${jsonModel.payload.resource.ticket}.${jsonModel.payload.resourceType}.*.${jsonModel.payload.action}`
+					) !== -1
+				) {
+					return;
+				}
+			}
+			if (jsonModel.payload.resourceType === 'queue') {
+				if (parsedUser.notificationPrefs.indexOf(`queue.*.${jsonModel.payload.action}`) !== -1) {
+					return;
+				}
+				if (
+					parsedUser.notificationPrefs.indexOf(
+						`queue.${jsonModel.payload.resource.id}.${jsonModel.payload.action}`
 					) !== -1
 				) {
 					return;
