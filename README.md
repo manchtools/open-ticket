@@ -51,7 +51,3 @@ open-ticket-pocketbase:
 -    - 'traefik.http.routers.open-ticket-pocketbase.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`))'
 +    - 'traefik.http.routers.open-ticket-pocketbase.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/_/`))'
 ```
-
-## Caveats
-
-There currently only exist Linux ARM64 docker images for open-ticket. I will expand on that in the near future, but currently it will only run on 64 bit ARM hardware.
