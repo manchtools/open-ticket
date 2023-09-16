@@ -47,7 +47,11 @@ onRecordAfterCreateRequest(
 					});
 				}
 			} else {
-				tmpRecord.recipients = ticket.get('createdBy');
+				if (newRecord.get('private')) {
+					return;
+				} else {
+					tmpRecord.recipients = ticket.get('createdBy');
+				}
 			}
 		}
 
