@@ -146,3 +146,11 @@ onModelBeforeCreate((e) => {
 		'queue.*.updated'
 	]);
 }, 'users');
+
+cronAdd('removeOldNotifications', '* * * * *', () => {
+	$app
+		.dao()
+		.db()
+		.newQuery('DELETE FROM notifications where created < Date("now", "-30 days")')
+		.execute();
+});
