@@ -147,7 +147,7 @@ onModelBeforeCreate((e) => {
 	]);
 }, 'users');
 
-cronAdd('removeOldNotifications', '* * * * *', () => {
+cronAdd('removeOldNotifications', '@daily', () => {
 	$app
 		.dao()
 		.db()
