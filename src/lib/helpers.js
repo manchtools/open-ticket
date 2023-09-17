@@ -85,7 +85,7 @@ export function notificationMessage(payload) {
 	}
 	if (payload.resourceType === 'reply' && payload.action === 'created') {
 		return t.get('notifications.newReply', {
-			ticketId: payload.resource.id,
+			ticketId: payload.resource.ticket,
 			trigger: payload.trigger
 		});
 	}
@@ -103,7 +103,8 @@ export function notificationMessage(payload) {
 	}
 	if (payload.resourceType === 'reply' && payload.action === 'updated') {
 		return t.get('notifications.updateReply', {
-			ticketId: payload.resource.id,
+			replyId: payload.resource.id,
+			ticketId: payload.resource.ticket,
 			trigger: payload.trigger
 		});
 	}
