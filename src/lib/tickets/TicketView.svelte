@@ -1,5 +1,4 @@
 <script>
-	import { toastStore } from '@skeletonlabs/skeleton';
 	import { format, parseISO } from 'date-fns';
 	import { onDestroy, onMount } from 'svelte';
 	import { pb } from '$lib/db';
@@ -18,10 +17,6 @@
 	onMount(() => {
 		pb.collection('tickets').subscribe('*', async (e) => {
 			if (e.action === 'update' && e.record.updatedBy !== pb.authStore.model.id) {
-				toastStore.trigger({
-					message: `Ticket <a href="/admin/tickets/${e.record.id}" class="underline">${e.record.id}</a> was updated!`,
-					background: 'variant-ghost-warning'
-				});
 				invalidateAll();
 			}
 			if (e.action === 'create') {
@@ -32,11 +27,6 @@
 				data.items.unshift(tmp);
 				data.totalItems += 1;
 				data.items = [...data.items];
-				toastStore.trigger({
-					message: `A new ticket <a href="/admin/tickets/${e.record.id}" class="underline">${e.record.id}</a> was created!`,
-
-					background: 'variant-ghost-success'
-				});
 			}
 		});
 	});

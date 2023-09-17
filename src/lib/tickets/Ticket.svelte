@@ -1,7 +1,6 @@
 <script>
 	import TicketBody from './TicketBody.svelte';
 	import TicketHead from './TicketHead.svelte';
-	import { toastStore } from '@skeletonlabs/skeleton';
 	import { onDestroy, onMount } from 'svelte';
 	import { pb } from '$lib/db';
 
@@ -37,13 +36,6 @@
 				message += `updated queue`;
 			}
 			data = tmp;
-
-			if (e.action === 'update' && e.record?.updatedBy !== pb.authStore.model.id) {
-				toastStore.trigger({
-					message: `<b class="underline">${tmp.expand.updatedBy.email}</b> ${message}.`,
-					background: 'variant-ghost-warning'
-				});
-			}
 		});
 	});
 	onDestroy(() => {
