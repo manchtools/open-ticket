@@ -77,8 +77,89 @@ onRecordAfterCreateRequest(
 	'queues'
 );
 
+onRecordBeforeUpdateRequest(
+	(e) => {
+		const info = $apis.requestInfo(e.httpContext);
+		const newRecord = e.record;
+		const collection = $app.dao().findCollectionByNameOrId('notifications');
+		const allAgents = arrayOf(new Record());
+		$app.dao().recordQuery('users').select('id').andWhere($dbx.exp("type='agent'")).all(allAgents);
+		let tmpRecord = {
+			payload: {
+				action: 'updated',
+				resourceType: '',
+				resource: newRecord,
+				trigger: info?.authRecord?.get('name') || info?.authRecord?.get('email') || 'system'
+			},
+			recipients: []
+		};
+
+		if (e.collection.name === 'tickets') {
+			tmpRecord.payload.resourceType = 'ticket';
+			if (newRecord.get('agent')) {
+				tmpRecord.recipients = newRecord.agent;
+			}
+			if (newRecord.get('queue')) {
+				const queue = $app.dao().findRecordById('queues', newRecord.get('queue'));
+				tmpRecord.recipients = queue.get('members');
+			}
+			if (!newRecord.get('agent') && !newRecord.get('queue')) {
+				tmpRecord.recipients = allAgents.map((el) => {
+					return el.id;
+				});
+			}
+		}
+
+		if (e.collection.name === 'replies') {
+			const ticket = $app.dao().findRecordById('tickets', newRecord.get('ticket'));
+			tmpRecord.payload.resourceType = 'reply';
+			if (newRecord.get('createdBy') === ticket.get('createdBy')) {
+				if (ticket.get('agent')) {
+					tmpRecord.recipients = [ticket.get('agent')];
+				}
+				if (!ticket.get('agent') && ticket.get('queue')) {
+					const queue = $app.dao().findRecordById('queues', newRecord.queue);
+					tmpRecord.recipients = queue.get('members');
+				}
+				if (!ticket.get('agent') && !ticket.get('queue')) {
+					tmpRecord.recipients = allAgents.map((el) => {
+						return el.id;
+					});
+				}
+			} else {
+				if (newRecord.get('private')) {
+					return;
+				} else {
+					tmpRecord.recipients = ticket.get('createdBy');
+				}
+			}
+		}
+
+		if (e.collection.name === 'queues') {
+			tmpRecord.payload.resourceType = 'queue';
+			if (newRecord.get('members').length > 0) {
+				tmpRecord.recipients = newRecord.get('members');
+			} else {
+				tmpRecord.recipients = allAgents.map((el) => {
+					return el.id;
+				});
+			}
+		}
+		const index = tmpRecord?.recipients?.indexOf(info?.authRecord?.id);
+		if (index > -1) {
+			tmpRecord.recipients.splice(index, 1);
+		}
+		const record = new Record(collection, tmpRecord);
+		$app.dao().saveRecord(record);
+	},
+	'tickets',
+	'replies',
+	'queues'
+);
+
 onModelBeforeCreate((e) => {
 	let jsonModel = JSON.parse(JSON.stringify(e.model));
+	console.log(JSON.stringify(jsonModel));
 	const users = $app.dao().findRecordsByIds('users', [...jsonModel.recipients]);
 	users.map((user) => {
 		const parsedUser = JSON.parse(JSON.stringify(user));
