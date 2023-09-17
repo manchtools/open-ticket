@@ -1,7 +1,10 @@
 {
 	"newTicket": "{{trigger}} created new ticket: {{ticketId}}",
-	"newReply": "{{trigger}} added  new reply for ticket: {{ticketId}}",
-	"newQueue": "{{trigger}} added  new queue: {{queueName}}",
+	"newReply": "{{trigger}} added new reply for ticket: {{ticketId}}",
+	"newQueue": "{{trigger}} added new queue: {{queueName}}",
+	"updateTicket": "{{trigger}} updated ticket: {{ticketId}}",
+	"updateReply": "{{trigger}} updated reply {{replyId}} in ticket {{ticketId}}",
+	"updateQueue": "{{trigger}} updated queue: {{queueName}}",
 	"preferences": {
 		"ticket.*.created": "Notify me when a ticket gets created",
 		"ticket.*.updated": "Notify me when any tickets that i participate in, get updated",
