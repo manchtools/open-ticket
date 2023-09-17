@@ -1,0 +1,14 @@
+{
+	"short_name": "open-ticket",
+	"name": "open-ticket",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "favicon_light.png",
+			"type": "image/png",
+			"sizes": "480x480"
+		}
+	],
+	"display": "standalone",
+	"scope": "/"
+}
