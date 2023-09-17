@@ -35,7 +35,9 @@
 
 	$: if (browser && data.user) {
 		pb.collection('notifications').subscribe('*', function (e) {
-			notifyUser(e.record);
+			if (e.action === 'create' || e.action === 'update') {
+				notifyUser(e.record);
+			}
 		});
 	}
 	const popupSettings = {
