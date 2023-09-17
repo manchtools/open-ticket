@@ -41,7 +41,7 @@
 		{#each replies as reply}
 			<div
 				class="grid grid-cols-[auto_1fr] gap-2 rounded-lg max-w-[95%] lg:max-w-[70%]"
-				class:self-end={$page.data.user.id === reply.expand?.createdBy?.id}
+				class:self-end={$page.data.user?.id === reply.expand?.createdBy?.id}
 			>
 				<div
 					class="card p-4 space-y-2"
@@ -52,7 +52,7 @@
 				>
 					<header class="flex gap-2 items-center">
 						<small>
-							{#if $page.data.user.id !== reply.expand?.createdBy?.id}
+							{#if $page.data.user?.id !== reply.expand?.createdBy?.id}
 								{reply.expand?.createdBy?.name || reply.expand?.createdBy?.email || 'Deleted user'}
 							{:else}
 								Me

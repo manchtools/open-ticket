@@ -2,6 +2,7 @@ import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { toastStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
+import { t } from './translations/translations';
 
 export function handlePocketBaseError({ code, message }) {
 	switch (code) {
@@ -25,31 +26,9 @@ export function handlePocketBaseError({ code, message }) {
 
 export function notifyUser(notification) {
 	const { payload } = notification;
-	let message = '';
-	let gotoSrting = '/';
-	message += `${payload.resourceType.charAt(0).toUpperCase() + payload.resourceType.slice(1)} ${
-		payload.resource.id
-	} was ${payload.action} by ${payload.trigger}`;
+	let message = notificationMessage(payload);
 
-	if (payload.resourceType === 'ticket') {
-		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
-			gotoSrting += `admin/tickets/${payload.resource.id}/`;
-		} else {
-			gotoSrting += `/ticket/${payload.resource.id}/`;
-		}
-	}
-	if (payload.resourceType === 'reply') {
-		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
-			gotoSrting += `admin/tickets/${payload.resource.ticket}/`;
-		} else {
-			gotoSrting += `/ticket/${payload.resource.id}/`;
-		}
-	}
-	if (payload.resourceType === 'queue') {
-		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
-			gotoSrting += `admin/settings/tickets/queues/`;
-		}
-	}
+	const gotoSrting = notificationLink(payload);
 
 	let action = {
 		label: 'Open',
@@ -70,4 +49,68 @@ export let drawerBaseSettings = {
 
 export function serializePoJos(data) {
 	return JSON.parse(JSON.stringify(data));
+}
+
+export function notificationLink(payload) {
+	let gotoSrting = '/';
+	if (payload.resourceType === 'ticket') {
+		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
+			gotoSrting += `admin/tickets/${payload.resource.id}/`;
+		} else {
+			gotoSrting += `ticket/${payload.resource.id}/`;
+		}
+	}
+	if (payload.resourceType === 'reply') {
+		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
+			gotoSrting += `admin/tickets/${payload.resource.ticket}/`;
+		} else {
+			gotoSrting += `ticket/${payload.resource.id}/`;
+		}
+	}
+	if (payload.resourceType === 'queue') {
+		if (get(page).data.user.type === 'agent' || get(page).data.user.type === 'limited_agent') {
+			gotoSrting += `admin/settings/tickets/queues/`;
+		}
+	}
+
+	return gotoSrting;
+}
+
+export function notificationMessage(payload) {
+	if (payload.resourceType === 'ticket' && payload.action === 'created') {
+		return t.get('notifications.newTicket', {
+			ticketId: payload.resource.id,
+			trigger: payload.trigger
+		});
+	}
+	if (payload.resourceType === 'reply' && payload.action === 'created') {
+		return t.get('notifications.newReply', {
+			ticketId: payload.resource.id,
+			trigger: payload.trigger
+		});
+	}
+	if (payload.resourceType === 'queue' && payload.action === 'created') {
+		return t.get('notifications.newQueue', {
+			queueName: payload.resource.name,
+			trigger: payload.trigger
+		});
+	}
+	if (payload.resourceType === 'ticket' && payload.action === 'updated') {
+		return t.get('notifications.updateTicket', {
+			ticketId: payload.resource.id,
+			trigger: payload.trigger
+		});
+	}
+	if (payload.resourceType === 'reply' && payload.action === 'updated') {
+		return t.get('notifications.updateReply', {
+			ticketId: payload.resource.id,
+			trigger: payload.trigger
+		});
+	}
+	if (payload.resourceType === 'queue' && payload.action === 'updated') {
+		return t.get('notifications.updateQueue', {
+			queueName: payload.resource.name,
+			trigger: payload.trigger
+		});
+	}
 }

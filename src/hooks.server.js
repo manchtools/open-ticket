@@ -36,6 +36,13 @@ export async function handle({ event, resolve }) {
 			} catch (e) {
 				console.log(e);
 			}
+			try {
+				event.locals.notifications = serializePoJos(
+					await event.locals.pb.collection('notifications').getList(1, 20)
+				);
+			} catch (e) {
+				console.log(e);
+			}
 			if (
 				event.url.pathname.startsWith('/admin/settings') &&
 				event.locals.user.type === 'limited_agent'

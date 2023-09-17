@@ -48,6 +48,7 @@
 		"lodash.unionby": "^4.8.0",
 		"pocketbase": "^0.16.0",
 		"svelte-fa": "^3.0.4",
+		"sveltekit-i18n": "^2.4.2",
 		"undici": "^5.23.0"
 	}
 }

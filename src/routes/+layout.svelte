@@ -28,17 +28,16 @@
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import Licenses from './Licenses.svelte';
 	import Logo from '$lib/Logo.svelte';
-	import { onMount } from 'svelte';
 	import { pb } from '$lib/db';
-	import { notifyUser } from '$lib/helpers';
-	onMount(() => {
+	import { notificationLink, notificationMessage, notifyUser } from '$lib/helpers';
+	import { browser } from '$app/environment';
+	export let data;
+
+	$: if (browser && data.user) {
 		pb.collection('notifications').subscribe('*', function (e) {
 			notifyUser(e.record);
 		});
-	});
-
-	export let data;
-
+	}
 	const popupSettings = {
 		event: 'click',
 		// Matches the data-popup value on your popup element
@@ -61,19 +60,19 @@
 <Modal />
 <Drawer position="bottom">
 	<div class="p-4">
-		{#if $drawerStore.type === 'ticket'}
+		{#if $drawerStore?.type === 'ticket'}
 			<Ticket data={$drawerStore.data} />
 		{/if}
-		{#if $drawerStore.type === 'new_user'}
+		{#if $drawerStore?.type === 'new_user'}
 			<CreateUser />
 		{/if}
-		{#if $drawerStore.type === 'user'}
+		{#if $drawerStore?.type === 'user'}
 			<EditUser data={$drawerStore.data} />
 		{/if}
-		{#if $drawerStore.type === 'new_queue'}
+		{#if $drawerStore?.type === 'new_queue'}
 			<CreateQueue />
 		{/if}
-		{#if $drawerStore.type === 'queue'}
+		{#if $drawerStore?.type === 'queue'}
 			<EditQueue data={$drawerStore.data} />
 		{/if}
 	</div>
@@ -92,7 +91,7 @@
 					<span>Tickets</span>
 				</AppRailAnchor>
 				<svelte:fragment slot="trail">
-					{#if data.user.type === 'agent'}
+					{#if data.user?.type === 'agent'}
 						<AppRailAnchor
 							href="/admin/settings"
 							title="settings"
@@ -190,5 +189,12 @@
 </nav>
 
 <nav class="card list p-4 z-[999] shadow-xl" data-popup="notificationPane">
-	<h1>Notifications</h1>
+	<h2>Notifications</h2>
+	<div class="flex flex-col gap-2">
+		{#each data.notifications || [] as notification}
+			<a href={notificationLink(notification.payload)}
+				>{notificationMessage(notification.payload)}</a
+			>
+		{/each}
+	</div>
 </nav>

@@ -60,7 +60,7 @@
 			<p>Queue: {data.expand?.queue?.name || 'not assigned'}</p>
 
 			<p>Agent: {$page.data.expand?.agent?.name || data.expand?.agent?.email || 'not assigned'}</p>
-			{#if $page.data.user.email !== data.expand?.createdBy?.email}
+			{#if $page.data.user?.email !== data.expand?.createdBy?.email}
 				<div>Created by: {data.expand?.createdBy?.email || 'Deleted user'}</div>
 			{/if}
 		</div>

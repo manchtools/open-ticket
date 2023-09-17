@@ -1,14 +1,15 @@
-import { serializePoJos } from '$lib/helpers';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	updateUser: async ({ request, locals }) => {
-		const { id, username, name, email, password, passwordConfirm, oldPassword, agent } =
+		let { id, username, name, email, password, passwordConfirm, oldPassword, notificationPrefs } =
 			Object.fromEntries(await request.formData());
+		notificationPrefs = notificationPrefs.split(',');
+
 		let payload = {
 			email,
-			username,
-			name
+			name,
+			notificationPrefs
 		};
 		if (oldPassword && password && passwordConfirm) {
 			payload['oldPassword'] = oldPassword;
@@ -20,8 +21,5 @@ export const actions = {
 		if (oldPassword && password && passwordConfirm) {
 			throw redirect(303, '/auth/logout');
 		}
-	},
-	deleteUser: async ({ locals }) => {
-		await locals.pb.collection('users').delete(locals.user.id);
 	}
 };

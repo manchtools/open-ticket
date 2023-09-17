@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import { t } from '$lib/translations/translations';
 	let disabled = true;
 	let agent = data.type === 'agent' ? true : false;
 	let limitedAgent = data.type === 'limited_agent' ? true : false;
@@ -20,19 +21,96 @@
 			>
 				Edit
 			</button>
-		{:else}
+		{:else if !$page.url.pathname.startsWith('/user')}
 			<button class="btn btn-sm variant-filled-error" formaction="?/deleteUser">Delete</button>
 			<button class="btn btn-sm variant-ghost-success w-fit self-end">Update</button>
 			<button
 				class="btn btn-sm variant-ghost-surface w-fit self-end"
 				on:click|preventDefault={() => drawerStore.close()}>X</button
 			>
+		{:else}
+			<button class="btn btn-sm variant-ghost-success w-fit self-end">Update</button>
+			<button
+				class="btn btn-sm variant-ghost-surface w-fit self-end"
+				on:click|preventDefault={() => (disabled = true)}>X</button
+			>
 		{/if}
 	</div>
-	<label for="username">
-		<p>Username</p>
-		<input type="text" name="username" value={data.username} class="input" {disabled} />
-	</label>
+	{#if $page.url.pathname.startsWith('/user')}
+		<label for="notifications" class="w-fit">
+			<input
+				type="text"
+				class="input"
+				name="notificationPrefs"
+				bind:value={data.notificationPrefs}
+				hidden
+			/>
+			<h3>Notification Settings</h3>
+
+			<label class="flex items-center space-x-2">
+				<input
+					class="checkbox"
+					type="checkbox"
+					value="ticket.*.created"
+					bind:group={data.notificationPrefs}
+					{disabled}
+				/>
+				<p>{$t('notifications.preferences.ticket.*.created')}</p>
+			</label>
+			<label class="flex items-center space-x-2">
+				<input
+					class="checkbox"
+					type="checkbox"
+					value="ticket.*.updated"
+					bind:group={data.notificationPrefs}
+					{disabled}
+				/>
+				<p>{$t('notifications.preferences.ticket.*.updated')}</p>
+			</label>
+			<label class="flex items-center space-x-2">
+				<input
+					class="checkbox"
+					type="checkbox"
+					value="ticket.*.reply.*.created"
+					bind:group={data.notificationPrefs}
+					{disabled}
+				/>
+				<p>{$t('notifications.preferences.ticket.*.reply.*.created')}</p>
+			</label>
+			<label class="flex items-center space-x-2">
+				<input
+					class="checkbox"
+					type="checkbox"
+					value="ticket.*.reply.*.updated"
+					bind:group={data.notificationPrefs}
+					{disabled}
+				/>
+				<p>{$t('notifications.preferences.ticket.*.reply.*.updated')}</p>
+			</label>
+			{#if $page.data.user.type === 'agent'}
+				<label class="flex items-center space-x-2">
+					<input
+						class="checkbox"
+						type="checkbox"
+						value="queue.*.created"
+						bind:group={data.notificationPrefs}
+						{disabled}
+					/>
+					<p>{$t('notifications.preferences.queue.*.created')}</p>
+				</label>
+				<label class="flex items-center space-x-2">
+					<input
+						class="checkbox"
+						type="checkbox"
+						value="queue.*.updated"
+						bind:group={data.notificationPrefs}
+						{disabled}
+					/>
+					<p>{$t('notifications.preferences.queue.*.updated')}</p>
+				</label>
+			{/if}
+		</label>
+	{/if}
 	<label for="name">
 		<p>Name</p>
 		<input type="text" name="name" value={data.name} class="input" {disabled} />
