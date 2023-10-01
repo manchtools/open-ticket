@@ -11,6 +11,12 @@ const config = {
 			locale: 'en',
 			key: 'notifications',
 			loader: async () => (await import('./en/notifications.json')).default
+		},
+		{
+			locale: 'en',
+			key: 'setup',
+			url: '/user/setup',
+			loader: async () => (await import('./en/userSetup.json')).default
 		}
 	]
 };

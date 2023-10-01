@@ -1,0 +1,11 @@
+{
+	"notification": {
+		"headline": "We use web notifications to improve your expirience and keep you updated",
+		"allowedBody": "Please allow notifications inside your webbrowser for this website",
+		"deniedBody": "You have disabled notifications in this webbrowser, please enable them to be able to recieve notifications",
+		"notSupported": "Your browser does not support delivery on notifications, but you are free to setup notifications on another device or browser!"
+	},
+	"completed": {
+		"headline": "Your setup is complete!"
+	}
+}
