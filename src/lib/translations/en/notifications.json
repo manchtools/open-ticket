@@ -12,5 +12,14 @@
 		"ticket.*.reply.*.updated": "Notify me when any of my replies get updated",
 		"queue.*.created": "Notify me when a queue is created (only affects agents)",
 		"queue.*.updated": "Notify me when any queues get updated (only affects agents)"
-	}
+	},
+	"title": {
+		"newTicket": "New ticket",
+		"newReply": "New Reply",
+		"newQueue": "New Queue",
+		"updateTicket": "Ticket was updated",
+		"updateReply": "Reply was updated",
+		"updateQueue": "Queue was updated"
+	},
+	"recieveOnThisDevice": "Recieve push notifications on this device"
 }

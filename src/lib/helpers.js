@@ -115,3 +115,23 @@ export function notificationMessage(payload) {
 		});
 	}
 }
+export function notificationTitle(payload) {
+	if (payload.resourceType === 'ticket' && payload.action === 'created') {
+		return t.get('notifications.title.newTicket');
+	}
+	if (payload.resourceType === 'reply' && payload.action === 'created') {
+		return t.get('notifications.title.newReply');
+	}
+	if (payload.resourceType === 'queue' && payload.action === 'created') {
+		return t.get('notifications.title.newQueue');
+	}
+	if (payload.resourceType === 'ticket' && payload.action === 'updated') {
+		return t.get('notifications.title.updateTicket');
+	}
+	if (payload.resourceType === 'reply' && payload.action === 'updated') {
+		return t.get('notifications.title.updateReply');
+	}
+	if (payload.resourceType === 'queue' && payload.action === 'updated') {
+		return t.get('notifications.title.updateQueue');
+	}
+}

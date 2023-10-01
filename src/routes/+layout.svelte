@@ -6,11 +6,10 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { Modal, toastStore } from '@skeletonlabs/skeleton';
+	import { Modal, SlideToggle } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 
 	import { storePopup } from '@skeletonlabs/skeleton';
-	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	import { AppShell, Toast } from '@skeletonlabs/skeleton';
 	import { AppBar } from '@skeletonlabs/skeleton';
@@ -31,12 +30,53 @@
 	import { pb } from '$lib/db';
 	import { notificationLink, notificationMessage, notifyUser } from '$lib/helpers';
 	import { browser } from '$app/environment';
+	import { env } from '$env/dynamic/public';
+	import { onMount } from 'svelte';
+	import { t } from '$lib/translations/translations';
 	export let data;
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+	let hasPushSubscripition = false;
+
+	let blockedNotifications = false;
+	onMount(async () => {
+		blockedNotifications = Notification.permission === 'denied' ? true : false;
+		let sw = await navigator.serviceWorker.ready;
+		let push = await sw.pushManager.getSubscription();
+		if (push) {
+			hasPushSubscripition = true;
+		}
+	});
 
 	$: if (browser && data.user) {
 		pb.collection('notifications').subscribe('*', function (e) {
 			if (e.action === 'create' || e.action === 'update') {
 				notifyUser(e.record);
+			}
+		});
+	}
+	async function subscribe() {
+		let sw = await navigator.serviceWorker.ready;
+		let push = await sw.pushManager.subscribe({
+			userVisibleOnly: true,
+			applicationServerKey: env.PUBLIC_VAPID
+		});
+		await pb.collection('pushSubscriptions').create({ user: data.user.id, subscription: push });
+	}
+	async function unsubscribe() {
+		let sw = await navigator.serviceWorker.ready;
+		let push = await sw.pushManager.getSubscription().then(async (subscription) => {
+			try {
+				console.log(subscription);
+				const record = await pb
+					.collection('pushSubscriptions')
+					.getFirstListItem(`subscription.endpoint="${subscription?.endpoint}"`);
+				if (record) {
+					await pb.collection('pushSubscriptions').delete(record.id);
+				}
+			} catch (e) {
+				console.log(e);
+			} finally {
+				subscription?.unsubscribe();
 			}
 		});
 	}
@@ -165,7 +205,6 @@
 </AppShell>
 
 <nav class="card list p-4 z-[999] shadow-xl" data-popup="userPane">
-	<!-- (optionally you can provide a label here) -->
 	<ul class="flex gap-2 flex-col">
 		<li>
 			<a href="/user" class="btn btn-sm variant-ghost {classesActive('/user')}">My account</a>
@@ -190,8 +229,29 @@
 	</ul>
 </nav>
 
-<nav class="card list p-4 z-[999] shadow-xl" data-popup="notificationPane">
+<div
+	class="card list p-4 z-[999] shadow-xl max-h-64 overflow-y-scroll"
+	data-popup="notificationPane"
+>
 	<h2>Notifications</h2>
+	{#if env.PUBLIC_VAPID}
+		<SlideToggle
+			name="pushNotifications"
+			active="bg-primary-500"
+			size="sm"
+			bind:checked={hasPushSubscripition}
+			disabled={blockedNotifications}
+			on:change={(e) => {
+				if (e.target.checked) {
+					subscribe();
+				}
+				if (!e.target.checked) {
+					unsubscribe();
+				}
+			}}>{$t('notifications.recieveOnThisDevice')}</SlideToggle
+		>
+	{/if}
+
 	<div class="flex flex-col gap-2">
 		{#each data.notifications || [] as notification}
 			<a href={notificationLink(notification.payload)}
@@ -199,4 +259,4 @@
 			>
 		{/each}
 	</div>
-</nav>
+</div>

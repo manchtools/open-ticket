@@ -12,7 +12,7 @@ export async function handle({ event, resolve }) {
 		try {
 			await event.locals.pb.collection('users').authRefresh();
 		} catch (e) {
-			if (!event.url.pathname.startsWith('/auth')) {
+			if (!event.url.pathname.startsWith('/auth') && !event.url.pathname.startsWith('/push')) {
 				event.locals.pb.authStore.clear();
 				event.cookies.delete('pb_auth');
 				throw redirect(307, '/auth/logout');

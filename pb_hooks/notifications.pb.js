@@ -224,6 +224,31 @@ onModelBeforeCreate((e) => {
 	}
 }, 'notifications');
 
+onModelAfterCreate((e) => {
+	const users = $app.dao().findRecordsByIds('users', [...e.model.get('recipients')]);
+	$app.dao().expandRecords(users, ['pushSubscriptions'], null);
+	users.map((user) => {
+		if (user.expandedAll('pushSubscriptions').length > 0) {
+			user.expandedAll('pushSubscriptions').map((subscription) => {
+				console.log();
+				try {
+					const res = $http.send({
+						url: 'http://127.0.0.1:5173/push',
+						method: 'POST',
+						body: JSON.stringify({
+							subscription: JSON.parse(subscription.get('subscription')),
+							payload: JSON.parse(e.model.get('payload'))
+						}),
+						headers: { 'content-type': 'application/json' }
+					});
+				} catch (e) {
+					console.log(e);
+				}
+			});
+		}
+	});
+}, 'notifications');
+
 onModelBeforeCreate((e) => {
 	e.model.set('notificationPrefs', [
 		'ticket.*.created',
@@ -234,6 +259,21 @@ onModelBeforeCreate((e) => {
 		'queue.*.updated'
 	]);
 }, 'users');
+
+onModelBeforeCreate((e) => {
+	try {
+		const res = $app
+			.dao()
+			.findFirstRecordByData('pushSubscriptions', 'subscription', e.model.get('subscription'));
+		return false;
+	} catch (e) {}
+}, 'pushSubscriptions');
+
+onModelAfterCreate((e) => {
+	const user = $app.dao().findRecordById('users', e.model.get('user'));
+	user.set('pushSubscriptions', [...user.get('pushSubscriptions'), e.model.id]);
+	$app.dao().saveRecord(user);
+}, 'pushSubscriptions');
 
 cronAdd('removeOldNotifications', '@daily', () => {
 	$app
