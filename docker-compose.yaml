@@ -39,6 +39,8 @@ services:
       - PRIVATE_POCKETBASE_ADMIN=${PRIVATE_POCKETBASE_ADMIN}
       - PRIVATE_POCKETBASE_PASSWORD=${PRIVATE_POCKETBASE_PASSWORD}
       - BODY_SIZE_LIMIT=1470000000
+      - PUBLIC_VAPID=${PUBLIC_VAPID}
+      - PRIVATE_VAPID=${PRIVATE_VAPID}
     depends_on:
       - open-ticket-pocketbase
       - open-ticket-traefik
