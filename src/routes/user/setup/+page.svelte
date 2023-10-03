@@ -34,9 +34,9 @@
 					{#if (stepName = 'notificationSetup') && pub.PUBLIC_VAPID !== ''}
 						<NotificationSetup />
 					{/if}
-					{#if (stepName = 'passwordChange')}
+					<!-- {#if (stepName = 'passwordChange')}
 						<PasswordChange />
-					{/if}
+					{/if} -->
 				{/if}
 			{/each}
 			<Step>
