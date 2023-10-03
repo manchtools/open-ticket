@@ -94,7 +94,7 @@ onModelBeforeCreate((e) => {
 		'queue.*.created',
 		'queue.*.updated'
 	]);
-	e.model.set('setupSteps', { passwordReset: true, notificationSetup: true });
+	e.model.set('setupSteps', { notificationSetup: false });
 }, 'users');
 
 onAfterBootstrap((e) => {
