@@ -1,5 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import { setVapidDetails, sendNotification } from 'web-push';
+import webpush from 'web-push';
 import { env as priv } from '$env/dynamic/private';
 import { env as pub } from '$env/dynamic/public';
 import { notificationMessage, notificationTitle } from '$lib/helpers';
@@ -12,7 +12,11 @@ export async function POST({ request }) {
 		priv.PRIVATE_VAPID !== ''
 	) {
 		try {
-			setVapidDetails(`mailto:${priv.LETS_ENCRYPT_EMAIL}`, pub.PUBLIC_VAPID, priv.PRIVATE_VAPID);
+			webpush.setVapidDetails(
+				`mailto:${priv.LETS_ENCRYPT_EMAIL}`,
+				pub.PUBLIC_VAPID,
+				priv.PRIVATE_VAPID
+			);
 		} catch (e) {
 			throw error(500, 'There was an error setting the vapidkeys');
 		}
@@ -20,7 +24,7 @@ export async function POST({ request }) {
 		const notificationText = notificationMessage(res.payload);
 		const notificationHead = notificationTitle(res.payload);
 		try {
-			await sendNotification(
+			await webpush.sendNotification(
 				res.subscription,
 				JSON.stringify({ message: notificationText, title: notificationHead })
 			);
