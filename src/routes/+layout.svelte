@@ -39,7 +39,8 @@
 
 	let blockedNotifications = false;
 	onMount(async () => {
-		blockedNotifications = Notification.permission === 'denied' ? true : false;
+		blockedNotifications =
+			env.PUBLIC_VAPID === '' ? true : Notification.permission === 'denied' ? true : false;
 		let sw = await navigator.serviceWorker.ready;
 		let push = await sw.pushManager.getSubscription();
 		if (push) {
@@ -66,7 +67,6 @@
 		let sw = await navigator.serviceWorker.ready;
 		let push = await sw.pushManager.getSubscription().then(async (subscription) => {
 			try {
-				console.log(subscription);
 				const record = await pb
 					.collection('pushSubscriptions')
 					.getFirstListItem(`subscription.endpoint="${subscription?.endpoint}"`);
