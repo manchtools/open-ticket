@@ -56,6 +56,8 @@ services:
     environment:
       - PRIVATE_POCKETBASE_ADMIN=${PRIVATE_POCKETBASE_ADMIN}
       - PRIVATE_POCKETBASE_PASSWORD=${PRIVATE_POCKETBASE_PASSWORD}
+      - PRIVATE_OPEN_TICKET_URL=http://open-ticket:3000
+      - PRIVATE_POCKETBASE_URL=http://open-ticket-pocketbase:8090
     depends_on:
       - open-ticket-traefik
     volumes:
