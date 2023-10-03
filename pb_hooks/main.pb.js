@@ -97,21 +97,21 @@ onModelBeforeCreate((e) => {
 	e.model.set('setupSteps', { notificationSetup: false });
 }, 'users');
 
-onAfterBootstrap((e) => {
-	try {
-		$app
-			.dao()
-			.db()
-			.newQuery("UPDATE users SET setupSteps = '{}' WHERE setupSteps = json('null')")
-			.execute();
-		$app
-			.dao()
-			.db()
-			.newQuery(
-				"UPDATE users SET setupSteps = JSON_INSERT(setupSteps, '$.notificationSetup',json('false'))"
-			)
-			.execute();
-	} catch (e) {
-		console.log(e);
-	}
-});
+// onAfterBootstrap((e) => {
+// 	try {
+// 		$app
+// 			.dao()
+// 			.db()
+// 			.newQuery("UPDATE users SET setupSteps = '{}' WHERE setupSteps = json('null')")
+// 			.execute();
+// 		$app
+// 			.dao()
+// 			.db()
+// 			.newQuery(
+// 				"UPDATE users SET setupSteps = JSON_INSERT(setupSteps, '$.notificationSetup',json('false'))"
+// 			)
+// 			.execute();
+// 	} catch (e) {
+// 		console.log(e);
+// 	}
+// });
