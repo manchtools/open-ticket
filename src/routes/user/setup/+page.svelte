@@ -5,6 +5,7 @@
 	import PasswordChange from './PasswordChange.svelte';
 	import { pb } from '$lib/db';
 	import { goto } from '$app/navigation';
+	import { env as pub } from '$env/dynamic/public';
 	export let data;
 	export let form;
 </script>
@@ -29,7 +30,7 @@
 		>
 			{#each data.user.setupSteps as stepName}
 				{#if !Object.values(stepName)[0]}
-					{#if (Object.keys(stepName)[0] = 'notificationSetup')}
+					{#if (Object.keys(stepName)[0] = 'notificationSetup') && pub.PUBLIC_VAPID !== ''}
 						<NotificationSetup />
 					{/if}
 					{#if (Object.keys(stepName)[0] = 'passwordChange')}
