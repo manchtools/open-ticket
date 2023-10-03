@@ -84,3 +84,30 @@ onRecordBeforeCreateRequest(
 	'tickets',
 	'replies'
 );
+
+onModelBeforeCreate((e) => {
+	e.model.set('notificationPrefs', [
+		'ticket.*.created',
+		'ticket.*.updated',
+		'ticket.*.reply.*.created',
+		'ticket.*.reply.*.updated',
+		'queue.*.created',
+		'queue.*.updated'
+	]);
+	e.model.set('setupSteps', { passwordReset: true, notificationSetup: true });
+}, 'users');
+
+onAfterBootstrap((e) => {
+	$app
+		.dao()
+		.db()
+		.newQuery("UPDATE users SET setupSteps = '{}' WHERE setupSteps = json('null')")
+		.execute();
+	$app
+		.dao()
+		.db()
+		.newQuery(
+			"UPDATE users SET setupSteps = JSON_INSERT(setupSteps, '$.notificationSetup',json('false'))"
+		)
+		.execute();
+});
