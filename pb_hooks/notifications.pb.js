@@ -230,16 +230,18 @@ onModelAfterCreate((e) => {
 	users.map((user) => {
 		if (user.expandedAll('pushSubscriptions').length > 0) {
 			user.expandedAll('pushSubscriptions').map((subscription) => {
-				console.log();
 				try {
 					const res = $http.send({
-						url: 'http://127.0.0.1:5173/push',
+						url: $os.getenv('PRIVATE_OPEN_TICKET_URL') + '/push',
 						method: 'POST',
 						body: JSON.stringify({
 							subscription: JSON.parse(subscription.get('subscription')),
 							payload: JSON.parse(e.model.get('payload'))
 						}),
-						headers: { 'content-type': 'application/json' }
+						headers: {
+							'content-type': 'application/json',
+							origin: $os.getenv('PRIVATE_POCKETBASE_URL')
+						}
 					});
 				} catch (e) {
 					console.log(e);
@@ -248,17 +250,6 @@ onModelAfterCreate((e) => {
 		}
 	});
 }, 'notifications');
-
-onModelBeforeCreate((e) => {
-	e.model.set('notificationPrefs', [
-		'ticket.*.created',
-		'ticket.*.updated',
-		'ticket.*.reply.*.created',
-		'ticket.*.reply.*.updated',
-		'queue.*.created',
-		'queue.*.updated'
-	]);
-}, 'users');
 
 onModelBeforeCreate((e) => {
 	try {
