@@ -59,6 +59,7 @@ export async function handle({ event, resolve }) {
 				throw redirect(303, '/');
 			}
 			if (
+				event.locals.user.setupSteps !== null &&
 				Object.keys(event.locals.user.setupSteps).some((k) => !event.locals.user.setupSteps[k]) &&
 				event.url.pathname !== '/user/setup'
 			) {
