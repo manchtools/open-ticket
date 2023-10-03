@@ -19,14 +19,18 @@ export async function POST({ request }) {
 		const res = await request.json();
 		const notificationText = notificationMessage(res.payload);
 		const notificationHead = notificationTitle(res.payload);
-		const notification = await sendNotification(
-			res.subscription,
-			JSON.stringify({ message: notificationText, title: notificationHead })
-		);
-		if (notification.statusCode === 201) {
+		try {
+			await sendNotification(
+				res.subscription,
+				JSON.stringify({ message: notificationText, title: notificationHead })
+			);
 			return json({ success: true });
-		} else {
-			return json({ success: false, status: notification.statusCode });
+		} catch (e) {
+			if (e.statusCode === 410) {
+				return json({ success: false });
+			} else {
+				return json({ success: true });
+			}
 		}
 	} else {
 		throw error(403);
