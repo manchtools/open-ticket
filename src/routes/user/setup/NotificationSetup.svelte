@@ -33,7 +33,6 @@
 		let sw = await navigator.serviceWorker.ready;
 		await sw.pushManager.getSubscription().then(async (subscription) => {
 			try {
-				console.log(subscription);
 				const record = await pb
 					.collection('pushSubscriptions')
 					.getFirstListItem(`subscription.endpoint="${subscription?.endpoint}"`);
