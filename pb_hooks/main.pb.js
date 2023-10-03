@@ -98,16 +98,20 @@ onModelBeforeCreate((e) => {
 }, 'users');
 
 onAfterBootstrap((e) => {
-	$app
-		.dao()
-		.db()
-		.newQuery("UPDATE users SET setupSteps = '{}' WHERE setupSteps = json('null')")
-		.execute();
-	$app
-		.dao()
-		.db()
-		.newQuery(
-			"UPDATE users SET setupSteps = JSON_INSERT(setupSteps, '$.notificationSetup',json('false'))"
-		)
-		.execute();
+	try {
+		$app
+			.dao()
+			.db()
+			.newQuery("UPDATE users SET setupSteps = '{}' WHERE setupSteps = json('null')")
+			.execute();
+		$app
+			.dao()
+			.db()
+			.newQuery(
+				"UPDATE users SET setupSteps = JSON_INSERT(setupSteps, '$.notificationSetup',json('false'))"
+			)
+			.execute();
+	} catch (e) {
+		console.log(e);
+	}
 });
