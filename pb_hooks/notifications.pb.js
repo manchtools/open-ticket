@@ -229,7 +229,7 @@ onModelAfterCreate((e) => {
 	$app.dao().expandRecords(users, ['pushSubscriptions'], null);
 	users.map((user) => {
 		if (user.expandedAll('pushSubscriptions').length > 0) {
-			user.expandedAll('pushSubscriptions').map((subscription) => {
+			user.expandedAll('pushSubscriptions').map(async (subscription) => {
 				try {
 					const res = $http.send({
 						url: $os.getenv('PRIVATE_OPEN_TICKET_URL') + '/push',
@@ -243,6 +243,12 @@ onModelAfterCreate((e) => {
 							origin: $os.getenv('PRIVATE_POCKETBASE_URL')
 						}
 					});
+					const responseJson = await res.json;
+					if (responseJson.success === false) {
+						$app
+							.dao()
+							.deleteRecord($app.dao().findRecordById('pushSubscriptions', subscription.id));
+					}
 				} catch (e) {
 					console.log(e);
 				}
