@@ -58,14 +58,10 @@ export async function handle({ event, resolve }) {
 			) {
 				throw redirect(303, '/');
 			}
-			let setupRequred = false;
-
-			event.locals.user.setupSteps.forEach((step) => {
-				if (Object.keys(step).some((k) => !step[k])) {
-					setupRequred = true;
-				}
-			});
-			if (setupRequred && event.url.pathname !== '/user/setup') {
+			if (
+				Object.keys(event.locals.user.setupSteps).some((k) => !event.locals.user.setupSteps[k]) &&
+				event.url.pathname !== '/user/setup'
+			) {
 				throw redirect(307, '/user/setup');
 			}
 		}

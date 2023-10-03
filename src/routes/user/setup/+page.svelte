@@ -6,34 +6,35 @@
 	import { pb } from '$lib/db';
 	import { goto } from '$app/navigation';
 	import { env as pub } from '$env/dynamic/public';
+
 	export let data;
 	export let form;
+	const readOnlySteps = data.user.setupSteps;
 </script>
 
 <div class="h-full w-full flex items-center justify-center">
 	<div class="w-1/3">
 		<Stepper
+			on:next={(e) => {
+				console.log(data.user.setupSteps);
+				data.user.setupSteps[Object.keys(data.user.setupSteps)[e.detail.step]] = true;
+				console.log(data.user.setupSteps);
+			}}
 			on:complete={async () => {
-				let tmp = [];
-
-				data.user.setupSteps.forEach((step) => {
-					step[Object.keys(step)[0]] = true;
-					tmp.push(step);
-				});
 				try {
-					await pb.collection('users').update(data.user.id, { setupSteps: tmp });
+					await pb.collection('users').update(data.user.id, { setupSteps: data.user.setupSteps });
 				} catch (e) {
 					console.log(e);
 				}
 				goto('/', { invalidateAll: true });
 			}}
 		>
-			{#each data.user.setupSteps as stepName}
-				{#if !Object.values(stepName)[0]}
-					{#if (Object.keys(stepName)[0] = 'notificationSetup') && pub.PUBLIC_VAPID !== ''}
+			{#each Object.entries(readOnlySteps) as [stepName, value]}
+				{#if value === false}
+					{#if (stepName = 'notificationSetup') && pub.PUBLIC_VAPID !== ''}
 						<NotificationSetup />
 					{/if}
-					{#if (Object.keys(stepName)[0] = 'passwordChange')}
+					{#if (stepName = 'passwordChange')}
 						<PasswordChange />
 					{/if}
 				{/if}
