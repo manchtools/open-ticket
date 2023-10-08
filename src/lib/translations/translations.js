@@ -4,7 +4,7 @@ const config = {
 	loaders: [
 		{
 			locale: 'en',
-			key: 'default',
+			key: 'base',
 			loader: async () => (await import('./en/default.json')).default
 		},
 		{
