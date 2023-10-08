@@ -97,21 +97,28 @@ onModelBeforeCreate((e) => {
 	e.model.set('setupSteps', { notificationSetup: false });
 }, 'users');
 
-// onAfterBootstrap((e) => {
-// 	try {
-// 		$app
-// 			.dao()
-// 			.db()
-// 			.newQuery("UPDATE users SET setupSteps = '{}' WHERE setupSteps = json('null')")
-// 			.execute();
-// 		$app
-// 			.dao()
-// 			.db()
-// 			.newQuery(
-// 				"UPDATE users SET setupSteps = JSON_INSERT(setupSteps, '$.notificationSetup',json('false'))"
-// 			)
-// 			.execute();
-// 	} catch (e) {
-// 		console.log(e);
-// 	}
-// });
+onRecordBeforeAuthWithPasswordRequest((e) => {
+	let setupSteps = JSON.parse(e.record.get('setupSteps'));
+	if (setupSteps === '' || setupSteps === null) {
+		setupSteps = {};
+	}
+
+	if (!setupSteps.hasOwnProperty('notificationSetup')) {
+		setupSteps.notificationSetup = false;
+	}
+	e.record.set('setupSteps', JSON.stringify(setupSteps));
+	$app.dao().saveRecord(e.record);
+});
+
+onRecordBeforeAuthWithOAuth2Request((e) => {
+	let setupSteps = JSON.parse(e.record.get('setupSteps'));
+	if (setupSteps === '' || setupSteps === null) {
+		setupSteps = {};
+	}
+
+	if (!setupSteps.hasOwnProperty('notificationSetup')) {
+		setupSteps.notificationSetup = false;
+	}
+	e.record.set('setupSteps', JSON.stringify(setupSteps));
+	$app.dao().saveRecord(e.record);
+});
