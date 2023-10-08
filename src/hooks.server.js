@@ -61,7 +61,8 @@ export async function handle({ event, resolve }) {
 			if (
 				event.locals.user.setupSteps !== null &&
 				Object.keys(event.locals.user.setupSteps).some((k) => !event.locals.user.setupSteps[k]) &&
-				event.url.pathname !== '/user/setup'
+				event.url.pathname !== '/user/setup' &&
+				event.url.pathname !== '/auth/logout'
 			) {
 				throw redirect(307, '/user/setup');
 			}
