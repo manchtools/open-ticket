@@ -1,1 +1,5 @@
-{}
+{
+	"oldPassword": "Old password",
+	"newPassword": "New Password",
+	"confirmPassword": "Confirm password"
+}
