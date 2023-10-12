@@ -16,9 +16,7 @@
 	<div class="w-1/3">
 		<Stepper
 			on:next={(e) => {
-				console.log(data.user.setupSteps);
 				data.user.setupSteps[Object.keys(data.user.setupSteps)[e.detail.step]] = true;
-				console.log(data.user.setupSteps);
 			}}
 			on:complete={async () => {
 				try {
