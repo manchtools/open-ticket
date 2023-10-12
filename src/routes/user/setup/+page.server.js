@@ -1,3 +1,5 @@
+import { redirect } from '@sveltejs/kit';
+
 export const actions = {
 	updatePassword: async ({ request, locals }) => {
 		let { password, passwordConfirm, oldPassword } = Object.fromEntries(await request.formData());
@@ -12,9 +14,9 @@ export const actions = {
 
 		try {
 			await locals.pb.collection('users').update(locals.user.id, payload);
-			return { success: true };
 		} catch (e) {
-			return { success: false };
+			return { success: false, data: e.response.data };
 		}
+		throw redirect(303, '/auth/logout');
 	}
 };
