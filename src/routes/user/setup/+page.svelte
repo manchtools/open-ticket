@@ -8,7 +8,6 @@
 	import { env as pub } from '$env/dynamic/public';
 
 	export let data;
-	export let form;
 	const readOnlySteps = data.user.setupSteps;
 </script>
 
