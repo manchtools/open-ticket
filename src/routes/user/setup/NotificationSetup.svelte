@@ -27,7 +27,18 @@
 			userVisibleOnly: true,
 			applicationServerKey: env.PUBLIC_VAPID
 		});
-		await pb.collection('pushSubscriptions').create({ user: data.user.id, subscription: push });
+		try {
+			await pb.collection('pushSubscriptions').create({ user: data.user.id, subscription: push });
+		} catch (e) {
+			console.log(e);
+		}
+		try {
+			await pb
+				.collection('users')
+				.update(data.user.id, { setupSteps: { ...data.user.setupSteps, notificationSetup: true } });
+		} catch (e) {
+			console.log(e);
+		}
 	}
 	async function unsubscribe() {
 		let sw = await navigator.serviceWorker.ready;
