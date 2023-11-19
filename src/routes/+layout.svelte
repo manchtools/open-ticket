@@ -1,19 +1,16 @@
 <script lang="ts">
-	// The ordering of these imports is critical to your app working properly
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
-	import '@skeletonlabs/skeleton/styles/skeleton.css';
-	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { Modal, SlideToggle } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+import { initializeStores } from '@skeletonlabs/skeleton';
 
+initializeStores();
 	import { storePopup } from '@skeletonlabs/skeleton';
 
 	import { AppShell, Toast } from '@skeletonlabs/skeleton';
 	import { AppBar } from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore, getModalStore } from '@skeletonlabs/skeleton';
 	import Ticket from '$lib/tickets/Ticket.svelte';
 	import CreateUser from '$lib/user/CreateUser.svelte';
 
@@ -24,7 +21,6 @@
 	import EditQueue from '$lib/queue/EditQueue.svelte';
 	import { faTicket, faUser, faTurnUp, faGear, faBell } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
-	import { modalStore } from '@skeletonlabs/skeleton';
 	import Licenses from './Licenses.svelte';
 	import Logo from '$lib/Logo.svelte';
 	import { pb } from '$lib/db';
@@ -97,6 +93,9 @@
 
 	$: classesActive = (href, fallback = '') =>
 		href === $page.url.pathname ? '!variant-ghost-primary' : fallback;
+
+	const drawerStore = getDrawerStore()
+	const modalStore = getModalStore()
 </script>
 
 <Modal />
