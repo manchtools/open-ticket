@@ -1,8 +1,0 @@
-{
-	"oldPassword": "Old password",
-	"newPassword": "New Password",
-	"confirmPassword": "Confirm password",
-	"passwordsDontMatch": "Passwords don't match",
-	"oldPasswordRequired": "Please enter your old password",
-	"noPasswordReuse": "You can't use your old password as your new password"
-}

@@ -1,11 +1,15 @@
-<script>
-	import { faTicket } from '@fortawesome/free-solid-svg-icons';
-	import Fa from 'svelte-fa';
-</script>
+<!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
 
-<div class="flex gap-4 flex-wrap mb-4">
-	<a href="/ticket" class="card card-hover p-4 w-fit h-fit items-center flex flex-col">
-		<Fa icon={faTicket} />
-		<section>New ticket</section>
-	</a>
+<div class="container h-full mx-auto flex justify-center items-center">
+	<div class="space-y-5">
+		<h1 class="h1">Let's get cracking bones!</h1>
+		<p>Start by exploring:</p>
+		<ul>
+			<li><code class="code">/src/routes/+layout.svelte</code> - barebones layout</li>
+			<li><code class="code">/src/app.postcss</code> - app wide css</li>
+			<li>
+				<code class="code">/src/routes/+page.svelte</code> - this page, you can replace the contents
+			</li>
+		</ul>
+	</div>
 </div>
