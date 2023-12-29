@@ -1,0 +1,431 @@
+{
+	"projectId": "open-ticket",
+	"projectName": "open-ticket",
+	"databases": [
+		{
+			"$id": "main",
+			"name": "main"
+		}
+	],
+	"collections": [
+		{
+			"$id": "users",
+			"name": "users",
+			"databaseId": "main",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["read(\"label:agent\")", "read(\"label:limitedAgent\")"],
+			"attributes": [
+				{
+					"key": "name",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"size": 265
+				},
+				{
+					"key": "phone",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": false,
+					"array": false,
+					"size": 100
+				},
+				{
+					"key": "email",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"format": "email",
+					"size": 100
+				},
+				{
+					"key": "registration",
+					"type": "datetime",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"format": "datetime"
+				}
+			],
+			"indexes": []
+		},
+		{
+			"$id": "agents",
+			"name": "agents",
+			"databaseId": "main",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["read(\"users\")"],
+			"attributes": [
+				{
+					"key": "name",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"size": 265
+				},
+				{
+					"key": "phone",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": false,
+					"array": false,
+					"size": 100
+				},
+				{
+					"key": "email",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"format": "email",
+					"size": 100
+				},
+				{
+					"key": "registration",
+					"type": "datetime",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"format": "datetime"
+				}
+			],
+			"indexes": []
+		},
+		{
+			"$id": "queues",
+			"name": "queues",
+			"databaseId": "main",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["read(\"label:agent\")", "write(\"label:agent\")"],
+			"attributes": [
+				{
+					"key": "name",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"size": 64
+				}
+			],
+			"indexes": []
+		},
+		{
+			"$id": "replies",
+			"name": "replies",
+			"databaseId": "main",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["read(\"label:agent\")", "create(\"users\")"],
+			"attributes": [
+				{
+					"key": "body",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"size": 265
+				},
+				{
+					"key": "createdBy",
+					"type": "relationship",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"relatedCollection": "users",
+					"relationType": "manyToOne",
+					"twoWay": true,
+					"twoWayKey": "replies",
+					"onDelete": "setNull",
+					"side": "parent"
+				}
+			],
+			"indexes": []
+		},
+		{
+			"$id": "tickets",
+			"name": "tickets",
+			"databaseId": "main",
+			"enabled": true,
+			"documentSecurity": true,
+			"$permissions": ["read(\"label:agent\")", "update(\"label:agent\")", "create(\"users\")"],
+			"attributes": [
+				{
+					"key": "subject",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": false,
+					"array": false,
+					"size": 128
+				},
+				{
+					"key": "body",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"size": 10000
+				},
+				{
+					"key": "createdBy",
+					"type": "relationship",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"relatedCollection": "users",
+					"relationType": "manyToOne",
+					"twoWay": true,
+					"twoWayKey": "tickets",
+					"onDelete": "setNull",
+					"side": "parent"
+				},
+				{
+					"key": "agent",
+					"type": "relationship",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"relatedCollection": "agents",
+					"relationType": "manyToOne",
+					"twoWay": true,
+					"twoWayKey": "tickets",
+					"onDelete": "setNull",
+					"side": "parent"
+				},
+				{
+					"key": "queue",
+					"type": "relationship",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"relatedCollection": "queues",
+					"relationType": "manyToOne",
+					"twoWay": true,
+					"twoWayKey": "tickets",
+					"onDelete": "setNull",
+					"side": "parent"
+				},
+				{
+					"key": "replies",
+					"type": "relationship",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"relatedCollection": "replies",
+					"relationType": "oneToMany",
+					"twoWay": true,
+					"twoWayKey": "ticket",
+					"onDelete": "cascade",
+					"side": "parent"
+				},
+				{
+					"key": "status",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": false,
+					"array": false,
+					"elements": ["new", "open", "in progress", "solved", "closed", "pending"],
+					"format": "enum",
+					"default": "new"
+				}
+			],
+			"indexes": []
+		}
+	],
+	"functions": [
+		{
+			"$id": "updateTicketPermissions",
+			"name": "updateTicketPermissions",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["databases.*.collections.tickets.documents.*.create"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/updateTicketPermissions"
+		},
+		{
+			"$id": "manageTicketStorageBucket",
+			"name": "manageTicketStorageBucket",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": [
+				"databases.*.collections.tickets.documents.*.create",
+				"databases.*.collections.tickets.documents.*.delete"
+			],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/manageTicketStorageBucket"
+		},
+		{
+			"$id": "manageQueuePermissions",
+			"name": "manageQueuePermissions",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["databases.*.collections.tickets.documents.*.update"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/manageQueuePermissions"
+		},
+		{
+			"$id": "updateReplyPermissions",
+			"name": "updateReplyPermissions",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["databases.*.collections.replies.documents.*.create"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/updateReplyPermissions"
+		},
+		{
+			"$id": "manageQueues",
+			"name": "manageQueues",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": [
+				"databases.*.collections.queues.documents.*.create",
+				"databases.*.collections.queues.documents.*.delete"
+			],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/manageQueues"
+		},
+		{
+			"$id": "manageQueueAssignment",
+			"name": "manageQueueAssignment",
+			"runtime": "node-16.0",
+			"execute": ["team:agents"],
+			"events": [],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/manageQueueAssignment"
+		},
+		{
+			"$id": "createUserInCollection",
+			"name": "createUserInCollection",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["users.*.create"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/createUserInCollection"
+		},
+		{
+			"$id": "deleteUserInCollection",
+			"name": "deleteUserInCollection",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["users.*.delete"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/deleteUserInCollection"
+		},
+		{
+			"$id": "updateUserInCollection",
+			"name": "updateUserInCollection",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["users.*.update"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/updateUserInCollection"
+		},
+		{
+			"$id": "addUserToAgentCollection",
+			"name": "addUserToAgentCollection",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["teams.agents.memberships.*.create", "teams.limitedAgents.memberships.*.create"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/addUserToAgentCollection"
+		},
+		{
+			"$id": "removeUserFromAgentCollection",
+			"name": "removeUserFromAgentCollection",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": ["teams.agents.memberships.*.delete", "teams.limitedAgents.memberships.*.delete"],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/removeUserFromAgentCollection"
+		}
+	]
+}
