@@ -1,6 +1,6 @@
 {
 	"projectId": "open-ticket",
-	"projectName": "open-ticket",
+	"projectName": "",
 	"databases": [
 		{
 			"$id": "main",
@@ -253,33 +253,53 @@
 				}
 			],
 			"indexes": []
+		},
+		{
+			"$id": "authProvider",
+			"name": "authProvider",
+			"databaseId": "main",
+			"enabled": true,
+			"documentSecurity": false,
+			"$permissions": ["read(\"any\")"],
+			"attributes": [
+				{
+					"key": "name",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"size": 124
+				},
+				{
+					"key": "key",
+					"type": "string",
+					"status": "available",
+					"error": "string",
+					"required": true,
+					"array": false,
+					"size": 124
+				},
+				{
+					"key": "enabled",
+					"type": "boolean",
+					"status": "available",
+					"error": "string",
+					"required": false,
+					"array": false,
+					"default": false
+				}
+			],
+			"indexes": []
 		}
 	],
 	"functions": [
-		{
-			"$id": "updateTicketPermissions",
-			"name": "updateTicketPermissions",
-			"runtime": "node-16.0",
-			"execute": [],
-			"events": ["databases.*.collections.tickets.documents.*.create"],
-			"schedule": "",
-			"timeout": 15,
-			"enabled": true,
-			"logging": true,
-			"entrypoint": "src/main.js",
-			"commands": "npm install",
-			"ignore": ["node_modules", ".npm"],
-			"path": "functions/updateTicketPermissions"
-		},
 		{
 			"$id": "manageTicketStorageBucket",
 			"name": "manageTicketStorageBucket",
 			"runtime": "node-16.0",
 			"execute": [],
-			"events": [
-				"databases.*.collections.tickets.documents.*.create",
-				"databases.*.collections.tickets.documents.*.delete"
-			],
+			"events": ["databases.*.collections.tickets.documents.*.delete"],
 			"schedule": "",
 			"timeout": 15,
 			"enabled": true,
@@ -426,6 +446,46 @@
 			"commands": "npm install",
 			"ignore": ["node_modules", ".npm"],
 			"path": "functions/removeUserFromAgentCollection"
+		},
+		{
+			"$id": "syncActiveAuthProvider",
+			"name": "syncActiveAuthProvider",
+			"runtime": "node-16.0",
+			"execute": [],
+			"events": [],
+			"schedule": "30 * * * *",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/syncActiveAuthProvider"
+		},
+		{
+			"$id": "createTicket",
+			"name": "createTicket",
+			"runtime": "node-16.0",
+			"execute": ["users"],
+			"events": [],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/createTicket"
+		}
+	],
+	"teams": [
+		{
+			"$id": "agents",
+			"name": "agents"
+		},
+		{
+			"$id": "limitedAgents",
+			"name": "limitedAgents"
 		}
 	]
 }
