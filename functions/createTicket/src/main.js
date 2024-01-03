@@ -1,11 +1,4 @@
-import {
-  Client,
-  Databases,
-  Storage,
-  Permission,
-  Role,
-  Query,
-} from 'node-appwrite';
+import { Client, Databases, Storage, Permission, Role } from 'node-appwrite';
 
 // This is your Appwrite function
 // It's executed each time we get a request
@@ -18,20 +11,13 @@ export default async ({ req, res, log, error }) => {
   const databases = new Databases(client);
   const storage = new Storage(client);
   const { subject, body } = JSON.parse(req.body);
-  const tickets = await databases.listDocuments('main', 'tickets', [
-    Query.startsWith(
-      '$id',
-      `T-${new Date().getFullYear()}-${new Date().getMonth() + 1}`
-    ),
-    Query.select(['$id']),
-    Query.limit(1),
-  ]);
+
   const ticket = await databases.createDocument(
     'main',
     'tickets',
-    `T-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
-      tickets.total + 1
-    }`,
+    `T-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${Math.floor(
+      Math.random() * 999999999
+    )}`,
     {
       subject,
       body,
