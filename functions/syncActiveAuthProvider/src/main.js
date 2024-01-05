@@ -21,7 +21,6 @@ export default async ({ req, res, log, error }) => {
       agent: httpsAgent,
     }
   );
-  log(await authData.json());
   const cookies = authData.headers.get('x-fallback-cookies');
 
   const project = await fetch(`${process.env.ENDPOINT}/projects/open-ticket`, {
@@ -35,7 +34,6 @@ export default async ({ req, res, log, error }) => {
   });
   const projectData = await project.json();
   const provider = projectData.providers;
-
   const client = new Client()
     .setEndpoint(process.env.ENDPOINT)
     .setProject(process.env.PROJECT)
@@ -44,25 +42,19 @@ export default async ({ req, res, log, error }) => {
 
   const databases = new Databases(client);
 
-  for (const p of provider) {
-    log(p.name, p.key, p.enabled);
+  for (const { key, name, enabled } of provider) {
     try {
-      await databases.getDocument('main', 'authProvider', p.key);
-      await databases.updateDocument('main', 'authProvider', p.key, {
-        enabled: p.enabled,
+      await databases.getDocument('main', 'authProvider', key);
+      await databases.updateDocument('main', 'authProvider', key, {
+        enabled: enabled,
       });
     } catch (e) {
       error(e);
-      const res = await databases.createDocument(
-        'main',
-        'authProvider',
-        p.key,
-        {
-          name: p.name,
-          key: p.key,
-          enabled: p.enabled,
-        }
-      );
+      const res = await databases.createDocument('main', 'authProvider', key, {
+        name: name,
+        key: key,
+        enabled: enabled,
+      });
       log(res);
     }
   }
