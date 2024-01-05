@@ -14,7 +14,7 @@
 			"databaseId": "main",
 			"enabled": true,
 			"documentSecurity": true,
-			"$permissions": ["read(\"label:agent\")", "read(\"label:limitedAgent\")"],
+			"$permissions": ["read(\"team:agent\")", "read(\"team:limitedAgent\")"],
 			"attributes": [
 				{
 					"key": "name",
@@ -110,7 +110,7 @@
 			"databaseId": "main",
 			"enabled": true,
 			"documentSecurity": true,
-			"$permissions": ["read(\"label:agent\")", "write(\"label:agent\")"],
+			"$permissions": ["read(\"team:agent\")", "write(\"team:agent\")"],
 			"attributes": [
 				{
 					"key": "name",
@@ -130,7 +130,7 @@
 			"databaseId": "main",
 			"enabled": true,
 			"documentSecurity": true,
-			"$permissions": ["read(\"label:agent\")", "create(\"users\")"],
+			"$permissions": ["read(\"team:agent\")", "create(\"users\")"],
 			"attributes": [
 				{
 					"key": "body",
@@ -164,7 +164,7 @@
 			"databaseId": "main",
 			"enabled": true,
 			"documentSecurity": true,
-			"$permissions": ["read(\"label:agent\")", "update(\"label:agent\")", "create(\"users\")"],
+			"$permissions": ["read(\"team:agent\")", "update(\"team:agent\")", "create(\"users\")"],
 			"attributes": [
 				{
 					"key": "subject",
@@ -224,20 +224,6 @@
 					"twoWay": true,
 					"twoWayKey": "tickets",
 					"onDelete": "setNull",
-					"side": "parent"
-				},
-				{
-					"key": "replies",
-					"type": "relationship",
-					"status": "available",
-					"error": "string",
-					"required": true,
-					"array": false,
-					"relatedCollection": "replies",
-					"relationType": "oneToMany",
-					"twoWay": true,
-					"twoWayKey": "ticket",
-					"onDelete": "cascade",
 					"side": "parent"
 				},
 				{
@@ -476,6 +462,21 @@
 			"commands": "npm install",
 			"ignore": ["node_modules", ".npm"],
 			"path": "functions/createTicket"
+		},
+		{
+			"$id": "getTickets",
+			"name": "getTickets",
+			"runtime": "node-16.0",
+			"execute": ["team:agents", "team:liimitedAgents"],
+			"events": [],
+			"schedule": "",
+			"timeout": 15,
+			"enabled": true,
+			"logging": true,
+			"entrypoint": "src/main.js",
+			"commands": "npm install",
+			"ignore": ["node_modules", ".npm"],
+			"path": "functions/getTickets"
 		}
 	],
 	"teams": [
