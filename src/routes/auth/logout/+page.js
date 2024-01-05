@@ -1,6 +1,5 @@
 import { goto } from '$app/navigation';
 import { account } from '$lib/appwrite';
-import { redirect } from '@sveltejs/kit';
 
 export async function load() {
 	try {
