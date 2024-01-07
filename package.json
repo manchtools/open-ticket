@@ -35,10 +35,16 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"bits-ui": "^0.13.2",
 		"clsx": "^2.1.0",
+		"formsnap": "^0.4.2",
 		"lucide-svelte": "^0.306.0",
+		"mode-watcher": "^0.1.2",
 		"pocketbase": "^0.20.1",
+		"svelte-sonner": "^0.3.10",
+		"sveltekit-superforms": "^1.13.1",
 		"tailwind-merge": "^2.2.0",
-		"tailwind-variants": "^0.1.20"
+		"tailwind-variants": "^0.1.20",
+		"zod": "^3.22.4"
 	}
 }
