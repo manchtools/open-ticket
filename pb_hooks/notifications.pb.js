@@ -224,53 +224,13 @@ onModelBeforeCreate((e) => {
 	}
 }, 'notifications');
 
-onModelAfterCreate((e) => {
-	const users = $app.dao().findRecordsByIds('users', [...e.model.get('recipients')]);
-	$app.dao().expandRecords(users, ['pushSubscriptions'], null);
-	users.map((user) => {
-		if (user.expandedAll('pushSubscriptions').length > 0) {
-			user.expandedAll('pushSubscriptions').map(async (subscription) => {
-				try {
-					const res = $http.send({
-						url: $os.getenv('PRIVATE_OPEN_TICKET_URL') + '/push',
-						method: 'POST',
-						body: JSON.stringify({
-							subscription: JSON.parse(subscription.get('subscription')),
-							payload: JSON.parse(e.model.get('payload'))
-						}),
-						headers: {
-							'content-type': 'application/json',
-							origin: $os.getenv('PRIVATE_POCKETBASE_URL')
-						}
-					});
-					const responseJson = await res.json;
-					if (responseJson.success === false) {
-						$app
-							.dao()
-							.deleteRecord($app.dao().findRecordById('pushSubscriptions', subscription.id));
-					}
-				} catch (e) {
-					console.log(e);
-				}
-			});
-		}
-	});
-}, 'notifications');
+// onModelAfterCreate((e) => {
+// 	const users = $app.dao().findRecordsByIds('users', [...e.model.get('recipients')]);
 
-onModelBeforeCreate((e) => {
-	try {
-		const res = $app
-			.dao()
-			.findFirstRecordByData('pushSubscriptions', 'subscription', e.model.get('subscription'));
-		return false;
-	} catch (e) {}
-}, 'pushSubscriptions');
+// 	users.map((user) => {
 
-onModelAfterCreate((e) => {
-	const user = $app.dao().findRecordById('users', e.model.get('user'));
-	user.set('pushSubscriptions', [...user.get('pushSubscriptions'), e.model.id]);
-	$app.dao().saveRecord(user);
-}, 'pushSubscriptions');
+// 	});
+// }, 'notifications');
 
 cronAdd('removeOldNotifications', '@daily', () => {
 	$app

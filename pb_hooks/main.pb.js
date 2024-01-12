@@ -94,31 +94,4 @@ onModelBeforeCreate((e) => {
 		'queue.*.created',
 		'queue.*.updated'
 	]);
-	e.model.set('setupSteps', { notificationSetup: false });
 }, 'users');
-
-onRecordBeforeAuthWithPasswordRequest((e) => {
-	let setupSteps = JSON.parse(e.record.get('setupSteps'));
-	if (setupSteps === '' || setupSteps === null) {
-		setupSteps = {};
-	}
-
-	if (!setupSteps.hasOwnProperty('notificationSetup')) {
-		setupSteps.notificationSetup = false;
-	}
-	e.record.set('setupSteps', JSON.stringify(setupSteps));
-	$app.dao().saveRecord(e.record);
-});
-
-onRecordBeforeAuthWithOAuth2Request((e) => {
-	let setupSteps = JSON.parse(e.record.get('setupSteps'));
-	if (setupSteps === '' || setupSteps === null) {
-		setupSteps = {};
-	}
-
-	if (!setupSteps.hasOwnProperty('notificationSetup')) {
-		setupSteps.notificationSetup = false;
-	}
-	e.record.set('setupSteps', JSON.stringify(setupSteps));
-	$app.dao().saveRecord(e.record);
-});
