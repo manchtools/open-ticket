@@ -38,6 +38,9 @@ dependencies:
   tailwind-variants:
     specifier: ^0.1.20
     version: 0.1.20(tailwindcss@3.4.1)
+  vaul-svelte:
+    specifier: ^0.0.6
+    version: 0.0.6(react@18.2.0)(svelte@4.2.8)
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -770,6 +773,19 @@ packages:
 
   /bits-ui@0.13.2(react@18.2.0)(svelte@4.2.8):
     resolution: {integrity: sha512-hSxj/BDazR49j2QkgsAnWjHsWdG6OvprCF0IagQm4mDf1pwiunXXJMnSciNxocvaZ/HAkKQRf8R6orwDPO/HYg==}
+    peerDependencies:
+      svelte: ^4.0.0
+    dependencies:
+      '@internationalized/date': 3.5.1
+      '@melt-ui/svelte': 0.67.0(react@18.2.0)(svelte@4.2.8)
+      nanoid: 5.0.4
+      svelte: 4.2.8
+    transitivePeerDependencies:
+      - react
+    dev: false
+
+  /bits-ui@0.13.6(react@18.2.0)(svelte@4.2.8):
+    resolution: {integrity: sha512-LmbWgtriqfotontFi1lC6tEB56HOLP4YpwVKX3qrHxEMfMAyc/NFQgtGOHizTGMmUUkdVtCE37PA1Wnk6gsUZg==}
     peerDependencies:
       svelte: ^4.0.0
     dependencies:
@@ -2450,6 +2466,17 @@ packages:
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  /vaul-svelte@0.0.6(react@18.2.0)(svelte@4.2.8):
+    resolution: {integrity: sha512-E13mNtU4iF6sH5lMu+Q9OTSNqwToMTmostgWCFHi5Ba6rLvv7UOVxvLYQqyMOs3ZnrN+aYI9I297eA9UKjCqgA==}
+    peerDependencies:
+      svelte: ^4.0.0
+    dependencies:
+      bits-ui: 0.13.6(react@18.2.0)(svelte@4.2.8)
+      svelte: 4.2.8
+    transitivePeerDependencies:
+      - react
+    dev: false
 
   /vite@5.0.11:
     resolution: {integrity: sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==}

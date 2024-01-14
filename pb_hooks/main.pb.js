@@ -85,13 +85,54 @@ onRecordBeforeCreateRequest(
 	'replies'
 );
 
+onRecordBeforeCreateRequest((e) => {
+	const info = $apis.requestInfo(e.httpContext);
+	e.record.set('status', 'new');
+}, 'tickets');
+
 onModelBeforeCreate((e) => {
-	e.model.set('notificationPrefs', [
-		'ticket.*.created',
-		'ticket.*.updated',
-		'ticket.*.reply.*.created',
-		'ticket.*.reply.*.updated',
-		'queue.*.created',
-		'queue.*.updated'
-	]);
+	if (e.model.get('type') === 'agent') {
+		e.model.set('notificationPrefs', [
+			'ticket.*.created',
+			'ticket.*.updated',
+			'ticket.*.deleted',
+			'ticket.*.reply.*.created',
+			'ticket.*.reply.*.updated',
+			'ticket.*.reply.*.deleted',
+			'queue.*.created',
+			'queue.*.updated',
+			'queue.*.deleted'
+		]);
+		e.model.set('emailVisibility', true);
+	}
+	if (e.model.get('type') === 'limitedAgent') {
+		e.model.set('notificationPrefs', [
+			'ticket.*.created',
+			'ticket.*.updated',
+			'ticket.*.deleted',
+			'ticket.*.reply.*.created',
+			'ticket.*.reply.*.updated',
+			'ticket.*.reply.*.deleted'
+		]);
+		e.model.set('emailVisibility', true);
+	}
+
+	if (e.model.get('type') === 'user') {
+		e.model.set('notificationPrefs', [
+			'ticket.*.created',
+			'ticket.*.updated',
+			'ticket.*.deleted',
+			'ticket.*.reply.*.created',
+			'ticket.*.reply.*.updated',
+			'ticket.*.reply.*.deleted'
+		]);
+	}
+}, 'users');
+
+onModelBeforeUpdate((e) => {
+	if (e.model.get('type') === 'agent' || e.model.get('type') === 'limitedAgent') {
+		e.model.set('emailVisibility', true);
+	} else {
+		e.model.set('emailVisibility', false);
+	}
 }, 'users');

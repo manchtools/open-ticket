@@ -2,12 +2,14 @@
 	export let data;
 	let tickets = data.items;
 	import { createTable, Render, Subscribe } from 'svelte-headless-table';
+
 	import { addPagination } from 'svelte-headless-table/plugins';
 	import { Button } from '$lib/components/ui/button';
 	import { format, parseISO } from 'date-fns';
 	import { readable, writable } from 'svelte/store';
 	import * as Table from '$lib/components/ui/table';
-	import { Expand } from 'lucide-svelte';
+
+	import { goto } from '$app/navigation';
 
 	const table = createTable(readable(tickets), {
 		page: addPagination({
@@ -62,11 +64,20 @@
 		}),
 		table.column({
 			accessor: ({ expand }) => {
-				expand['(ticket)'];
+				return expand.agent;
 			},
-			header: 'Reply count',
+			header: 'Agent',
 			cell: ({ value }) => {
-				return value.length;
+				if (value) {
+					if (value.email) {
+						return value.email;
+					}
+					if (value.name) {
+						return value.name;
+					}
+				} else {
+					return 'Not assigned';
+				}
 			}
 		}),
 		table.column({
@@ -109,7 +120,11 @@
 		<Table.Body {...$tableBodyAttrs}>
 			{#each $pageRows as row (row.id)}
 				<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-					<Table.Row {...rowAttrs}>
+					<Table.Row
+						{...rowAttrs}
+						class="hover:cursor-pointer"
+						on:click={() => goto(`/ticket/${row.original.id}`)}
+					>
 						{#each row.cells as cell (cell.id)}
 							<Subscribe attrs={cell.attrs()} let:attrs>
 								<Table.Cell {...attrs}>

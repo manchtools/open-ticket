@@ -1,6 +1,5 @@
 <script>
 	import TicketsTable from './tickets-table.svelte';
-
 	export let data;
 </script>
 

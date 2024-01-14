@@ -17,6 +17,7 @@ export const actions = {
 				form
 			});
 		}
+
 		try {
 			const ticket = await locals.pb.collection('tickets').create(formData);
 			redirect(303, `/ticket/${ticket.id}`);
