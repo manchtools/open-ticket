@@ -7,7 +7,7 @@
 	import { toast } from 'svelte-sonner';
 
 	export let data;
-	console.log(data);
+
 	let files = [];
 	function handleFileUpload(ev) {
 		files = [...ev.target.files, ...files];

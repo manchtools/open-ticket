@@ -1,9 +1,7 @@
 <script>
-	
 	export let scrollbarGutter = 'auto';
 
-	
-	export let regionPage= '';
+	export let regionPage = '';
 	/** Apply arbitrary classes to the `header` slot container element */
 	export let slotHeader = 'z-10';
 	/** Apply arbitrary classes to the `sidebarLeft` slot container element */
@@ -13,7 +11,7 @@
 	/** Apply arbitrary classes to the `pageHeader` slot container element */
 	export let slotPageHeader = '';
 	/** Apply arbitrary classes to the `pageContent` slot container element */
-	export let slotPageContent= '';
+	export let slotPageContent = '';
 	/** Apply arbitrary classes to the `pageFooter` slot container element */
 	export let slotPageFooter = '';
 	/** Apply arbitrary classes to the `footer` slot container element */
@@ -54,7 +52,9 @@
 		<div id="page" class="{regionPage} {cPage}" style:scrollbar-gutter={scrollbarGutter} on:scroll>
 			<!-- Slot: Page Header -->
 			{#if $$slots.pageHeader}
-				<header id="page-header" class="flex-none {classesPageHeader}"><slot name="pageHeader">(slot:header)</slot></header>
+				<header id="page-header" class="flex-none {classesPageHeader}">
+					<slot name="pageHeader">(slot:header)</slot>
+				</header>
 			{/if}
 
 			<!-- Slot: Page Content (default) -->
@@ -62,7 +62,9 @@
 
 			<!-- Slot: Page Footer -->
 			{#if $$slots.pageFooter}
-				<footer id="page-footer" class="flex-none {classesPageFooter}"><slot name="pageFooter">(slot:footer)</slot></footer>
+				<footer id="page-footer" class="flex-none {classesPageFooter}">
+					<slot name="pageFooter">(slot:footer)</slot>
+				</footer>
 			{/if}
 		</div>
 

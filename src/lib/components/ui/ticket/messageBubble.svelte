@@ -12,16 +12,15 @@
 	} else {
 		classes = 'bg-muted';
 	}
-	console.log(classes);
 </script>
 
 <Card.Root class="w-5/6 max-w-lg bg-opacity-10 {classes}">
-	<Card.Header class="flex flex-row justify-start space-y-0 px-4 py-2">
-		<p class="mr-4">
+	<Card.Header class="m-0 flex flex-row justify-start space-y-0 p-0 py-2 pl-4 pr-2">
+		<p class="text-sm">
 			{reply.expand?.createdBy?.name || reply.expand?.createdBy?.email || 'Deleted'}
 		</p>
 
-		<p class="ml-auto">
+		<p class="ml-auto text-xs">
 			{format(parseISO(reply.created), 'yyyy-MM-dd HH:mm')}
 		</p>
 	</Card.Header>

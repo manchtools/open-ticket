@@ -7,12 +7,12 @@
 	export let ticket;
 </script>
 
-<Card.Root class="m-6">
-	<Card.Header>
+<Card.Root class="m-2 md:m-6">
+	<Card.Header class="p-2 md:p-4">
 		<TicketHead {ticket} {form}></TicketHead>
 	</Card.Header>
 	<hr />
-	<Card.Content class="p-6">
+	<Card.Content class="p-2 md:p-4">
 		<TicketBody {ticket} {form}></TicketBody>
 	</Card.Content>
 	<hr />

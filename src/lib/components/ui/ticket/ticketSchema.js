@@ -12,5 +12,6 @@ export const bodySchema = z.object({
 });
 
 export const replySchema = z.object({
-	body: z.string().min(1)
+	body: z.string().min(1),
+	private: z.boolean()
 });
