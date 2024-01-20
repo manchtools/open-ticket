@@ -5,7 +5,7 @@
 	import '../app.pcss';
 </script>
 
-<Toaster richColors />
+<Toaster richColors closeButton visibleToasts={8} />
 <AppShell>
 	<slot />
 </AppShell>
