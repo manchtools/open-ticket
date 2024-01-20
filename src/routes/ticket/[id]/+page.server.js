@@ -25,7 +25,7 @@ export const actions = {
 				form
 			});
 		}
-		console.log(form.data);
+
 		await locals.pb.collection('tickets').update(params.id, form.data);
 		return {
 			form
