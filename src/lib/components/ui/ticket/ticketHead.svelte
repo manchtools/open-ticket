@@ -5,15 +5,15 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import Outline from '../outline/outline.svelte';
-	import { badgeVariants } from '$lib/components/ui/badge';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import { Download } from 'lucide-svelte';
-	import * as Avatar from '$lib/components/ui/avatar';
+
 	import { pb } from '$lib/index';
-	import Button from '../button/button.svelte';
+
 	import { onMount } from 'svelte';
+	import FileBadge from '../fileBadge/fileBadge.svelte';
+
 	export let form;
 	export let ticket;
+
 	let statuses = {
 		new: 'New',
 		open: 'Open',
@@ -40,10 +40,6 @@
 		});
 	}
 	let filetoken;
-
-	onMount(async () => {
-		filetoken = await pb.files.getToken();
-	});
 </script>
 
 {#if $page.data.user.type.includes('agent')}
@@ -53,7 +49,7 @@
 		action="/ticket/{ticket.id}?/updateTicketHead"
 		schema={headSchema}
 		let:config
-		class="flex w-full gap-4"
+		class="flex w-full  flex-wrap  gap-2 md:flex-row md:gap-4 2xl:flex-nowrap"
 	>
 		<Form.Field {config} name="status" let:attrs>
 			{@const { value } = attrs.input}
@@ -61,7 +57,7 @@
 			<Form.Item>
 				<Form.Label>Status</Form.Label>
 				<Form.Select selected={{ value, label: statuses[value] }}>
-					<Form.SelectTrigger placeholder="Select status" class="w-64" />
+					<Form.SelectTrigger placeholder="Select status" class="w-60" />
 					<Form.SelectContent>
 						{#each Object.entries(statuses) as [value, status]}
 							<Form.SelectItem {value}>
@@ -92,7 +88,7 @@
 						});
 					}}
 				>
-					<Form.SelectTrigger placeholder="Select queue" class="w-64" />
+					<Form.SelectTrigger placeholder="Select queue" class="w-60" />
 					<Form.SelectContent>
 						<Form.SelectItem value="">---</Form.SelectItem>
 						{#each queues as queue}
@@ -110,7 +106,7 @@
 			<Form.Item>
 				<Form.Label>Agent</Form.Label>
 				<Form.Select bind:selected={ticketAgent}>
-					<Form.SelectTrigger placeholder="Select agent" class="w-64" />
+					<Form.SelectTrigger placeholder="Select agent" class="w-60" />
 					<Form.SelectContent>
 						<Form.SelectItem value="">---</Form.SelectItem>
 						{#each agents as agent}
@@ -125,7 +121,7 @@
 			</Form.Item>
 		</Form.Field>
 
-		<div class="space-y-2">
+		<div class="min-w-60 space-y-2">
 			<Label for="createdBy">Created by</Label>
 			<Input
 				type="text"
@@ -137,15 +133,23 @@
 		</div>
 
 		<Form.Field {config} name="deleted">
+			{@const deletedLabel = ticket.deleted ? 'Yes' : 'No'}
 			<Form.Item>
-				<Form.Label>Delte ticket</Form.Label>
-				<Form.Checkbox />
+				<Form.Label>Mark as deleted</Form.Label>
+				<Form.Select selected={{ value: ticket.deleted, label: deletedLabel }}>
+					<Form.SelectTrigger placeholder="Select agent" class="w-60" />
+					<Form.SelectContent>
+						<Form.SelectItem value={false}>No</Form.SelectItem>
+						<Form.SelectItem value={true}>Yes</Form.SelectItem>
+					</Form.SelectContent>
+				</Form.Select>
 
 				<Form.Validation />
 			</Form.Item>
 		</Form.Field>
-
-		<Form.Button class="my-2 self-end">Update</Form.Button>
+		<div class="my-2 flex w-full flex-row flex-wrap justify-between gap-2 self-end md:gap-4">
+			<Form.Button class="">Update</Form.Button>
+		</div>
 	</Form.Root>
 {:else}
 	<div class="flex flex-col gap-2 md:flex-row md:gap-4">
@@ -170,35 +174,4 @@
 		</Outline>
 	</div>
 {/if}
-<div class="flex gap-2">
-	{#each ticket.attachments as file}
-		<Dialog.Root>
-			<Dialog.Trigger class={badgeVariants({ variant: 'default' })}>
-				<Avatar.Root class="m-0 mr-2 size-6 p-0">
-					<Avatar.Image
-						src={pb.files.getUrl(ticket, file, { token: filetoken, thumb: '50x50' })}
-						alt="@shadcn"
-					/>
-					<Avatar.Fallback>N/A</Avatar.Fallback>
-				</Avatar.Root>
-
-				{file}</Dialog.Trigger
-			>
-			<Dialog.Content>
-				<Dialog.Header>
-					<Dialog.Title class="flex items-center gap-2"
-						>{file}
-						<Button
-							href={pb.files.getUrl(ticket, file, { download: true })}
-							size="icon"
-							variant="ghost"><Download /></Button
-						></Dialog.Title
-					>
-					<Dialog.Description>
-						<img src={pb.files.getUrl(ticket, file, { token: filetoken })} alt="" />
-					</Dialog.Description>
-				</Dialog.Header>
-			</Dialog.Content>
-		</Dialog.Root>
-	{/each}
-</div>
+<FileBadge {ticket}></FileBadge>
