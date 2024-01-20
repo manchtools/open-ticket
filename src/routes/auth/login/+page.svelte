@@ -3,9 +3,14 @@
 	export let data;
 	import * as Card from '$lib/components/ui/card';
 	import * as Form from '$lib/components/ui/form';
+	import { onMount } from 'svelte';
 	import { formSchema } from './schema';
 	import { Loader2 } from 'lucide-svelte';
+	import pb from '$lib';
 	let loading = false;
+	onMount(() => {
+		pb.authStore.clear();
+	});
 	const options = {
 		onSubmit: (e) => {
 			loading = true;
