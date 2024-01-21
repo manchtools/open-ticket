@@ -40,28 +40,27 @@
 					</Button>
 				</Collapsible.Trigger>
 				<Collapsible.Trigger></Collapsible.Trigger>
-				<Collapsible.Content>
-					<div class="flex flex-col gap-2">
-						{#each data.user.notificationPrefs as notificationPref, index}
-							<div class=" flex items-center justify-between rounded-md border p-2">
-								<p>
-									{notificationPref}
-								</p>
-								<Button
-									size="icon"
-									variant="outline"
-									on:click={() => {
-										data.user.notificationPrefs.splice(index, 1);
-										// console.log(data.user.notificationPrefs);
-										data.user.notificationPrefs = [...data.user.notificationPrefs];
-									}}
-								>
-									<Trash size="16"></Trash>
-								</Button>
-							</div>
-						{/each}
-						<Button type="submit">Update</Button>
-					</div>
+
+				<Collapsible.Content class="flex flex-col gap-2">
+					{#each data.user.notificationPrefs as notificationPref, index}
+						<div class=" flex items-center justify-between rounded-md border p-2">
+							<p>
+								{notificationPref}
+							</p>
+							<Button
+								size="icon"
+								variant="outline"
+								on:click={() => {
+									data.user.notificationPrefs.splice(index, 1);
+									// console.log(data.user.notificationPrefs);
+									data.user.notificationPrefs = [...data.user.notificationPrefs];
+								}}
+							>
+								<Trash size="16"></Trash>
+							</Button>
+						</div>
+					{/each}
+					<Button type="submit">Update</Button>
 				</Collapsible.Content>
 			</Collapsible.Root>
 		</div>
