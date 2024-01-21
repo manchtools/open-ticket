@@ -4,7 +4,7 @@
 	import * as Sheet from '$lib/components/ui/sheet';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Menu, TicketPlus, Rows3, Dot } from 'lucide-svelte';
+	import { Menu, TicketPlus, Rows3, Dot, LogOut } from 'lucide-svelte';
 	import { Separator } from '$lib/components/ui/separator';
 	export let data;
 
@@ -115,12 +115,17 @@
 					>
 					<DropdownMenu.Content>
 						<DropdownMenu.Group>
-							<DropdownMenu.Label>My Account</DropdownMenu.Label>
+							<DropdownMenu.Label>Account: {data.user.email}</DropdownMenu.Label>
 							<DropdownMenu.Separator />
-							<DropdownMenu.Item>Profile</DropdownMenu.Item>
-							<DropdownMenu.Item>Billing</DropdownMenu.Item>
-							<DropdownMenu.Item>Team</DropdownMenu.Item>
-							<DropdownMenu.Item>Subscription</DropdownMenu.Item>
+							<DropdownMenu.Item href="/account">Profile</DropdownMenu.Item>
+							<DropdownMenu.Separator />
+							<DropdownMenu.Item
+								href="/auth/logout"
+								class="bg-destructive text-destructive-foreground data-[highlighted]:bg-destructive/80"
+							>
+								<LogOut class="mr-2 h-4 w-4"></LogOut>
+								Logout</DropdownMenu.Item
+							>
 						</DropdownMenu.Group>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
