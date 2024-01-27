@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import * as Card from '$lib/components/ui/card';
 	import { format, parseISO } from 'date-fns';
+	import FileBadge from '../fileBadge/fileBadge.svelte';
 	export let reply;
 
 	let classes = '';
@@ -28,4 +29,10 @@
 	<Card.Content class="whitespace-pre-wrap px-4 py-2">
 		{reply.body}
 	</Card.Content>
+	<hr />
+	{#if reply.attachments.length > 0}
+		<Card.Footer class="p-2">
+			<FileBadge collection={reply} preview={false} small={true}></FileBadge>
+		</Card.Footer>
+	{/if}
 </Card.Root>
