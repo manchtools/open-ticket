@@ -12,7 +12,6 @@
 	import pb from '$lib';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { page } from '$app/stores';
-	console.log(data.user);
 </script>
 
 <Toaster richColors closeButton visibleToasts={8} />

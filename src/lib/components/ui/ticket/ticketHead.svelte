@@ -6,9 +6,6 @@
 	import { Label } from '$lib/components/ui/label';
 	import Outline from '../outline/outline.svelte';
 
-	import { pb } from '$lib/index';
-
-	import { onMount } from 'svelte';
 	import FileBadge from '../fileBadge/fileBadge.svelte';
 
 	export let form;
@@ -30,7 +27,7 @@
 	};
 	let ticketAgent = {
 		value: ticket.expand?.agent?.id || '',
-		label: ticket.expand?.agent?.email || ''
+		label: ticket.expand?.agent?.email || '---'
 	};
 	if (ticket.queue) {
 		$page.data.queues.map((queue) => {
@@ -39,7 +36,6 @@
 			}
 		});
 	}
-	let filetoken;
 </script>
 
 {#if $page.data.user.type.includes('agent')}
@@ -49,7 +45,7 @@
 		action="/ticket/{ticket.id}?/updateTicketHead"
 		schema={headSchema}
 		let:config
-		class="flex w-full  flex-wrap  gap-2 md:flex-row md:gap-4 2xl:flex-nowrap"
+		class="flex w-full flex-wrap gap-2 md:flex-row md:gap-4 2xl:flex-nowrap"
 	>
 		<Form.Field {config} name="status" let:attrs>
 			{@const { value } = attrs.input}
@@ -80,7 +76,6 @@
 							if (e.value !== '') {
 								if (queue.id === e.value) {
 									agents = queue?.expand?.members || [];
-								} else {
 								}
 							} else {
 								agents = $page.data?.agents || [];
@@ -105,6 +100,7 @@
 		<Form.Field {config} name="agent">
 			<Form.Item>
 				<Form.Label>Agent</Form.Label>
+
 				<Form.Select bind:selected={ticketAgent}>
 					<Form.SelectTrigger placeholder="Select agent" class="w-60" />
 					<Form.SelectContent>
@@ -174,4 +170,4 @@
 		</Outline>
 	</div>
 {/if}
-<FileBadge {ticket}></FileBadge>
+<FileBadge collection={ticket}></FileBadge>

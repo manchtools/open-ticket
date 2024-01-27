@@ -19,7 +19,8 @@
 	let message = '';
 	let privateMsg = false;
 	let staging;
-	onMount(() => {
+
+	onMount(async () => {
 		pb.collection('replies').subscribe(
 			'*',
 			(e) => {
