@@ -25,7 +25,7 @@
 		<Form.Field {config} name="body">
 			<Form.Item>
 				<Form.Label>Message</Form.Label>
-				<Form.Textarea />
+				<Form.Textarea rows={8} />
 
 				<Form.Validation />
 			</Form.Item>
