@@ -122,14 +122,24 @@
 				<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
 					<Table.Row
 						{...rowAttrs}
-						class="hover:cursor-pointer"
+						class="hover:cursor-pointer "
 						on:click={() => goto(`/ticket/${row.original.id}`)}
 					>
 						{#each row.cells as cell (cell.id)}
 							<Subscribe attrs={cell.attrs()} let:attrs>
-								<Table.Cell {...attrs}>
-									<Render of={cell.render()} />
-								</Table.Cell>
+								{#if cell.id === 'subject'}
+									<Table.Cell {...attrs} class="max-w-48 overflow-hidden text-ellipsis text-nowrap">
+										<Render of={cell.render()} />
+									</Table.Cell>
+								{:else if cell.id === 'body'}
+									<Table.Cell {...attrs} class="max-w-64 overflow-hidden text-ellipsis text-nowrap">
+										<Render of={cell.render()} />
+									</Table.Cell>
+								{:else}
+									<Table.Cell {...attrs}>
+										<Render of={cell.render()} />
+									</Table.Cell>
+								{/if}
 							</Subscribe>
 						{/each}
 					</Table.Row>
