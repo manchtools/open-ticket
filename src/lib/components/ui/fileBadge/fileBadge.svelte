@@ -3,7 +3,9 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Download } from 'lucide-svelte';
 	import * as Avatar from '$lib/components/ui/avatar';
-	export let ticket;
+	export let collection;
+	export let preview = true;
+	export let small = false;
 	import Button from '../button/button.svelte';
 	import { onMount } from 'svelte';
 	import pb from '$lib';
@@ -16,7 +18,7 @@
 </script>
 
 <div class="flex flex-wrap gap-2">
-	{#each ticket.attachments as file}
+	{#each collection.attachments as file}
 		<Dialog.Root
 			onOpenChange={async (e) => {
 				if (e === true) {
@@ -27,16 +29,19 @@
 			}}
 		>
 			<Dialog.Trigger class={badgeVariants({ variant: 'default' })}>
-				<Avatar.Root class="m-0 mr-2 size-6 p-0">
-					<Avatar.Image
-						src={pb.files.getUrl(ticket, file, { token: filetoken, thumb: '50x50' })}
-						alt="@shadcn"
-					/>
-					<Avatar.Fallback>N/A</Avatar.Fallback>
-				</Avatar.Root>
-
-				{file}</Dialog.Trigger
-			>
+				{#if preview}
+					<Avatar.Root class="m-0 mr-2 size-6 p-0">
+						<Avatar.Image
+							src={pb.files.getUrl(collection, file, { token: filetoken, thumb: '50x50' })}
+							alt="@shadcn"
+						/>
+						<Avatar.Fallback>N/A</Avatar.Fallback>
+					</Avatar.Root>
+				{/if}
+				<p class:text-ellipsis={small} class:w-16={small} class="overflow-hidden">
+					{file}
+				</p>
+			</Dialog.Trigger>
 			<Dialog.Content>
 				<Dialog.Header>
 					<Dialog.Title class="flex items-center gap-2">
@@ -44,13 +49,13 @@
 							{file}
 						</p>
 						<Button
-							href={pb.files.getUrl(ticket, file, { download: true })}
+							href={pb.files.getUrl(collection, file, { token: filetoken, download: true })}
 							size="icon"
 							variant="ghost"><Download /></Button
 						></Dialog.Title
 					>
 					<Dialog.Description>
-						<img src={pb.files.getUrl(ticket, file, { token: filetoken })} alt="" />
+						<img src={pb.files.getUrl(collection, file, { token: filetoken })} alt="" />
 					</Dialog.Description>
 				</Dialog.Header>
 			</Dialog.Content>
