@@ -16,3 +16,5 @@ export default pb;
 export function parsePojo(pojo) {
 	return JSON.parse(JSON.stringify(pojo));
 }
+
+export function pocketBaseFilter() {}

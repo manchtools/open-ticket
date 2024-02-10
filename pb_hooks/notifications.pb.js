@@ -98,19 +98,18 @@
 // 		if (e.collection.name === 'tickets') {
 // 			const oldRecord = $app.dao().findRecordById('tickets', newRecord.id);
 // 			tmpRecord.payload.resourceType = 'ticket';
-// 			if (oldRecord.get('replies').length === newRecord.get('replies').length) {
-// 				if (newRecord.get('agent')) {
-// 					tmpRecord.recipients = newRecord.agent;
-// 				}
-// 				if (newRecord.get('queue')) {
-// 					const queue = $app.dao().findRecordById('queues', newRecord.get('queue'));
-// 					tmpRecord.recipients = queue.get('members');
-// 				}
-// 				if (!newRecord.get('agent') && !newRecord.get('queue')) {
-// 					tmpRecord.recipients = allAgents.map((el) => {
-// 						return el.id;
-// 					});
-// 				}
+
+// 			if (newRecord.get('agent')) {
+// 				tmpRecord.recipients = newRecord.agent;
+// 			}
+// 			if (newRecord.get('queue')) {
+// 				const queue = $app.dao().findRecordById('queues', newRecord.get('queue'));
+// 				tmpRecord.recipients = queue.get('members');
+// 			}
+// 			if (!newRecord.get('agent') && !newRecord.get('queue')) {
+// 				tmpRecord.recipients = allAgents.map((el) => {
+// 					return el.id;
+// 				});
 // 			}
 // 		}
 
@@ -257,20 +256,20 @@
 // // 	});
 // // }, 'notifications');
 
-// onModelBeforeCreate((e) => {
-// 	try {
-// 		const res = $app
-// 			.dao()
-// 			.findFirstRecordByData('pushSubscriptions', 'subscription', e.model.get('subscription'));
-// 		return false;
-// 	} catch (e) {}
-// }, 'pushSubscriptions');
+// // onModelBeforeCreate((e) => {
+// // 	try {
+// // 		const res = $app
+// // 			.dao()
+// // 			.findFirstRecordByData('pushSubscriptions', 'subscription', e.model.get('subscription'));
+// // 		return false;
+// // 	} catch (e) {}
+// // }, 'pushSubscriptions');
 
-// onModelAfterCreate((e) => {
-// 	const user = $app.dao().findRecordById('users', e.model.get('user'));
-// 	user.set('pushSubscriptions', [...user.get('pushSubscriptions'), e.model.id]);
-// 	$app.dao().saveRecord(user);
-// }, 'pushSubscriptions');
+// // onModelAfterCreate((e) => {
+// // 	const user = $app.dao().findRecordById('users', e.model.get('user'));
+// // 	user.set('pushSubscriptions', [...user.get('pushSubscriptions'), e.model.id]);
+// // 	$app.dao().saveRecord(user);
+// // }, 'pushSubscriptions');
 
 // cronAdd('removeOldNotifications', '@daily', () => {
 // 	$app

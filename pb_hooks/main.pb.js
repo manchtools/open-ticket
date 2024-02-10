@@ -127,6 +127,7 @@ onModelBeforeCreate((e) => {
 			'ticket.*.reply.*.deleted'
 		]);
 	}
+	e.model.set('verified', true);
 }, 'users');
 
 onModelBeforeUpdate((e) => {
